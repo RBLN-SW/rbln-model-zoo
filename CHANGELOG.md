@@ -1,5 +1,20 @@
 # Change Log
 
+## January, 30th 2025 (v0.10.0)
+
+* Compatible version:
+  * `rebel-compiler`: v0.10.0
+  * `optimum-rbln`: v0.10.0
+  * `vllm-rbln`: v0.10.0
+  * `docs.rbln.ai`: v0.10.0
+* **Added new examples**
+  * `Text2Text-generation`: **GPT-OSS-20B (MoE)**
+* **Dependency updates**
+  * `transformers`: `4.57.1` → `4.57.3`
+  * `cosmos-guardrail`: Git source/commit updated (Cosmos Predict1 examples)
+* **Notes**
+  * MoE spotlight (first MoE-class example): 21B params / 3.6B active, MXFP4 MoE-weights, Harmony format (per [model card](https://huggingface.co/openai/gpt-oss-20b))
+
 ## December, 26th 2025 (v0.9.4)
 
 * Compatible version:

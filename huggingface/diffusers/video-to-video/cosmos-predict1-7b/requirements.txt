@@ -1,2 +1,2 @@
 optimum-rbln
-cosmos-guardrail @ git+https://github.com/yiyixuxu/cosmos-guardrail.git@d36404090e6bf14eacb6a0cbdc4a64737bdf5d46
+cosmos-guardrail @ git+https://github.com/codeJRV/cosmos-guardrail.git@9302bc5160f8859c48fe7f542a2a709d813f7900

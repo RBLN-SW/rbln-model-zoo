@@ -6,12 +6,38 @@
 #include <opencv2/imgproc.hpp>
 #include <rbln/rbln.h>
 
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <numeric>
 #include <sstream>
 #include <tuple>
 #include <vector>
+
+
+static std::string ResolveRblnModelPath(const std::string &path_str) {
+  namespace fs = std::filesystem;
+  fs::path p(path_str);
+  if (!fs::exists(p)) {
+    throw std::runtime_error("Model path does not exist: " + path_str);
+  }
+  if (fs::is_directory(p)) {
+    fs::path cand = p / "model.rbln";
+    if (fs::exists(cand)) {
+      return cand.string();
+    }
+    for (const auto &ent : fs::directory_iterator(p)) {
+      if (!ent.is_regular_file())
+        continue;
+      if (ent.path().extension() == ".rbln") {
+        return ent.path().string();
+      }
+    }
+    throw std::runtime_error("No .rbln found under directory: " + path_str);
+  }
+  return p.string();
+}
+
 
 cv::Mat GetSquareImage(const cv::Mat &img, int target_width) {
   int width = img.cols, height = img.rows;
@@ -57,11 +83,11 @@ int main(int argc, char **argv) {
   // Parse arguments
   argparse::ArgumentParser program("object_detection");
   program.add_argument("-i", "--input")
-      .default_value(std::string("people4.jpg"))
+      .default_value("people4.jpg")
       .help("specify the input image file.");
   program.add_argument("-m", "--model")
-      .default_value(std::string("yolov8n.rbln"))
-      .help("specify the model file. (.rbln)");
+      .default_value(".")
+      .help("specify the model directory or .rbln file path (default: current directory).");
   program.add_argument("-o", "--output")
       .default_value("output.bin")
       .help("specify the output tensor file.");
@@ -74,6 +100,12 @@ int main(int argc, char **argv) {
   }
   auto input_path = program.get<std::string>("--input");
   auto model_path = program.get<std::string>("--model");
+  try {
+    model_path = ResolveRblnModelPath(model_path);
+  } catch (const std::exception &err) {
+    std::cerr << err.what() << std::endl;
+    std::exit(1);
+  }
   auto output_path = program.get<std::string>("--output");
 
   // Read images

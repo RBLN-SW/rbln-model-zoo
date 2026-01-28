@@ -6,12 +6,38 @@
 #include <opencv2/imgproc.hpp>
 #include <rbln/rbln.h>
 
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <numeric>
 #include <sstream>
 #include <tuple>
 #include <vector>
+
+
+static std::string ResolveRblnModelPath(const std::string &path_str) {
+  namespace fs = std::filesystem;
+  fs::path p(path_str);
+  if (!fs::exists(p)) {
+    throw std::runtime_error("Model path does not exist: " + path_str);
+  }
+  if (fs::is_directory(p)) {
+    fs::path cand = p / "model.rbln";
+    if (fs::exists(cand)) {
+      return cand.string();
+    }
+    for (const auto &ent : fs::directory_iterator(p)) {
+      if (!ent.is_regular_file())
+        continue;
+      if (ent.path().extension() == ".rbln") {
+        return ent.path().string();
+      }
+    }
+    throw std::runtime_error("No .rbln found under directory: " + path_str);
+  }
+  return p.string();
+}
+
 
 constexpr int kThread = 2;
 cv::Mat image;
@@ -50,13 +76,16 @@ cv::Rect ScaleBox(cv::Rect pred, cv::Size img_size, int pred_size) {
   return pred;
 }
 
-void PostProcess(const std::vector<cv::Mat>& outputs, int n_proposal, int n_size) {
-  const auto& logits = outputs[0];
+void PostProcess(RBLNRuntime *rt, void *data, int rid) {
+  const RBLNTensorLayout *layout = rbln_get_output_layout(rt, 0);
+  cv::Mat logits{layout->ndim, layout->shape, CV_32F};
+  memcpy(logits.data, data, rbln_get_layout_nbytes(layout));
+
   // Run NMS
   std::vector<cv::Rect> nms_boxes;
   std::vector<float> nms_confidences;
   std::vector<size_t> nms_class_ids;
-  for (size_t i = 0; i < n_proposal; i++) {
+  for (size_t i = 0; i < layout->shape[2]; i++) {
     auto cx = logits.at<float>(0, 0, i);
     auto cy = logits.at<float>(0, 1, i);
     auto w = logits.at<float>(0, 2, i);
@@ -67,7 +96,7 @@ void PostProcess(const std::vector<cv::Mat>& outputs, int n_proposal, int n_size
                   static_cast<int>(h)};
     float confidence = std::numeric_limits<float>::min();
     int cls_id;
-    for (size_t j = 4; j < n_size; j++) {
+    for (size_t j = 4; j < layout->shape[1]; j++) {
       if (confidence < logits.at<float>(0, j, i)) {
         confidence = logits.at<float>(0, j, i);
         cls_id = j - 4;
@@ -92,7 +121,7 @@ void PostProcess(const std::vector<cv::Mat>& outputs, int n_proposal, int n_size
     cv::putText(output_img, ss.str(), scaled_box.tl() - cv::Point(0, 1),
                 cv::FONT_HERSHEY_DUPLEX, 1, cv::Scalar(255, 0, 0));
   }
-  std::string file_name = "result.jpg";
+  std::string file_name = "result_" + std::to_string(rid) + ".jpg";
   cv::imwrite(file_name, output_img);
 }
 
@@ -100,11 +129,11 @@ int main(int argc, char **argv) {
   // Parse arguments
   argparse::ArgumentParser program("object_detection");
   program.add_argument("-i", "--input")
-      .default_value(std::string("people4.jpg"))
+      .default_value("people4.jpg")
       .help("specify the input image file.");
   program.add_argument("-m", "--model")
-      .default_value(std::string("yolov8n.rbln"))
-      .help("specify the model file. (.rbln)");
+      .default_value(".")
+      .help("specify the model directory or .rbln file path (default: current directory).");
   program.add_argument("-o", "--output")
       .default_value("output.bin")
       .help("specify the output tensor file.");
@@ -117,6 +146,12 @@ int main(int argc, char **argv) {
   }
   auto input_path = program.get<std::string>("--input");
   auto model_path = program.get<std::string>("--model");
+  try {
+    model_path = ResolveRblnModelPath(model_path);
+  } catch (const std::exception &err) {
+    std::cerr << err.what() << std::endl;
+    std::exit(1);
+  }
   auto output_path = program.get<std::string>("--output");
 
   // Read images
@@ -141,27 +176,38 @@ int main(int argc, char **argv) {
   RBLNModel *mod = rbln_create_model(model_path.c_str());
   RBLNRuntime *rt = rbln_create_async_runtime(mod, "default", 0, 0);
 
-  auto n_out = rbln_get_num_outputs(rt);
+  const void *input_ptrs[1] = {blob.data};
 
-  // Allocate buffer for Async
-  std::vector<void*> inputs = {blob.data};
-  std::vector<cv::Mat> outputs(n_out);
-  std::vector<char *> output_ptrs(n_out);
-  for (auto idx = 0; idx < n_out; idx++) {
-    const RBLNTensorLayout *layout = rbln_get_output_layout(rt, idx);
-    outputs[idx] = cv::Mat{layout->ndim, layout->shape, CV_32F};
-    output_ptrs[idx] = reinterpret_cast<char *>(outputs[idx].data);
+  const auto n_out = rbln_get_num_outputs(rt);
+  std::vector<size_t> out_bytes(n_out, 0);
+  size_t total_bytes = 0;
+  for (uint32_t o = 0; o < n_out; o++) {
+    out_bytes[o] = rbln_get_layout_nbytes(rbln_get_output_layout(rt, o));
+    total_bytes += out_bytes[o];
   }
 
-  // Run async execution
-  int rid = rbln_async_run(rt, inputs.data(), output_ptrs.data());
+  std::vector<std::vector<uint8_t>> out_blob(kThread,
+                                             std::vector<uint8_t>(total_bytes));
 
-  rbln_async_wait(rt, rid, 1000);
+  std::vector<int> rid(kThread, -1);
+  for (int idx = 0; idx < kThread; idx++) {
+    std::vector<void *> output_ptrs(n_out, nullptr);
+    size_t off = 0;
+    for (uint32_t o = 0; o < n_out; o++) {
+      output_ptrs[o] = out_blob[idx].data() + off;
+      off += out_bytes[o];
+    }
+    rid[idx] = rbln_async_run(rt, reinterpret_cast<const void *>(input_ptrs),
+                             reinterpret_cast<void *>(output_ptrs.data()));
+  }
 
-  const RBLNTensorLayout *layout = rbln_get_output_layout(rt, 0);
-  int n_proposal = layout->shape[2];
-  int n_size = layout->shape[1]; 
-  PostProcess(outputs, n_proposal, n_size);
+  for (int idx = 0; idx < kThread; idx++) {
+    rbln_async_wait(rt, rid[idx], 1000);
+  }
+
+  for (int idx = 0; idx < kThread; idx++) {
+    PostProcess(rt, out_blob[idx].data(), idx);
+  }
 
   rbln_destroy_runtime(rt);
   rbln_destroy_model(mod);

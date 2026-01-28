@@ -19,12 +19,9 @@ def main():
                 # RBLN optimization processes inference per image or video frame, so set max_seq_lens to
                 # match the maximum expected resolution to optimize computation.
                 "max_seq_lens": 6400,
-                # The `device` parameter specifies which device should be used for each submodule during runtime.
-                "device": 0,
             },
             "tensor_parallel_size": 8,
             "max_seq_len": 32_768,
-            "device": [0, 1, 2, 3, 4, 5, 6, 7],
         },
     )
     model.save_pretrained(os.path.basename(model_id))

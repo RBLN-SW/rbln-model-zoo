@@ -6,33 +6,60 @@
 #include <opencv2/imgproc.hpp>
 #include <rbln/rbln.h>
 
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <numeric>
 
-// Post-process function to find and print the predicted category
-void post_process(const std::vector<float>& logits) {
-    size_t max_idx = 0;
-    float max_val = std::numeric_limits<float>::min();
-    for (size_t i = 0; i < 1000; i++) {
-        if (logits[i] > max_val) {
-            max_val = logits[i];
-            max_idx = i;
-        }
+
+static std::string ResolveRblnModelPath(const std::string &path_str) {
+  namespace fs = std::filesystem;
+  fs::path p(path_str);
+  if (!fs::exists(p)) {
+    throw std::runtime_error("Model path does not exist: " + path_str);
+  }
+  if (fs::is_directory(p)) {
+    fs::path cand = p / "model.rbln";
+    if (fs::exists(cand)) {
+      return cand.string();
     }
-    std::cout << "Predicted category: " << IMAGENET_CATEGORIES[max_idx]
-              << std::endl;
+    for (const auto &ent : fs::directory_iterator(p)) {
+      if (!ent.is_regular_file())
+        continue;
+      if (ent.path().extension() == ".rbln") {
+        return ent.path().string();
+      }
+    }
+    throw std::runtime_error("No .rbln found under directory: " + path_str);
+  }
+  return p.string();
+}
+
+
+constexpr int kThread = 2;
+
+static void PostProcess(const float *logits, int idx) {
+  size_t max_idx = 0;
+  float max_val = std::numeric_limits<float>::min();
+  for (size_t i = 0; i < 1000; i++) {
+    if (logits[i] > max_val) {
+      max_val = logits[i];
+      max_idx = i;
+    }
+  }
+  std::cout << "Predicted category_" << std::to_string(idx) << ": "
+            << IMAGENET_CATEGORIES[max_idx] << std::endl;
 }
 
 int main(int argc, char **argv) {
   // Parse arguments
   argparse::ArgumentParser program("image_classification");
   program.add_argument("-i", "--input")
-      .default_value(std::string("tabby.jpg"))
+      .default_value("tabby.jpg")
       .help("specify the input image file.");
   program.add_argument("-m", "--model")
-      .default_value(std::string("resnet18.rbln"))
-      .help("specify the model file. (.rbln)");
+      .default_value(".")
+      .help("specify the model directory or .rbln file path (default: current directory).");
   try {
     program.parse_args(argc, argv);
   } catch (const std::exception &err) {
@@ -42,6 +69,12 @@ int main(int argc, char **argv) {
   }
   auto input_path = program.get<std::string>("--input");
   auto model_path = program.get<std::string>("--model");
+  try {
+    model_path = ResolveRblnModelPath(model_path);
+  } catch (const std::exception &err) {
+    std::cerr << err.what() << std::endl;
+    std::exit(1);
+  }
 
   // Preprocess images
   cv::Mat input_image;
@@ -72,30 +105,32 @@ int main(int argc, char **argv) {
   // Convert image to tensor
   cv::Mat blob = cv::dnn::blobFromImage(image);
 
-  std::ofstream file("c_preprocessed_input.bin", std::ios::binary);
-  file.write(reinterpret_cast<const char *>(blob.data),
-             blob.total() * blob.elemSize());
-  file.close();
-
   // Create model and runtime
   RBLNModel *mod = rbln_create_model(model_path.c_str());
   RBLNRuntime *rt = rbln_create_async_runtime(mod, "default", 0, 0);
-  rbln_model_description(rt);
 
-  // Alloc output buffer
-  std::vector<float> logits(rbln_get_layout_nbytes(rbln_get_output_layout(rt, 0))/sizeof(float));
+  const void *input_ptrs[1] = {blob.data};
 
-  std::vector<void*> inputs = {blob.data};
-  std::vector<void*> outputs = {logits.data()};
+  // Alloc output buffer for output #0
+  auto out0_bytes = rbln_get_layout_nbytes(rbln_get_output_layout(rt, 0));
+  std::vector<std::vector<uint8_t>> out0(kThread,
+                                        std::vector<uint8_t>(out0_bytes));
 
   // Run async execution
-  int rid = rbln_async_run(rt, inputs.data(), outputs.data());
+  std::vector<int> rid(kThread, -1);
+  for (int idx = 0; idx < kThread; idx++) {
+    void *output_ptrs[1] = {out0[idx].data()};
+    rid[idx] = rbln_async_run(rt, reinterpret_cast<const void *>(input_ptrs),
+                             reinterpret_cast<void *>(output_ptrs));
+  }
 
-  // Wait inference done
-  rbln_async_wait(rt, rid, 1000); // 1000 ms
+  for (int idx = 0; idx < kThread; idx++) {
+    rbln_async_wait(rt, rid[idx], 1000);
+  }
 
-  // Postprocess
-  post_process(logits);
+  for (int idx = 0; idx < kThread; idx++) {
+    PostProcess(reinterpret_cast<const float *>(out0[idx].data()), idx);
+  }
 
   rbln_destroy_runtime(rt);
   rbln_destroy_model(mod);

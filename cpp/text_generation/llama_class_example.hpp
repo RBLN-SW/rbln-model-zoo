@@ -54,12 +54,35 @@ public:
 
   // Init Model configuration
   void InitConfig() {
-    prefill_id_ = "./Meta-Llama-3-8B-Instruct/prefill.rbln";
-    dec_id_ = "./Meta-Llama-3-8B-Instruct/decoder_batch_1.rbln";
-    input_ids_path_ = "./c_input_ids.bin";
+    // Defaults are relative to the current working directory.
+    // With default compile.py settings, artifacts are saved under:
+    //   Meta-Llama-3-8B-Instruct/
+    input_ids_path_ = "c_input_ids.bin";
+
+    prefill_id_ = "Meta-Llama-3-8B-Instruct/prefill.rbln";
+    dec_id_ = "Meta-Llama-3-8B-Instruct/decoder_batch_1.rbln";
+
     batch_size_ = 1;
     max_seq_len_ = 8192;
     prefill_chunk_size_ = 128;
+  }
+
+  // Set model path from command line argument
+  void SetModelPath(const std::string& model_path) {
+    // If model_path ends with .rbln, use its directory
+    std::string base_path = model_path;
+    if (base_path.size() > 5 && base_path.substr(base_path.size() - 5) == ".rbln") {
+      size_t last_slash = base_path.find_last_of("/");
+      if (last_slash != std::string::npos) {
+        base_path = base_path.substr(0, last_slash);
+      } else {
+        base_path = ".";
+      }
+    }
+    
+    // Construct prefill and decoder paths
+    prefill_id_ = base_path + "/prefill.rbln";
+    dec_id_ = base_path + "/decoder_batch_1.rbln";
   }
 
   // Init LLamaClass
@@ -117,6 +140,8 @@ public:
   }
 
   const std::string &GetIdsPath() { return input_ids_path_; }
+
+  void SetIdsPath(const std::string &ids_path) { input_ids_path_ = ids_path; }
 
   RBLNModel *prefill_mdl_;
   RBLNModel *dec_mdl_;

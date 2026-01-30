@@ -21,14 +21,11 @@ def main():
                 # Hence, 256 (64 * 4) is valid. RBLN optimization processes inference per image or video frame, so set max_seq_len to
                 # match the maximum expected resolution to optimize computation.
                 "max_seq_lens": 6400,
-                # The `device` parameter specifies which device should be used for each submodule during runtime.
-                "device": 0,
             },
             "tensor_parallel_size": 8,
             "kvcache_partition_len": 16_384,
             # Max position embedding for the language model, must be a multiple of kvcache_partition_len.
             "max_seq_len": 114_688,
-            "device": [0, 1, 2, 3, 4, 5, 6, 7],
         },
     )
     model.save_pretrained(os.path.basename(model_id))

@@ -12,10 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Optional, Tuple
+from typing import Optional
 
 import torch
 import torch.nn as nn
+from optimum.rbln.transformers.models.decoderonly.configuration_lora import (
+    RBLNLoRAConfig,
+)
 from optimum.rbln.transformers.models.decoderonly.decoderonly_architecture import (
     DecoderOnlyAttention,
     DecoderOnlyForCausalLM,
@@ -51,17 +54,17 @@ class MistralNeMoAttention(DecoderOnlyAttention):
         is_sliding: bool = False,
     ):
         nn.Module.__init__(self)
-        self._original_mod = self_attn
         self.rbln_config = rbln_config
-        self.layer_idx = self._original_mod.layer_id
-        self.num_key_value_heads = self._original_mod.n_kv_heads
-        self.num_heads = self._original_mod.config.n_heads
-        self.head_dim = self._original_mod.head_dim
-        self.qk_norm = self._original_mod.use_qk_normalization
-        self.scale = torch.tensor(self.get_attn_scale())
+        self.layer_idx = self_attn.layer_id
+        self.num_key_value_heads = self_attn.n_kv_heads
+        self.num_heads = self_attn.config.n_heads
+        self.head_dim = self_attn.head_dim
+        self.qk_norm = self_attn.use_qk_normalization
+        self.scale = torch.tensor(self.get_attn_scale(self_attn))
         self._phase = "prefill"
         self.is_sliding = is_sliding
         self.attn_impl = rbln_config.attn_impl
+        self.lora_config = None
 
         if self.is_sliding and self.attn_impl != "eager":
             raise NotImplementedError(
@@ -70,49 +73,43 @@ class MistralNeMoAttention(DecoderOnlyAttention):
 
         self.kvcache_partition_len = rbln_config.kvcache_partition_len
         self.kvcache_block_size = rbln_config.kvcache_block_size
-        self.lora_config = rbln_config.lora_config
 
         setattr(self, self.get_attention_name(), self.create_attention_op())
-        self.__post_init__()
+        self.__post_init__(self_attn)
 
-    def __post_init__(self):
-        self.q_proj = self._original_mod.wq
-        self.k_proj = self._original_mod.wk
-        self.v_proj = self._original_mod.wv
-        self.o_proj = self._original_mod.wo
-
-    def projection(
-        self, hidden_states, lora_int_id: Optional[torch.Tensor] = None
-    ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-        # NOTE: This model does not support LoRA
-        query_states = self.q_proj(hidden_states)
-        key_states = self.k_proj(hidden_states)
-        value_states = self.v_proj(hidden_states)
-
+    def __post_init__(self, self_attn):
+        self.q_proj = self_attn.wq
+        self.k_proj = self_attn.wk
+        self.v_proj = self_attn.wv
+        self.o_proj = self_attn.wo
         if self.qk_norm:
-            query_states = self._original_mod.q_norm(query_states)
-            key_states = self._original_mod.k_norm(key_states)
-
-        return query_states, key_states, value_states
+            self.q_norm = getattr(self_attn, "q_norm", None)
+            self.k_norm = getattr(self_attn, "k_norm", None)
 
     def apply_rotary_pos_embed(self, query_states, key_states, cos, sin):
         return apply_rotary_pos_emb(query_states, key_states, cos, sin)
 
 
 class MistralNeMoLayer(DecoderOnlyLayer):
-    def get_pre_attention_layernorm(self):
-        return self._original_mod.attention_norm
-
-    def get_post_attention_layernorm(self):
-        return self._original_mod.ffn_norm
-
-    def get_mlp(self):
-        return self._original_mod.feed_forward
+    def __init__(
+        self,
+        layer,
+        self_attn: "DecoderOnlyAttention",
+        lora_config: Optional[
+            RBLNLoRAConfig
+        ] = None,  # NOTE: This model does not support LoRA
+    ):
+        nn.Module.__init__(self)
+        self.pre_attention_layernorm = layer.attention_norm
+        self.post_attention_layernorm = layer.ffn_norm
+        self.mlp = layer.feed_forward
+        self.self_attn = self_attn
+        self._phase = "prefill"
+        self.lora_config = lora_config
 
 
 class MistralNeMoModel(DecoderOnlyModel):
-    def get_embedding(self) -> nn.Embedding:
-        return self._original_mod.tok_embeddings
+    _EMBEDDING_ATTRS = ["tok_embeddings"]
 
 
 class MistralNeMoForTextUpsampler(DecoderOnlyForCausalLM):

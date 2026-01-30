@@ -29,56 +29,56 @@ from transformers import (
 )
 from transformers.integrations.mistral import MistralConverter
 
-# https://github.com/huggingface/transformers/blob/242bb2cafccec9f90479f5f688bca9d240b1031f/src/transformers/models/pixtral/convert_pixtral_weights_to_hf.py#L55  # noqa: E501
+# slightly revised from https://github.com/huggingface/transformers/blob/242bb2cafccec9f90479f5f688bca9d240b1031f/src/transformers/models/pixtral/convert_pixtral_weights_to_hf.py#L55  # noqa: E501
 OLD_KEY_TO_NEW_KEY_MAPPING = {
     # Layer Normalization Weights
     r"vision_encoder.transformer.layers.(\d+).input_layernorm.weight": (
-        r"vision_tower.transformer.layers.\1.attention_norm.weight"
+        r"model.vision_tower.transformer.layers.\1.attention_norm.weight"
     ),
     r"vision_encoder.transformer.layers.(\d+).ffn_norm.weight": (
-        r"vision_tower.transformer.layers.\1.ffn_norm.weight"
+        r"model.vision_tower.transformer.layers.\1.ffn_norm.weight"
     ),
     # Self Attention Projections
     r"vision_encoder.transformer.layers.(\d+).attention.wq.weight": (
-        r"vision_tower.transformer.layers.\1.attention.q_proj.weight"
+        r"model.vision_tower.transformer.layers.\1.attention.q_proj.weight"
     ),
     r"vision_encoder.transformer.layers.(\d+).attention.wk.weight": (
-        r"vision_tower.transformer.layers.\1.attention.k_proj.weight"
+        r"model.vision_tower.transformer.layers.\1.attention.k_proj.weight"
     ),
     r"vision_encoder.transformer.layers.(\d+).attention.wv.weight": (
-        r"vision_tower.transformer.layers.\1.attention.v_proj.weight"
+        r"model.vision_tower.transformer.layers.\1.attention.v_proj.weight"
     ),
     r"vision_encoder.transformer.layers.(\d+).attention.wo.weight": (
-        r"vision_tower.transformer.layers.\1.attention.o_proj.weight"
+        r"model.vision_tower.transformer.layers.\1.attention.o_proj.weight"
     ),
     # MLP Projections
     r"vision_encoder.transformer.layers.(\d+).feed_forward.w1.weight": (
-        r"vision_tower.transformer.layers.\1.feed_forward.gate_proj.weight"
+        r"model.vision_tower.transformer.layers.\1.feed_forward.gate_proj.weight"
     ),
     r"vision_encoder.transformer.layers.(\d+).feed_forward.w2.weight": (
-        r"vision_tower.transformer.layers.\1.feed_forward.down_proj.weight"
+        r"model.vision_tower.transformer.layers.\1.feed_forward.down_proj.weight"
     ),
     r"vision_encoder.transformer.layers.(\d+).feed_forward.w3.weight": (
-        r"vision_tower.transformer.layers.\1.feed_forward.up_proj.weight"
+        r"model.vision_tower.transformer.layers.\1.feed_forward.up_proj.weight"
     ),
     # Additional mappings
-    r"vision_encoder": r"vision_tower",
-    r"vision_language_adapter.w_in": r"multi_modal_projector.linear_1",
-    r"vision_language_adapter.w_out": r"multi_modal_projector.linear_2",
-    r"layers.(\d+).attention.wq.weight": r"language_model.model.layers.\1.self_attn.q_proj.weight",
-    r"layers.(\d+).attention.wk.weight": r"language_model.model.layers.\1.self_attn.k_proj.weight",
-    r"layers.(\d+).attention.wv.weight": r"language_model.model.layers.\1.self_attn.v_proj.weight",
-    r"layers.(\d+).attention.wo.weight": r"language_model.model.layers.\1.self_attn.o_proj.weight",
-    r"layers.(\d+).feed_forward.w1.weight": r"language_model.model.layers.\1.mlp.gate_proj.weight",
-    r"layers.(\d+).feed_forward.w2.weight": r"language_model.model.layers.\1.mlp.down_proj.weight",
-    r"layers.(\d+).feed_forward.w3.weight": r"language_model.model.layers.\1.mlp.up_proj.weight",
+    r"vision_encoder": r"model.vision_tower",
+    r"vision_language_adapter.w_in": r"model.multi_modal_projector.linear_1",
+    r"vision_language_adapter.w_out": r"model.multi_modal_projector.linear_2",
+    r"layers.(\d+).attention.wq.weight": r"model.language_model.layers.\1.self_attn.q_proj.weight",
+    r"layers.(\d+).attention.wk.weight": r"model.language_model.layers.\1.self_attn.k_proj.weight",
+    r"layers.(\d+).attention.wv.weight": r"model.language_model.layers.\1.self_attn.v_proj.weight",
+    r"layers.(\d+).attention.wo.weight": r"model.language_model.layers.\1.self_attn.o_proj.weight",
+    r"layers.(\d+).feed_forward.w1.weight": r"model.language_model.layers.\1.mlp.gate_proj.weight",
+    r"layers.(\d+).feed_forward.w2.weight": r"model.language_model.layers.\1.mlp.down_proj.weight",
+    r"layers.(\d+).feed_forward.w3.weight": r"model.language_model.layers.\1.mlp.up_proj.weight",
     r"layers.(\d+).ffn_norm.weight": (
-        r"language_model.model.layers.\1.post_attention_layernorm.weight"
+        r"model.language_model.layers.\1.post_attention_layernorm.weight"
     ),
-    r"layers.(\d+).attention_norm.weight": r"language_model.model.layers.\1.input_layernorm.weight",
-    r"tok_embeddings.weight": r"language_model.model.embed_tokens.weight",
-    r"output.weight": r"language_model.lm_head.weight",
-    r"norm.weight": r"language_model.model.norm.weight",
+    r"layers.(\d+).attention_norm.weight": r"model.language_model.layers.\1.input_layernorm.weight",
+    r"tok_embeddings.weight": r"model.language_model.embed_tokens.weight",
+    r"output.weight": r"lm_head.weight",
+    r"norm.weight": r"model.language_model.norm.weight",
 }
 
 

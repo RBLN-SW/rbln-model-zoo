@@ -6,19 +6,45 @@
 #include <opencv2/imgproc.hpp>
 #include <rbln/rbln.h>
 
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <numeric>
+
+
+static std::string ResolveRblnModelPath(const std::string &path_str) {
+  namespace fs = std::filesystem;
+  fs::path p(path_str);
+  if (!fs::exists(p)) {
+    throw std::runtime_error("Model path does not exist: " + path_str);
+  }
+  if (fs::is_directory(p)) {
+    fs::path cand = p / "model.rbln";
+    if (fs::exists(cand)) {
+      return cand.string();
+    }
+    for (const auto &ent : fs::directory_iterator(p)) {
+      if (!ent.is_regular_file())
+        continue;
+      if (ent.path().extension() == ".rbln") {
+        return ent.path().string();
+      }
+    }
+    throw std::runtime_error("No .rbln found under directory: " + path_str);
+  }
+  return p.string();
+}
+
 
 int main(int argc, char **argv) {
   // Parse arguments
   argparse::ArgumentParser program("image_classification");
   program.add_argument("-i", "--input")
-      .default_value(std::string("tabby.jpg"))
+      .default_value("tabby.jpg")
       .help("specify the input image file.");
   program.add_argument("-m", "--model")
-      .default_value(std::string("resnet18.rbln"))
-      .help("specify the model file. (.rbln)");
+      .default_value(".")
+      .help("specify the model directory or .rbln file path (default: current directory).");
   try {
     program.parse_args(argc, argv);
   } catch (const std::exception &err) {
@@ -28,6 +54,12 @@ int main(int argc, char **argv) {
   }
   auto input_path = program.get<std::string>("--input");
   auto model_path = program.get<std::string>("--model");
+  try {
+    model_path = ResolveRblnModelPath(model_path);
+  } catch (const std::exception &err) {
+    std::cerr << err.what() << std::endl;
+    std::exit(1);
+  }
 
   // Preprocess images
   cv::Mat input_image;

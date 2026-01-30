@@ -2,7 +2,7 @@ addict==2.4.0
 attr==0.3.2
 attrs==25.3.0
 better_profanity==0.7.0
-cosmos-guardrail @ git+https://github.com/yiyixuxu/cosmos-guardrail.git@d36404090e6bf14eacb6a0cbdc4a64737bdf5d46
+cosmos-guardrail @ git+https://github.com/codeJRV/cosmos-guardrail.git@9302bc5160f8859c48fe7f542a2a709d813f7900
 decord>=0.6.0
 einops==0.8.1
 hydra-core==1.3.2

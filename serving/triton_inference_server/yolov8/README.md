@@ -13,5 +13,5 @@ Supplementary guide for the tutorial on serving models with the Triton Inference
 You can check the `output` directory, which contains all the necessary preparations for running the tutorial.
 
 # References
-- [Rebellions Model Zoo YOLOv8](https://github.com/rebellions-sw/rbln-model-zoo/tree/main/pytorch/vision/detection/yolov8)
+- [Rebellions Model Zoo YOLOv8](https://github.com/RBLN-SW/rbln-model-zoo/tree/main/pytorch/vision/detection/yolov8)
 - [Rebellions Document - YOLOv8(Triton Inference Server)](https://docs.rbln.ai/software/model_serving/nvidia_triton_inference_server/tutorial/yolov8.html)

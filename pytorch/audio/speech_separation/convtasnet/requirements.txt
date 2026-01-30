@@ -2,3 +2,4 @@
 mir-eval==0.7
 torch==2.8.0
 torchaudio<=2.8.0
+soundfile>=0.13.1

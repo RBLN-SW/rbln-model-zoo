@@ -1,4 +1,4 @@
 tensorflow==2.18.0
-transformers==4.57.1
+transformers==4.57.3
 numpy>=2.0.2
 tf_keras==2.18.0

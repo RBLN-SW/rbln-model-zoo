@@ -1,10 +1,24 @@
 # Change Log
 
+## February, 9th 2026 (v0.10.0.post1)
+
+* Compatible version:
+  * `rebel-compiler`: v0.10.0
+  * `optimum-rbln`: v0.10.0.post2
+  * `vllm-rbln`: v0.10.0
+  * `docs.rbln.ai`: v0.10.0
+* **Hotfix**
+  * `EXAONE-3.5`: Pin revisions for Hugging Face loading and align EXAONE-3.5 scripts with model-zoo
+* **Dependency updates**
+  * `N/A`
+* **Notes**
+  * Compatibility unchanged; this is a post-release hotfix on top of `v0.10.0`
+
 ## January, 30th 2025 (v0.10.0)
 
 * Compatible version:
   * `rebel-compiler`: v0.10.0
-  * `optimum-rbln`: v0.10.0
+  * `optimum-rbln`: v0.10.0.post2
   * `vllm-rbln`: v0.10.0
   * `docs.rbln.ai`: v0.10.0
 * **Added new examples**

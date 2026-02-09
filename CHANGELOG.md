@@ -4,7 +4,7 @@
 
 * Compatible version:
   * `rebel-compiler`: v0.10.0
-  * `optimum-rbln`: v0.10.0
+  * `optimum-rbln`: v0.10.0.post2
   * `vllm-rbln`: v0.10.0
   * `docs.rbln.ai`: v0.10.0
 * **Hotfix**
@@ -18,7 +18,7 @@
 
 * Compatible version:
   * `rebel-compiler`: v0.10.0
-  * `optimum-rbln`: v0.10.0
+  * `optimum-rbln`: v0.10.0.post2
   * `vllm-rbln`: v0.10.0
   * `docs.rbln.ai`: v0.10.0
 * **Added new examples**

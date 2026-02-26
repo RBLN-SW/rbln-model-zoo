@@ -1,5 +1,19 @@
 # Change Log
 
+## February, 26th 2026 (v0.10.1)
+
+* Compatible versions:
+  * `rebel-compiler`: v0.10.1
+  * `optimum-rbln`: v0.10.1
+  * `vllm-rbln`: v0.10.1
+  * `docs.rbln.ai`: v0.10.1
+* **Added new examples**
+  * `Depth estimation`: **Depth-Anything-3**
+* **Dependency updates**
+  * `torch`: pin to `2.9.0`
+* **Notes**
+  * Install guide: remove `--extra-index-url https://download.pytorch.org/whl/cpu`
+
 ## February, 9th 2026 (v0.10.0.post1)
 
 * Compatible version:

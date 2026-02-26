@@ -32,7 +32,7 @@
 
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.0
+    rev: v0.15.1
     hooks:
       - id: ruff
         args: ["--select", "I", "--fix"]

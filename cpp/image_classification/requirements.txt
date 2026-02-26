@@ -1,3 +1,2 @@
---extra-index-url https://download.pytorch.org/whl/cpu
-torchvision<=0.23.0
+torchvision==0.24.0
 cmake>=3.22

@@ -1,4 +1,4 @@
 optimum-rbln
 opencv-python>=4.9.0.80
 opencv-python-headless>=4.11.0
-controlnet-aux>=0.0.7
+controlnet-aux>=0.0.10

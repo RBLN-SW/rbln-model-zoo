@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 import rebel
 import torch
-from torch.onnx._globals import GLOBALS
+from torch.onnx._internal.torchscript_exporter._globals import GLOBALS
 
 GLOBALS.in_onnx_export = True
 

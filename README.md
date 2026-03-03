@@ -48,9 +48,9 @@ Select the framework or API for your AI serving workload on RBLN NPUs.
 
 | Framework | # Models | Packages |
 |-----------|----------|----------|
-| Hugging Face | 150+ | Transformers, diffusers |
-| PyTorch | 250+ | TorchVision, custom models |
-| TensorFlow | 75+ | Keras, TF models |
+| Hugging Face | 150+ | transformers, diffusers |
+| PyTorch | 250+ | torch |
+| TensorFlow | 75+ | keras, tensorflow |
 
 ### Other
 

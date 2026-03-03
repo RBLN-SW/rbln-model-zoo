@@ -21,9 +21,13 @@
 ## Quick Start
 
 ```bash
+# Install compiler
 pip install -i https://pypi.rbln.ai/simple rebel-compiler
+# Enter model dir
 cd huggingface/transformers/text2text-generation/llama/llama3.1-8b
+# Install deps
 pip install -r requirements.txt
+# Compile & run
 python compile.py && python inference.py
 ```
 

@@ -40,14 +40,14 @@ python compile.py && python inference.py
 
 ---
 
-## Frameworks & APIs
+## Ecosystems & APIs
 
-Select the framework or API for your AI serving workload on RBLN NPUs.
+Select the ecosystem or API for your AI serving workload on RBLN NPUs.
 
 ### Python
 
-| Framework | # Models | Packages |
-|-----------|----------|----------|
+| Ecosystem | # Models | Key packages |
+|-----------|----------|---------------|
 | Hugging Face | 150+ | transformers, diffusers |
 | PyTorch | 250+ | torch |
 | TensorFlow | 75+ | keras, tensorflow |

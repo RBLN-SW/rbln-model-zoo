@@ -2,7 +2,7 @@
 
 <img src="rbln-model-zoo-banner.png" alt="RBLN Model Zoo" width="600">
 
-*AI serving with RBLN NPUs · Compile once, Run anywhere · 500+ models — start here*
+*AI serving on RBLN NPUs · Compile once, run anywhere · 500+ models — start here*
 
 # RBLN Model Zoo
 
@@ -27,28 +27,26 @@ pip install -r requirements.txt
 python compile.py && python inference.py
 ```
 
-Compile once, run anywhere.
-
-> [RBLN portal account](https://docs.rbln.ai/getting_started/installation_guide.html) required
+> A [RBLN portal account](https://docs.rbln.ai/getting_started/installation_guide.html) is required to install rebel-compiler from PyPI.
 
 ---
 
 ## Frameworks
 
-Your starting point for AI serving on RBLN NPUs.
+Start with these frameworks for AI serving on RBLN NPUs.
 
-| Framework | Models | 역할 |
+| Framework | Models | Role |
 |-----------|--------|------|
 | Hugging Face | 150+ | Transformers, diffusers |
 | PyTorch | 250+ | TorchVision, custom models |
 | TensorFlow | 75+ | Keras, TF models |
-| C API | — | C/C++ inference. Install via [APT](https://docs.rbln.ai/software/api/language_binding/c/installation.html), then compile and run from `cpp/` |
+| C API | — | C/C++ inference. Install via [APT](https://docs.rbln.ai/software/api/language_binding/c/installation.html), then build from `cpp/` |
 
 ---
 
 ## Deployment
 
-**vLLM-RBLN** — compile from Model Zoo, then serve:
+**vLLM-RBLN** — Compile a model from the Model Zoo, then serve:
 
 ```bash
 python compile.py
@@ -63,13 +61,13 @@ out = llm.generate(["Hello"], SamplingParams(max_tokens=64))
 print(out[0].outputs[0].text)
 ```
 
-- [vLLM-RBLN](https://docs.rbln.ai/software/model_serving/vllm_support/vllm-rbln.html) — LLM serving on RBLN NPU
-- [Triton](https://docs.rbln.ai/software/model_serving/nvidia_triton_inference_server/installation.html) — NVIDIA inference server
+- [vLLM-RBLN](https://docs.rbln.ai/software/model_serving/vllm_support/vllm-rbln.html) — LLM serving on RBLN NPUs
+- [Triton](https://docs.rbln.ai/software/model_serving/nvidia_triton_inference_server/installation.html) — Triton Inference Server
 - [TorchServe](https://docs.rbln.ai/software/model_serving/torchserve/torchserve.html) — PyTorch model serving
 
 ---
 
 **Resources**
 
-- [CHANGELOG](CHANGELOG.md) — version history
-- [Issues](https://github.com/RBLN-SW/rbln-model-zoo/issues) — have questions? Open an issue.
+- [CHANGELOG](CHANGELOG.md) — Release history
+- [Issues](https://github.com/RBLN-SW/rbln-model-zoo/issues) — Report bugs or request features

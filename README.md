@@ -35,9 +35,9 @@ python compile.py && python inference.py
 
 ---
 
-## Frameworks
+## Frameworks & APIs
 
-Start with these frameworks for AI serving on RBLN NPUs.
+Start with these frameworks and APIs for AI serving on RBLN NPUs.
 
 **Python**
 
@@ -47,7 +47,7 @@ Start with these frameworks for AI serving on RBLN NPUs.
 | PyTorch | 250+ | TorchVision, custom models |
 | TensorFlow | 75+ | Keras, TF models |
 
-**C/C++**
+**Other**
 
 **C API** — C/C++ inference bindings. [APT](https://docs.rbln.ai/software/api/language_binding/c/installation.html) install, then build.
 

@@ -42,7 +42,7 @@ python compile.py && python inference.py
 
 Start with these frameworks and APIs for AI serving on RBLN NPUs.
 
-**Python**
+### Python
 
 | Framework | # Models | Packages |
 |-----------|----------|----------|
@@ -50,7 +50,7 @@ Start with these frameworks and APIs for AI serving on RBLN NPUs.
 | PyTorch | 250+ | TorchVision, custom models |
 | TensorFlow | 75+ | Keras, TF models |
 
-**Other**
+### Other
 
 **C API** — C/C++ inference bindings. [APT](https://docs.rbln.ai/software/api/language_binding/c/installation.html) install, then build.
 
@@ -58,7 +58,9 @@ Start with these frameworks and APIs for AI serving on RBLN NPUs.
 
 ## Deployment
 
-**vLLM-RBLN** — Compile a model from the Model Zoo, then serve:
+### vLLM-RBLN
+
+Compile a model from the Model Zoo, then serve:
 
 ```bash
 # Compile
@@ -84,7 +86,7 @@ print(out[0].outputs[0].text)
 
 ---
 
-**Links**
+## Links
 
 - [CHANGELOG](CHANGELOG.md) — Release history
 - [Issues](https://github.com/RBLN-SW/rbln-model-zoo/issues) — We welcome bug reports, feature requests, model enablement requests, and any questions. Feel free to reach out!

@@ -44,7 +44,7 @@ Start with these frameworks for AI serving on RBLN NPUs.
 | Hugging Face | 150+ | Transformers, diffusers |
 | PyTorch | 250+ | TorchVision, custom models |
 | TensorFlow | 75+ | Keras, TF models |
-| C API | — | C/C++ inference. Install via [APT](https://docs.rbln.ai/software/api/language_binding/c/installation.html), then build from `cpp/` |
+| C API | — | C/C++ inference. Install via [APT](https://docs.rbln.ai/software/api/language_binding/c/installation.html), then build |
 
 ---
 
@@ -53,13 +53,17 @@ Start with these frameworks for AI serving on RBLN NPUs.
 **vLLM-RBLN** — Compile a model from the Model Zoo, then serve:
 
 ```bash
+# Compile
 python compile.py
+# Install vLLM-RBLN
 pip install vllm-rbln
 ```
 
 ```python
+# Import
 from vllm import LLM, SamplingParams
 
+# Load model & generate
 llm = LLM(model="Llama-3.1-8B-Instruct")
 out = llm.generate(["Hello"], SamplingParams(max_tokens=64))
 print(out[0].outputs[0].text)
@@ -74,4 +78,4 @@ print(out[0].outputs[0].text)
 **Resources**
 
 - [CHANGELOG](CHANGELOG.md) — Release history
-- [Issues](https://github.com/RBLN-SW/rbln-model-zoo/issues) — Report bugs or request features
+- [Issues](https://github.com/RBLN-SW/rbln-model-zoo/issues) — We welcome bug reports, feature requests, model enablement requests, and any questions. Feel free to reach out!

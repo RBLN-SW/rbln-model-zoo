@@ -16,9 +16,10 @@
 ## Quick Start
 
 ```bash
-pip install -i https://pypi.rbln.ai/simple rebel-compiler
-pip install -r requirements.txt
-python compile.py && python inference.py
+$ pip install -i https://pypi.rbln.ai/simple rebel-compiler
+$ cd huggingface/transformers/text2text-generation/llama/llama3.1-8b
+$ pip install -r requirements.txt
+$ python compile.py && python inference.py
 ```
 
 Compile once, run anywhere.
@@ -57,14 +58,14 @@ Compile once, run anywhere.
 **vLLM-RBLN** — compile from Model Zoo, then serve:
 
 ```bash
-python compile.py
-pip install vllm-rbln
+$ python compile.py
+$ pip install vllm-rbln
 ```
 
 ```python
 from vllm import LLM, SamplingParams
 
-llm = LLM(model="<compiled_model>")
+llm = LLM(model="Llama-3.1-8B-Instruct")
 out = llm.generate(["Hello"], SamplingParams(max_tokens=64))
 print(out[0].outputs[0].text)
 ```

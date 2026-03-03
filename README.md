@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="rbln-model-zoo-banner.png" alt="RBLN Model Zoo" width="400">
+<img src="rbln-model-zoo-banner.png" alt="RBLN Model Zoo" width="600">
 
-*AI serving on RBLN NPUs · Compile once, run anywhere · 500+ models — start here*
+*500+ models · Compile once, run anywhere · AI model serving on RBLN NPUs*
 
 # RBLN Model Zoo
 
@@ -24,15 +24,17 @@
 # Install compiler
 pip install -i https://pypi.rbln.ai/simple rebel-compiler
 
-# Enter model dir
+# Navigate to model directory
 cd huggingface/transformers/text2text-generation/llama/llama3.1-8b
 
-# Install deps
+# Install dependencies
 pip install -r requirements.txt
 
-# Compile & run
+# Compile and run
 python compile.py && python inference.py
 ```
+
+> For models that support configuration presets, use `--model_name <preset>` to specify model-specific configurations. See each model's README for available presets.
 
 > A [RBLN portal account](https://docs.rbln.ai/getting_started/installation_guide.html) is required to install rebel-compiler from PyPI.
 
@@ -40,7 +42,7 @@ python compile.py && python inference.py
 
 ## Frameworks & APIs
 
-Start with these frameworks and APIs for AI serving on RBLN NPUs.
+Select the framework or API for your AI serving workload on RBLN NPUs.
 
 ### Python
 
@@ -52,7 +54,7 @@ Start with these frameworks and APIs for AI serving on RBLN NPUs.
 
 ### Other
 
-**C API** — C/C++ inference bindings. [APT](https://docs.rbln.ai/software/api/language_binding/c/installation.html) install, then build.
+**C API** — C/C++ inference bindings. Install via [APT](https://docs.rbln.ai/software/api/language_binding/c/installation.html), then build from source.
 
 ---
 
@@ -60,7 +62,7 @@ Start with these frameworks and APIs for AI serving on RBLN NPUs.
 
 ### vLLM-RBLN
 
-Compile a model from the Model Zoo, then serve:
+Compile a model from the Model Zoo, then deploy with:
 
 ```bash
 # Compile
@@ -74,7 +76,7 @@ pip install vllm-rbln
 # Import
 from vllm import LLM, SamplingParams
 
-# Load model & generate
+# Load model and generate
 llm = LLM(model="Llama-3.1-8B-Instruct")
 out = llm.generate(["Hello"], SamplingParams(max_tokens=64))
 print(out[0].outputs[0].text)
@@ -89,4 +91,4 @@ print(out[0].outputs[0].text)
 ## Links
 
 - [CHANGELOG](CHANGELOG.md) — Release history
-- [Issues](https://github.com/RBLN-SW/rbln-model-zoo/issues) — We welcome bug reports, feature requests, model enablement requests, and any questions. Feel free to reach out!
+- [Issues](https://github.com/RBLN-SW/rbln-model-zoo/issues) — Report issues, request features, or request new model support.

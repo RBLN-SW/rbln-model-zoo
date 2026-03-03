@@ -8,6 +8,7 @@
 
 [![models](https://img.shields.io/badge/models-Model%20Zoo-10B981?style=flat-square)](https://rebellions.ai/developers/model-zoo)
 [![docs](https://img.shields.io/badge/docs-latest-8B5CF6?style=flat-square)](https://docs.rbln.ai)
+
 [![python](https://img.shields.io/badge/python-3.10%E2%80%933.13-F59E0B?style=flat-square)](https://docs.rbln.ai/supports/version_matrix.html)
 [![ubuntu](https://img.shields.io/badge/Ubuntu-22.04%20%7C%2024.04-E95420?style=flat-square&logo=ubuntu)](https://docs.rbln.ai/supports/version_matrix.html)
 [![rhel](https://img.shields.io/badge/RHEL-9.4%20%7C%209.6-EE0000?style=flat-square&logo=redhat)](https://docs.rbln.ai/supports/version_matrix.html)
@@ -20,10 +21,10 @@
 ## Quick Start
 
 ```bash
-$ pip install -i https://pypi.rbln.ai/simple rebel-compiler
-$ cd huggingface/transformers/text2text-generation/llama/llama3.1-8b
-$ pip install -r requirements.txt
-$ python compile.py && python inference.py
+pip install -i https://pypi.rbln.ai/simple rebel-compiler
+cd huggingface/transformers/text2text-generation/llama/llama3.1-8b
+pip install -r requirements.txt
+python compile.py && python inference.py
 ```
 
 Compile once, run anywhere.
@@ -53,8 +54,8 @@ Compile once, run anywhere.
 **vLLM-RBLN** — compile from Model Zoo, then serve:
 
 ```bash
-$ python compile.py
-$ pip install vllm-rbln
+python compile.py
+pip install vllm-rbln
 ```
 
 ```python

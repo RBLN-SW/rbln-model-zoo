@@ -16,14 +16,8 @@
 ## Quick Start
 
 ```bash
-# 1. Install RBLN compiler
 pip install -i https://pypi.rbln.ai/simple rebel-compiler
-
-# 2. Pick a model & install deps
-cd huggingface/transformers/text2text-generation/qwen/qwen2.5-7b
 pip install -r requirements.txt
-
-# 3. Compile → Run
 python compile.py && python inference.py
 ```
 
@@ -37,13 +31,11 @@ Compile once, run anywhere.
 
 Hugging Face, PyTorch, TensorFlow — your starting point for AI serving on RBLN NPUs.
 
-| Framework | Models |
-|-----------|--------|
-| Hugging Face | 150+ |
-| PyTorch | 250+ |
-| TensorFlow | 75+ |
-
-**Example** — `huggingface/transformers/text2text-generation/qwen/qwen2.5-7b`
+| Framework | Models | Description |
+|-----------|--------|-------------|
+| Hugging Face | 150+ | Transformers, diffusers |
+| PyTorch | 250+ | TorchVision, custom models |
+| TensorFlow | 75+ | Keras, TF models |
 
 **C API** — C/C++ inference bindings. Install via [APT](https://docs.rbln.ai/software/api/language_binding/c/installation.html), then compile and run from `cpp/`.
 
@@ -65,25 +57,25 @@ Compile once, run anywhere.
 **vLLM-RBLN** — compile from Model Zoo, then serve:
 
 ```bash
-# 1. Compile (from model zoo)
-cd huggingface/transformers/text2text-generation/qwen/qwen2.5-7b
-python compile.py  # → Qwen2.5-7B-Instruct/
-
-# 2. Install & serve
+python compile.py
 pip install vllm-rbln
-python -c "
-from vllm import LLM, SamplingParams
-llm = LLM(model='Qwen2.5-7B-Instruct')
-out = llm.generate(['Hello'], SamplingParams(max_tokens=64))
-print(out[0].outputs[0].text)
-"
 ```
 
-[vLLM-RBLN](https://docs.rbln.ai/software/model_serving/vllm_support/vllm-rbln.html) · [Triton](https://docs.rbln.ai/software/model_serving/nvidia_triton_inference_server/installation.html) · [TorchServe](https://docs.rbln.ai/software/model_serving/torchserve/torchserve.html)
+```python
+from vllm import LLM, SamplingParams
+
+llm = LLM(model="<compiled_model>")
+out = llm.generate(["Hello"], SamplingParams(max_tokens=64))
+print(out[0].outputs[0].text)
+```
+
+- [vLLM-RBLN](https://docs.rbln.ai/software/model_serving/vllm_support/vllm-rbln.html) — LLM serving on RBLN NPU
+- [Triton](https://docs.rbln.ai/software/model_serving/nvidia_triton_inference_server/installation.html) — NVIDIA inference server
+- [TorchServe](https://docs.rbln.ai/software/model_serving/torchserve/torchserve.html) — PyTorch model serving
 
 ---
 
 **Resources**
 
-- [CHANGELOG](CHANGELOG.md)
+- [CHANGELOG](CHANGELOG.md) — version history
 - [Issues](https://github.com/RBLN-SW/rbln-model-zoo/issues) — have questions? Open an issue.

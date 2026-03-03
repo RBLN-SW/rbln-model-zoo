@@ -35,21 +35,18 @@ Compile once, run anywhere.
 
 ## Frameworks
 
-Hugging Face, PyTorch, TensorFlow — your starting point for AI serving on RBLN NPUs.
+Your starting point for AI serving on RBLN NPUs.
 
-| Framework | Models | Description |
-|-----------|--------|-------------|
+| Framework | Models | 역할 |
+|-----------|--------|------|
 | Hugging Face | 150+ | Transformers, diffusers |
 | PyTorch | 250+ | TorchVision, custom models |
 | TensorFlow | 75+ | Keras, TF models |
-
-**C API** — C/C++ inference bindings. Install via [APT](https://docs.rbln.ai/software/api/language_binding/c/installation.html), then compile and run from `cpp/`.
+| C API | — | C/C++ inference. Install via [APT](https://docs.rbln.ai/software/api/language_binding/c/installation.html), then compile and run from `cpp/` |
 
 ---
 
 ## Deployment
-
-Compile once, run anywhere.
 
 **vLLM-RBLN** — compile from Model Zoo, then serve:
 

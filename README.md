@@ -84,7 +84,7 @@ print(out[0].outputs[0].text)
 
 ---
 
-**Resources**
+**Links**
 
 - [CHANGELOG](CHANGELOG.md) — Release history
 - [Issues](https://github.com/RBLN-SW/rbln-model-zoo/issues) — We welcome bug reports, feature requests, model enablement requests, and any questions. Feel free to reach out!

@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="rbln-model-zoo-banner.png" alt="RBLN Model Zoo" width="600">
+<img src="rbln-model-zoo-banner.png" alt="RBLN Model Zoo" width="400">
 
 *AI serving on RBLN NPUs · Compile once, run anywhere · 500+ models — start here*
 

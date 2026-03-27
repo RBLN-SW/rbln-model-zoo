@@ -22,7 +22,7 @@
 
 ```bash
 # Install compiler
-pip install -i https://pypi.rbln.ai/simple rebel-compiler
+pip install -i https://pypi.rbln.ai/simple rebel-compiler==0.10.2
 
 # Navigate to model directory
 cd huggingface/transformers/text2text-generation/llama/llama3.1-8b
@@ -69,7 +69,10 @@ Compile a model from the Model Zoo, then deploy with:
 python compile.py
 
 # Install vLLM-RBLN
-pip install vllm-rbln
+pip3 install \
+  --extra-index-url https://download.pytorch.org/whl/cpu \
+  --extra-index-url https://wheels.vllm.ai/0.13.0/cpu \
+  vllm-rbln==0.10.2
 ```
 
 ```python

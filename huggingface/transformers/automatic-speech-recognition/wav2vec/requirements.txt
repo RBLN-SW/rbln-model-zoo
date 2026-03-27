@@ -1,3 +1,4 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
 datasets>=2.19.1
 optimum-rbln
 soundfile>=0.13.1

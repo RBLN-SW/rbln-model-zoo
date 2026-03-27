@@ -33,7 +33,7 @@ def main():
     )
 
     # Prepare inputs
-    tokenizer = AutoTokenizer.from_pretrained(model_id, padding_side='left')
+    tokenizer = AutoTokenizer.from_pretrained(model_id, padding_side="left")
     task = "Given a web search query, retrieve relevant passages that answer the query"
 
     queries = [

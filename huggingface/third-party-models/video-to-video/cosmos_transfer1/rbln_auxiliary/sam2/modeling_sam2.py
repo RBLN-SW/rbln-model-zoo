@@ -236,10 +236,10 @@ def build_sam2_video_predictor_hf(model_id, **kwargs):
 
             # Try to find rbln_auxiliary in path, otherwise use last 3 components
             try:
-                rbln_idx = path_parts.index('rbln_auxiliary')
-                file_name = '.'.join(path_parts[rbln_idx:-1]) + '.modeling_sam2'
+                rbln_idx = path_parts.index("rbln_auxiliary")
+                file_name = ".".join(path_parts[rbln_idx:-1]) + ".modeling_sam2"
             except ValueError:
-                file_name = 'modeling_sam2'
+                file_name = "modeling_sam2"
 
             hydra_overrides = [
                 f"++model._target_={file_name}.RBLNSAM2VideoPredictor",

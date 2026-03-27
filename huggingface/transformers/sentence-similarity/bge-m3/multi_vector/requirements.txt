@@ -1,3 +1,4 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
 huggingface-hub>=0.23.0
 optimum-rbln
 

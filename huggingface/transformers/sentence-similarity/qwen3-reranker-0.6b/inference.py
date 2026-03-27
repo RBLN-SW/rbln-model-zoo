@@ -15,7 +15,7 @@ def main():
     )
 
     # Prepare inputs
-    tokenizer = AutoTokenizer.from_pretrained(model_id, padding_side='left')
+    tokenizer = AutoTokenizer.from_pretrained(model_id, padding_side="left")
     token_false_id = tokenizer.convert_tokens_to_ids("no")
     token_true_id = tokenizer.convert_tokens_to_ids("yes")
     max_length = 8192

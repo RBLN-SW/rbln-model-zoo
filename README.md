@@ -1,79 +1,105 @@
+<div align="center">
+
+<img src="rbln-model-zoo-banner.png" alt="RBLN Model Zoo" width="600">
+
+*500+ models · Compile once, run anywhere · AI model serving on RBLN NPUs*
+
 # RBLN Model Zoo
-This repository provides a collection of machine learning model examples for [ATOM](https://rebellions.ai/rebellions-product/atom-2), Rebellions' neural processing unit (NPU). We are continuously enhancing the rbln-model-zoo by adding more models in the following categories:
 
-- Natural Language Processing
-- Generative AI
-- Speech Processing
-- Computer Vision
+[![models](https://img.shields.io/badge/models-Model%20Zoo-10B981?style=flat-square)](https://rebellions.ai/developers/model-zoo)
+[![docs](https://img.shields.io/badge/docs-latest-8B5CF6?style=flat-square)](https://docs.rbln.ai)
 
-All deep learning examples in the RBLN Model Zoo include two files: `compile.py` and `inference.py`.
-- `compile.py`: compile the model and save the compiled results to local storage
-- `inference.py`: load the saved compiled results and perform inference
+[![python](https://img.shields.io/badge/python-3.10%E2%80%933.13-F59E0B?style=flat-square)](https://docs.rbln.ai/supports/version_matrix.html)
+[![ubuntu](https://img.shields.io/badge/Ubuntu-22.04%20%7C%2024.04-E95420?style=flat-square&logo=ubuntu)](https://docs.rbln.ai/supports/version_matrix.html)
+[![rhel](https://img.shields.io/badge/RHEL-9.4%20%7C%209.6-EE0000?style=flat-square&logo=redhat)](https://docs.rbln.ai/supports/version_matrix.html)
+[![support](https://img.shields.io/badge/NPU-Support%20Matrix-10B981?style=flat-square)](https://docs.rbln.ai/supports/version_matrix.html)
 
-## Install Prerequisites
-- General Requirements: Rebellions Compiler
+</div>
 
-    The `rebel-compiler` Python package is required for all workflows involing RBLN NPUs. Please install it before processing. You need an [RBLN portal account](https://docs.rbln.ai/getting_started/installation_guide.html#installation-guide) to install `rebel-compiler`.
-    ```bash
-    pip3 install -i https://pypi.rbln.ai/simple rebel-compiler
-    ```
+---
 
-- HuggingFace Models
-  
-    [Optimum RBLN](https://docs.rbln.ai/software/optimum/optimum_rbln.html) serves as a bridge connecting the HuggingFace `transformers`/`diffusers` libraries to RBLN NPUs. It offers a set of tools that enable easy model compilation and inference for both single and multi-NPU (Rebellions Scalable Design) configurations, across a range of downstream tasks. To install prereuisites for HuggingFace models, navigate to the model's directory and use its requirements.txt:
-    ```bash
-    pip3 install -r <model_directory>/requirements.txt
-    ```
-    For instance:
-    ```bash
-    pip3 install -r huggingface/transformers/question-answering/bert/requirements.txt
-    ```
+## Quick Start
 
-- PyTorch
+```bash
+# Install compiler
+pip install -i https://pypi.rbln.ai/simple rebel-compiler==0.10.2
 
-    Each PyTorch model now includes its own `requirements.txt`. Install the prerequisites for your specific model by navigtating to the relevant directory:
-    ```bash
-    pip3 install -r pytorch/<model_directory>/requirements.txt 
-    ```
+# Navigate to model directory
+cd huggingface/transformers/text2text-generation/llama/llama3.1-8b
 
-- TensorFlow
+# Install dependencies
+pip install -r requirements.txt
 
-    Similarly, TensorFlow models provide a `requirements.txt` in their respective directories. Install prerequisites as follows:
-    ```bash
-    pip3 install -r tensorflow/<model_directory>/requirements.txt
-    ```
+# Compile and run
+python compile.py && python inference.py
+```
 
-- Language Binding
-    - C/C++
+> [!NOTE]
+> The versions pinned above match what this repo was tested with as of **2026-03-27**; a newer stable release may already be available. For current versions and install steps, see the [RBLN installation guide](https://docs.rbln.ai/latest/getting_started/installation_guide.html).
 
-        - The C/C++ API can be installed via the APT repository. Please refer to [C/C++ binding Installation Guide](https://docs.rbln.ai/software/api/language_binding/c/installation.html) for more details.
+> [!TIP]
+> For models that support configuration presets, use `--model_name <preset>` to specify model-specific configurations. See each model's README for available presets.
 
-## Model List
-You can find the complete list of models on our [homepage](https://rebellions.ai/developers/model-zoo) and in the [online documentation](https://docs.rbln.ai/misc/pytorch_modelzoo.html). 
+> [!IMPORTANT]
+> A [RBLN portal account](https://docs.rbln.ai/getting_started/installation_guide.html) is required to install `rebel-compiler` from PyPI.
 
-## Developer Resources
-Explore [RBLN SDK documentation](https://docs.rbln.ai) to access detailed information including:
+---
 
-- Tutorials
-    - [PyTorch: ResNet50](https://docs.rbln.ai/software/api/python/tutorial/basic/pytorch_resnet50.html)
-    - [TensorFlow: BERT-base](https://docs.rbln.ai/software/api/python/tutorial/basic/tensorflow_bert.html)
-    - [HuggingFace transformers: LLama2-7b](https://docs.rbln.ai/software/optimum/tutorial/llama3-8B.html)
-    - [HuggingFace diffusers: SDXL-turbo](https://docs.rbln.ai/software/optimum/tutorial/sdxl_turbo.html)
-    - [C/C++ binding: ResNet50](https://docs.rbln.ai/software/api/language_binding/c/tutorial/image_classification.html)
-    - [C/C++ binding: Yolov8m](https://docs.rbln.ai/software/api/language_binding/c/tutorial/object_detection.html)
-- APIs
-    - [Python Compile & Runtime](https://docs.rbln.ai/software/api/python/python_api.html)
-    - [HuggingFace Model API (optimum-rbln)](https://docs.rbln.ai/software/optimum/model_api/overview.html)
-    - [C/C++ Binding API](https://docs.rbln.ai/software/api/language_binding/c/api.html)
-- [Supported Models](https://docs.rbln.ai/misc/pytorch_modelzoo.html)
-- [Supported Operations](https://docs.rbln.ai/misc/supported_ops_pytorch.html)
-- [Model Serving Guide using Nvidia Triton Inference Server](https://docs.rbln.ai/software/model_serving/nvidia_triton_inference_server/installation.html)
-- [vLLM Support](https://docs.rbln.ai/software/model_serving/vllm_support/vllm-rbln.html)
-- [TorchServe](https://docs.rbln.ai/software/model_serving/torchserve/torchserve.html)
-- [Device Management](https://docs.rbln.ai/software/system_management/device_management.html)
+## Ecosystems & APIs
 
-## Release Notes
-For detailed information on updates and changes, please refer to the [release notes](CHANGELOG.md).
+Select the ecosystem or API for your AI serving workload on RBLN NPUs.
 
-## Getting Help
-If you encounter any problem with the examples provided, please open an issue on GitHub. Our team will assist you as soon as possible.
+### Python
+
+| Ecosystem | # Models | Key packages |
+|-----------|----------|---------------|
+| Hugging Face | 150+ | transformers, diffusers |
+| PyTorch | 250+ | torch |
+| TensorFlow | 75+ | keras, tensorflow |
+
+### Other
+
+**C API** — C/C++ inference bindings. Install via [APT](https://docs.rbln.ai/software/api/language_binding/c/installation.html), then build from source.
+
+---
+
+## Deployment
+
+### vLLM-RBLN
+
+Compile a model from the Model Zoo, then deploy with:
+
+```bash
+# Compile
+python compile.py
+
+# Install vLLM-RBLN
+pip3 install \
+  --extra-index-url https://download.pytorch.org/whl/cpu \
+  --extra-index-url https://wheels.vllm.ai/0.13.0/cpu \
+  vllm-rbln==0.10.2
+```
+
+> [!NOTE]
+> The versions pinned above match what this repo was tested with as of **2026-03-27**; a newer stable release may already be available. For current versions and install steps, see the [RBLN installation guide](https://docs.rbln.ai/latest/getting_started/installation_guide.html).
+
+```python
+# Import
+from vllm import LLM, SamplingParams
+
+# Load model and generate
+llm = LLM(model="Llama-3.1-8B-Instruct")
+out = llm.generate(["Hello"], SamplingParams(max_tokens=64))
+print(out[0].outputs[0].text)
+```
+
+- [vLLM-RBLN](https://docs.rbln.ai/software/model_serving/vllm_support/vllm-rbln.html) — LLM serving on RBLN NPUs
+- [Triton](https://docs.rbln.ai/software/model_serving/nvidia_triton_inference_server/installation.html) — Triton Inference Server
+- [TorchServe](https://docs.rbln.ai/software/model_serving/torchserve/torchserve.html) — PyTorch model serving
+
+---
+
+## Links
+
+- [CHANGELOG](CHANGELOG.md) — Release history
+- [Issues](https://github.com/RBLN-SW/rbln-model-zoo/issues) — Report issues, request features, or request new model support.

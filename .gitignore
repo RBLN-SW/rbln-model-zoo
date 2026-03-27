@@ -5,6 +5,7 @@
 *.log
 *.jpg
 *.png
+!rbln-model-zoo-banner.png
 *.bin
 *.pt
 __pycache__/

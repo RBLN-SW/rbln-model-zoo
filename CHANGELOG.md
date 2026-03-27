@@ -1,6 +1,6 @@
 # Change Log
 
-## February, 26th 2026 (v0.10.1)
+## March, 27th 2026 (v0.10.2)
 
 * Compatible versions:
   * `rebel-compiler`: v0.10.2

@@ -1,5 +1,21 @@
 # Change Log
 
+## March, 27th 2026 (v0.10.2)
+
+* Compatible versions:
+  * `rebel-compiler`: v0.10.2
+  * `optimum-rbln`: v0.10.2
+  * `vllm-rbln`: v0.10.2
+  * `docs.rbln.ai`: v0.10.2
+* **Added new examples**
+  * `image-text-to-text`: **Qwen3-VL-2B, Qwen3-VL-4B, Qwen3-VL-8B**.
+* **Dependency updates**
+  * `torch`: pin to `2.9.1+cpu`
+  * `torchvision`: pin to `0.24.1+cpu`
+  * `torchaudio`: pin to `2.9.1+cpu`
+* **Notes**
+  * Install guide: add `--extra-index-url https://download.pytorch.org/whl/cpu`
+
 ## February, 26th 2026 (v0.10.1)
 
 * Compatible versions:

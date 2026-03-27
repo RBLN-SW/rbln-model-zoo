@@ -1,3 +1,4 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
 tritonclient==2.62.0
 gevent==25.9.1
 geventhttpclient==2.3.5
@@ -5,8 +6,8 @@ fire==0.7.1
 opencv-python>=4.9.0.80
 matplotlib>=3.8.0
 scipy>=1.11.4
-torch==2.9.0
-torchvision==0.24.0
+torch==2.9.1+cpu
+torchvision==0.24.1+cpu
 opencv-python-headless>=4.11.0
 pyyaml>=6.0.1
 requests==2.32.3

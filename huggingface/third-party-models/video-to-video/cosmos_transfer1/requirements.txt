@@ -1,3 +1,4 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
 addict==2.4.0
 attr==0.3.2
 attrs==25.3.0

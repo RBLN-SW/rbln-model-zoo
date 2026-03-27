@@ -1,2 +1,3 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
 optimum-rbln
 cosmos-guardrail @ git+https://github.com/codeJRV/cosmos-guardrail.git@9302bc5160f8859c48fe7f542a2a709d813f7900

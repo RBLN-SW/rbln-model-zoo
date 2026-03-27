@@ -1,7 +1,7 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.join(sys.path[0], 'colpali'))
+sys.path.insert(0, os.path.join(sys.path[0], "colpali"))
 
 import torch
 from colpali.colpali_engine.models import ColPaliProcessor

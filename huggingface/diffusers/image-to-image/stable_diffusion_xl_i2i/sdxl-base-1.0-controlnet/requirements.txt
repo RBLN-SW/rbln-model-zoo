@@ -1,3 +1,4 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
 optimum-rbln
 opencv-python>=4.9.0.80
 opencv-python-headless>=4.11.0

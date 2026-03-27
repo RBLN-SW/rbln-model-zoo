@@ -1,3 +1,4 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
 optimum-rbln
 huggingface-hub>=0.23.0
 sentence-transformers==3.4.1

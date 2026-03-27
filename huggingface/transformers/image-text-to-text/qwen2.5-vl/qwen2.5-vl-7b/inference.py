@@ -1,8 +1,30 @@
+import atexit
 import os
+import tempfile
+import urllib.parse
+import urllib.request
+from contextlib import suppress
 
 from optimum.rbln import RBLNAutoModelForVision2Seq
 from qwen_vl_utils import process_vision_info
 from transformers import AutoProcessor
+
+
+def _cleanup_tmpfile(path: str) -> None:
+    with suppress(OSError):
+        os.unlink(path)
+
+
+def _video_url_to_local_path(url: str) -> str:
+    """Download URL to a temp file for video decoding."""
+    if not url.strip().lower().startswith(("http://", "https://")):
+        return url
+    suffix = os.path.splitext(urllib.parse.urlparse(url).path)[1] or ".mp4"
+    fd, path = tempfile.mkstemp(suffix=suffix)
+    os.close(fd)
+    atexit.register(_cleanup_tmpfile, path)
+    urllib.request.urlretrieve(url, path)
+    return path
 
 
 def main():
@@ -24,14 +46,15 @@ def main():
     )
 
     # Messages containing a video url and a text query
+    video_url = (
+        "https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen2-VL/space_woaudio.mp4"
+    )
+    video_path = _video_url_to_local_path(video_url)
     messages = [
         {
             "role": "user",
             "content": [
-                {
-                    "type": "video",
-                    "video": "https://qianwen-res.oss-cn-beijing.aliyuncs.com/Qwen2-VL/space_woaudio.mp4",
-                },
+                {"type": "video", "video": video_path},
                 {"type": "text", "text": "Describe this video."},
             ],
         }

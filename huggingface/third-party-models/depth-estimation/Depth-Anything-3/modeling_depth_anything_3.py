@@ -51,66 +51,6 @@ if TYPE_CHECKING:
     )
 
 
-def _patched_dualdpt_forward(
-    self,
-    feats: List[torch.Tensor],
-    H: int,
-    W: int,
-    patch_start_idx: int,
-) -> dict:
-    """DualDPT forward using f[..., -1:].squeeze(-1) for conf to avoid RBLN-incompatible take."""
-    B, _, C = feats[0].shape
-    ph, pw = H // self.patch_size, W // self.patch_size
-    resized = []
-    for i, k in enumerate(self.intermediate_layer_idx):
-        x = (
-            self.norm(feats[k][:, patch_start_idx:])
-            .permute(0, 2, 1)
-            .reshape(B, C, ph, pw)
-        )
-        x = self.projects[i](x)
-        if self.pos_embed:
-            x = self._add_pos_embed(x, W, H)
-        resized.append(self.resize_layers[i](x))
-
-    fused_main, fused_aux_pyr = self._fuse(resized)
-    h, w = (
-        int(ph * self.patch_size / self.down_ratio),
-        int(pw * self.patch_size / self.down_ratio),
-    )
-    fused_main = custom_interpolate(
-        fused_main, (h, w), mode="bilinear", align_corners=True
-    )
-    if self.pos_embed:
-        fused_main = self._add_pos_embed(fused_main, W, H)
-
-    def apply_conf_channel(f: torch.Tensor) -> torch.Tensor:
-        return self._apply_activation_single(
-            f[..., -1:].squeeze(-1), self.conf_activation
-        )
-
-    fmap = self.scratch.output_conv2(fused_main).permute(0, 2, 3, 1)
-    main_pred = self._apply_activation_single(fmap[..., :-1], self.activation)
-    main_conf = apply_conf_channel(fmap)
-
-    last_aux = fused_aux_pyr[-1]
-    if self.pos_embed:
-        last_aux = self._add_pos_embed(last_aux, W, H)
-    fmap_last = self.scratch.output_conv2_aux[-1](last_aux).permute(0, 2, 3, 1)
-    aux_pred = self._apply_activation_single(fmap_last[..., :-1], "linear")
-    aux_conf = apply_conf_channel(fmap_last)
-
-    return {
-        self.head_main: main_pred.squeeze(-1),
-        f"{self.head_main}_conf": main_conf,
-        self.head_aux: aux_pred,
-        f"{self.head_aux}_conf": aux_conf,
-    }
-
-
-DualDPT._forward_impl = _patched_dualdpt_forward
-
-
 class DinoV2BackboneWrapper(nn.Module):
     """Wraps DinoV2 ViT with precomputed RoPE and key_valid masking for RBLN compile.
 

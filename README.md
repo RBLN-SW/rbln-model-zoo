@@ -35,7 +35,7 @@ python compile.py && python inference.py
 ```
 
 > [!NOTE]
-> The versions pinned above match what this repo was tested with on **March 27, 2026**; a newer stable release may already be available. For current versions and install steps, see the [RBLN installation guide](https://docs.rbln.ai/latest/getting_started/installation_guide.html).
+> The versions pinned above match what this repo was tested with as of **2026-03-27**; a newer stable release may already be available. For current versions and install steps, see the [RBLN installation guide](https://docs.rbln.ai/latest/getting_started/installation_guide.html).
 
 > [!TIP]
 > For models that support configuration presets, use `--model_name <preset>` to specify model-specific configurations. See each model's README for available presets.
@@ -81,7 +81,7 @@ pip3 install \
 ```
 
 > [!NOTE]
-> The versions pinned above match what this repo was tested with on **March 27, 2026**; a newer stable release may already be available. For current versions and install steps, see the [RBLN installation guide](https://docs.rbln.ai/latest/getting_started/installation_guide.html).
+> The versions pinned above match what this repo was tested with as of **2026-03-27**; a newer stable release may already be available. For current versions and install steps, see the [RBLN installation guide](https://docs.rbln.ai/latest/getting_started/installation_guide.html).
 
 ```python
 # Import

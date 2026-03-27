@@ -34,6 +34,8 @@ pip install -r requirements.txt
 python compile.py && python inference.py
 ```
 
+> **Version note:** The versions pinned above match what this repo was tested with on **March 27, 2026**; a newer stable release may already be available. For up-to-date versions and install steps, see the [RBLN installation guide](https://docs.rbln.ai/latest/getting_started/installation_guide.html).
+
 > For models that support configuration presets, use `--model_name <preset>` to specify model-specific configurations. See each model's README for available presets.
 
 > A [RBLN portal account](https://docs.rbln.ai/getting_started/installation_guide.html) is required to install rebel-compiler from PyPI.
@@ -74,6 +76,8 @@ pip3 install \
   --extra-index-url https://wheels.vllm.ai/0.13.0/cpu \
   vllm-rbln==0.10.2
 ```
+
+> **Version note:** The versions pinned above match what this repo was tested with on **March 27, 2026**; a newer stable release may already be available. For up-to-date versions and install steps, see the [RBLN installation guide](https://docs.rbln.ai/latest/getting_started/installation_guide.html).
 
 ```python
 # Import

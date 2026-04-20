@@ -1,5 +1,32 @@
 #include "llama_class_example.hpp"
+
+#include <cstdlib>
 #include <iostream>
+
+namespace {
+
+[[noreturn]] void FailWithLastRblnError(const char *step) {
+  std::cerr << "[rbln error] " << step;
+  const char *detail = rbln_get_last_error_msg();
+  if (detail != nullptr && detail[0] != '\0')
+    std::cerr << ": " << detail;
+  std::cerr << std::endl;
+  std::exit(EXIT_FAILURE);
+}
+
+template <typename T>
+T *CheckNonNull(T *ptr, const char *step) {
+  if (ptr == nullptr)
+    FailWithLastRblnError(step);
+  return ptr;
+}
+
+void CheckRc(RBLNRetCode rc, const char *step) {
+  if (rc != RBLNRetCode_SUCCESS)
+    FailWithLastRblnError(step);
+}
+
+} // namespace
 
 int WriteToFile(const std::string &filePath, const void *data,
                 uint32_t data_len) {
@@ -52,18 +79,24 @@ void LLamaClass::ForwardPrefill() {
       }
 
       // Set inputs for the model runtime
-      rbln_set_input(prefill_rt_, 0, sliced_input_tensors.GetData());
-      rbln_set_input(prefill_rt_, 1, sliced_cache_positions.GetData());
-      rbln_set_input(prefill_rt_, 2, block_tables.GetData());
-      rbln_set_input(prefill_rt_, 3, query_position.GetData());
+      CheckRc(rbln_set_input(prefill_rt_, 0, sliced_input_tensors.GetData()),
+              "rbln_set_input(prefill, input_ids)");
+      CheckRc(rbln_set_input(prefill_rt_, 1, sliced_cache_positions.GetData()),
+              "rbln_set_input(prefill, cache_position)");
+      CheckRc(rbln_set_input(prefill_rt_, 2, block_tables.GetData()),
+              "rbln_set_input(prefill, block_tables)");
+      CheckRc(rbln_set_input(prefill_rt_, 3, query_position.GetData()),
+              "rbln_set_input(prefill, query_position)");
 
       // Run the model
-      rbln_run(prefill_rt_);
+      CheckRc(rbln_run(prefill_rt_), "rbln_run(prefill)");
 
       // Get output logits and convert to tensor
-      void *logit = static_cast<float *>(rbln_get_output(prefill_rt_, 0));
+      void *logit =
+          CheckNonNull(rbln_get_output(prefill_rt_, 0), "rbln_get_output(prefill, 0)");
       auto layout = rbln_get_output_layout(prefill_rt_, 0);
-      output_logits_ = Tensor<float>(logit, layout->shape[1], layout->shape[2]);
+      output_logits_ =
+          Tensor<float>(static_cast<float *>(logit), layout->shape[1], layout->shape[2]);
     }
   }
 
@@ -100,15 +133,19 @@ void LLamaClass::ForwardDecode() {
   }
 
   // Set inputs for decoder runtime
-  rbln_set_input(dec_rt_, 0, dec_input_tensors.GetData());  
-  rbln_set_input(dec_rt_, 1, dec_cache_position.GetData());
-  rbln_set_input(dec_rt_, 2, block_tables.GetData());
+  CheckRc(rbln_set_input(dec_rt_, 0, dec_input_tensors.GetData()),
+          "rbln_set_input(decode, input_ids)");
+  CheckRc(rbln_set_input(dec_rt_, 1, dec_cache_position.GetData()),
+          "rbln_set_input(decode, cache_position)");
+  CheckRc(rbln_set_input(dec_rt_, 2, block_tables.GetData()),
+          "rbln_set_input(decode, block_tables)");
 
   // Run the decoder
-  rbln_run(dec_rt_);
+  CheckRc(rbln_run(dec_rt_), "rbln_run(decode)");
 
   // Get output logits from the decoder
-  float *dec_logit = static_cast<float *>(rbln_get_output(dec_rt_, 0));
+  float *dec_logit = static_cast<float *>(
+      CheckNonNull(rbln_get_output(dec_rt_, 0), "rbln_get_output(decode, 0)"));
   auto dec_layout = rbln_get_output_layout(dec_rt_, 0);
   // Convert output to tensor format
   output_logits_ =
@@ -165,12 +202,19 @@ void LLamaClass::DeInit() {
 
 void LLamaClass::Prepare() {
   // Create prefill/decoder model
-  prefill_mdl_ = rbln_create_model(prefill_id_.c_str());
-  dec_mdl_ = rbln_create_model(dec_id_.c_str());
+  prefill_mdl_ =
+      CheckNonNull(rbln_create_model(prefill_id_.c_str()),
+                   "rbln_create_model(prefill)");
+  dec_mdl_ = CheckNonNull(rbln_create_model(dec_id_.c_str()),
+                         "rbln_create_model(decode)");
 
   // Create prefill/decoder runtime
-  prefill_rt_ = rbln_create_runtime(prefill_mdl_, nullptr, 0, 0);
-  dec_rt_ = rbln_create_runtime(dec_mdl_, nullptr, 0, 0);
+  prefill_rt_ = CheckNonNull(
+      rbln_create_runtime(prefill_mdl_, nullptr, 0, 0),
+      "rbln_create_runtime(prefill)");
+  dec_rt_ =
+      CheckNonNull(rbln_create_runtime(dec_mdl_, nullptr, 0, 0),
+                   "rbln_create_runtime(decode)");
 }
 
 void LLamaClass::GenerateBinary() {

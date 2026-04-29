@@ -3,4 +3,4 @@ datasets>=2.19.1
 optimum-rbln
 soundfile>=0.13.1
 librosa>=0.11.0
-torchcodec==0.9.1
+torchcodec==0.10.0

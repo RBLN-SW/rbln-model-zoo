@@ -73,3 +73,9 @@
 [submodule "huggingface/third-party-models/depth-estimation/Depth-Anything-3/Depth-Anything-3"]
 	path = huggingface/third-party-models/depth-estimation/Depth-Anything-3/Depth-Anything-3
 	url = https://github.com/ByteDance-Seed/Depth-Anything-3
+[submodule "huggingface/third-party-models/3d-mesh-reconstruction/stable-fast-3d"]
+	path = huggingface/third-party-models/3d-mesh-reconstruction/stable-fast-3d/stable-fast-3d
+	url = https://github.com/Stability-AI/stable-fast-3d.git
+[submodule "huggingface/third-party-models/3d-mesh-reconstruction/triposr/TripoSR"]
+	path = huggingface/third-party-models/3d-mesh-reconstruction/triposr/TripoSR
+	url = https://github.com/VAST-AI-Research/TripoSR.git

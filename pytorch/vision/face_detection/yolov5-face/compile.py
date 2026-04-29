@@ -35,7 +35,7 @@ def main():
     model_name = args.model_name
 
     # Get official pretrained weight from google drive
-    gdown.download(url=pt_file_urls[model_name], output=f"{model_name}.pt", fuzzy=True)
+    gdown.download(url=pt_file_urls[model_name], output=f"{model_name}.pt")
 
     # Override torch.load to set weights_only=False (default is True in PyTorch 2.6).
     with patch("torch.load", partial(torch.load, weights_only=False)):

@@ -1,0 +1,18 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+einops==0.8.1
+gpytoolbox>=0.3.7
+huggingface-hub>=0.23.0
+jaxtyping>=0.2.31
+omegaconf>=2.3.0
+open_clip_torch>=2.24.0
+numpy>=2.0.2
+onnxruntime==1.22.1
+pillow>=10.2.0
+pynanoinstantmeshes>=0.0.3
+rembg>=2.0.57
+safetensors>=0.4.0
+transformers==4.57.6
+tqdm>=4.66.0
+trimesh>=4.11.2
+uv_unwrapper @ git+https://github.com/Stability-AI/stable-fast-3d.git@08f26ddfeeab891b91bb4f586b2e328e3ef5f2e0#subdirectory=uv_unwrapper
+texture_baker @ git+https://github.com/Stability-AI/stable-fast-3d.git@08f26ddfeeab891b91bb4f586b2e328e3ef5f2e0#subdirectory=texture_baker

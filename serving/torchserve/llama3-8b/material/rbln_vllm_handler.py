@@ -1,4 +1,3 @@
-import asyncio
 import logging
 import os
 import pathlib
@@ -8,14 +7,14 @@ from unittest.mock import MagicMock
 from ts.handler_utils.utils import send_intermediate_predict_response
 from ts.service import PredictionException
 from ts.torch_handler.base_handler import BaseHandler
-from vllm.entrypoints.openai.protocol import (
-    ChatCompletionRequest,
-    CompletionRequest,
-    ErrorResponse,
-)
-from vllm.entrypoints.openai.serving_chat import OpenAIServingChat
-from vllm.entrypoints.openai.serving_completion import OpenAIServingCompletion
-from vllm.entrypoints.openai.serving_models import BaseModelPath, OpenAIServingModels
+from vllm.entrypoints.openai.chat_completion.protocol import ChatCompletionRequest
+from vllm.entrypoints.openai.chat_completion.serving import OpenAIServingChat
+from vllm.entrypoints.openai.completion.protocol import CompletionRequest
+from vllm.entrypoints.openai.completion.serving import OpenAIServingCompletion
+from vllm.entrypoints.openai.engine.protocol import ErrorResponse
+from vllm.entrypoints.openai.models.protocol import BaseModelPath
+from vllm.entrypoints.openai.models.serving import OpenAIServingModels
+from vllm.entrypoints.serve.render.serving import OpenAIServingRender
 
 from vllm import AsyncEngineArgs, AsyncLLMEngine
 
@@ -55,10 +54,6 @@ class RBLN_VLLMHandler(BaseHandler):
             "chat_template", None
         )
 
-        loop = asyncio.get_event_loop()
-        model_config = loop.run_until_complete(self.vllm_engine.get_model_config())
-
-        # vllm v0.7.0 competible
         base_model_paths = [
             BaseModelPath(name=name, model_path=self.model_dir)
             for name in served_model_names
@@ -66,24 +61,34 @@ class RBLN_VLLMHandler(BaseHandler):
 
         self.openai_serving_models = OpenAIServingModels(
             engine_client=self.vllm_engine,
-            model_config=model_config,
             base_model_paths=base_model_paths,
+        )
+
+        openai_serving_render = OpenAIServingRender(
+            model_config=self.vllm_engine.model_config,
+            renderer=self.vllm_engine.renderer,
+            io_processor=self.vllm_engine.io_processor,
+            model_registry=self.openai_serving_models.registry,
+            request_logger=None,
+            chat_template=chat_template,
+            chat_template_content_format="auto",
         )
 
         self.completion_service = OpenAIServingCompletion(
             self.vllm_engine,
-            model_config,
             self.openai_serving_models,
+            openai_serving_render=openai_serving_render,
             request_logger=None,
         )
 
         self.chat_completion_service = OpenAIServingChat(
             self.vllm_engine,
-            model_config,
             self.openai_serving_models,
             "assistant",
+            openai_serving_render=openai_serving_render,
             request_logger=None,
             chat_template=chat_template,
+            chat_template_content_format="auto",
         )
 
         async def isd():
@@ -123,7 +128,7 @@ class RBLN_VLLMHandler(BaseHandler):
         url_path = context.get_request_header(0, "url_path")
 
         if url_path == "v1/models":
-            models = await self.chat_completion_service.show_available_models()
+            models = await self.openai_serving_models.show_available_models()
             return [models.model_dump()]
 
         directory = {

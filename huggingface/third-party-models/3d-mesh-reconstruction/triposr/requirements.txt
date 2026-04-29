@@ -1,0 +1,13 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+einops==0.8.1
+huggingface-hub>=0.23.0
+numpy>=2.0.2
+omegaconf>=2.3.0
+onnxruntime==1.22.1
+pillow>=10.2.0
+rembg>=2.0.57
+safetensors>=0.4.0
+transformers==4.57.6
+trimesh>=4.11.2
+tqdm>=4.66.0
+torchmcubes @ git+https://github.com/tatsy/torchmcubes.git@b4b0c723f58e6cf53e9aedaea63ed842805b6b83

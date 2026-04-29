@@ -7,14 +7,17 @@ from fastapi import FastAPI, HTTPException
 from ray import serve
 from starlette.requests import Request
 from starlette.responses import StreamingResponse
-from vllm.entrypoints.openai.protocol import (
+from vllm.entrypoints.openai.chat_completion.protocol import (
     ChatCompletionRequest,
-    CompletionRequest,
-    ErrorResponse,
+    ChatCompletionResponse,
 )
-from vllm.entrypoints.openai.serving_chat import OpenAIServingChat
-from vllm.entrypoints.openai.serving_completion import OpenAIServingCompletion
-from vllm.entrypoints.openai.serving_models import BaseModelPath, OpenAIServingModels
+from vllm.entrypoints.openai.chat_completion.serving import OpenAIServingChat
+from vllm.entrypoints.openai.completion.protocol import CompletionRequest
+from vllm.entrypoints.openai.completion.serving import OpenAIServingCompletion
+from vllm.entrypoints.openai.engine.protocol import ErrorResponse
+from vllm.entrypoints.openai.models.protocol import BaseModelPath
+from vllm.entrypoints.openai.models.serving import OpenAIServingModels
+from vllm.entrypoints.serve.render.serving import OpenAIServingRender
 
 from vllm import AsyncEngineArgs, AsyncLLMEngine
 
@@ -70,24 +73,33 @@ class Llama3_1__8B:
 
         self.openai_serving_models = OpenAIServingModels(
             engine_client=self.vllm_engine,
-            model_config=self.vllm_engine.vllm_config.model_config,
             base_model_paths=[
                 BaseModelPath(name=self.model_name, model_path=os.getcwd())
             ],
         )
 
+        openai_serving_render = OpenAIServingRender(
+            model_config=self.vllm_engine.model_config,
+            renderer=self.vllm_engine.renderer,
+            io_processor=self.vllm_engine.io_processor,
+            model_registry=self.openai_serving_models.registry,
+            request_logger=None,
+            chat_template=None,
+            chat_template_content_format="auto",
+        )
+
         self.completion_service = OpenAIServingCompletion(
             self.vllm_engine,
-            self.vllm_engine.vllm_config.model_config,
             self.openai_serving_models,
+            openai_serving_render=openai_serving_render,
             request_logger=None,
         )
 
         self.chat_completion_service = OpenAIServingChat(
             self.vllm_engine,
-            self.vllm_engine.vllm_config.model_config,
             self.openai_serving_models,
             "assistant",
+            openai_serving_render=openai_serving_render,
             request_logger=None,
             chat_template_content_format="auto",
             chat_template=None,

@@ -18,7 +18,7 @@ def main():
         rbln_config={
             "visual": {
                 # The `device` parameter specifies which device should be used for each submodule during runtime.
-                "device": 8,
+                "device": [0, 1, 2, 3, 4, 5, 6, 7],
             },
             "device": [0, 1, 2, 3, 4, 5, 6, 7],
         },

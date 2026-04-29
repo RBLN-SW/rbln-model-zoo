@@ -20,6 +20,7 @@ def main():
                 # per image or video frame, so set `max_seq_len` to match the maximum expected
                 # resolution to reduce computation.
                 "max_seq_lens": 16384,
+                "tensor_parallel_size": 8,
                 "create_runtimes": False,
             },
             "tensor_parallel_size": 8,

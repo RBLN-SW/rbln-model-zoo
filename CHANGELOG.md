@@ -1,5 +1,24 @@
 # Change Log
 
+## April, 29th 2026 (v0.10.3)
+
+* Compatible versions:
+  * `rebel-compiler`: v0.10.3
+  * `optimum-rbln`: v0.10.3
+  * `vllm-rbln`: v0.10.3
+  * `docs.rbln.ai`: v0.10.3
+* **Added new examples**
+  * `3D mesh reconstruction` (new task area): **TripoSR, Stable-Fast-3D**.
+  * `image-text-to-text`: **Qwen3-VL-30B-A3B (MoE), Qwen3-VL-32B**.
+* **Dependency updates**
+  * `torch`: pin to `2.10.0+cpu`
+  * `torchvision`: pin to `0.25.0+cpu`
+  * `transformers`: bump to `4.57.6`
+  * vLLM wheels index: `0.13.0/cpu` → `0.18.0/cpu` (Ray Serve / TorchServe llama3 examples)
+* **Notes**
+  * vLLM serving examples (rayserve / torchserve `llama3-8b`, `llama3.1-8b`) updated to the **vLLM 0.18 entrypoints layout** (`vllm.entrypoints.openai.{chat_completion,completion,models,engine}.{protocol,serving}`).
+  * C++ `cpp/text_generation/llama_class_example.cc`: introduces `check_success` / `check_nonnull` helpers for safer rebel-runtime error handling.
+
 ## March, 27th 2026 (v0.10.2)
 
 * Compatible versions:

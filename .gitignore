@@ -6,6 +6,7 @@
 *.jpg
 *.png
 !rbln-model-zoo-banner.png
+!rbln-model-zoo-banner-light.png
 *.bin
 *.pt
 __pycache__/

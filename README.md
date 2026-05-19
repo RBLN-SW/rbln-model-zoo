@@ -1,6 +1,9 @@
 <div align="center">
 
-<img src="rbln-model-zoo-banner.png" alt="RBLN Model Zoo" width="600">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="rbln-model-zoo-banner.png">
+  <img alt="RBLN Model Zoo" src="rbln-model-zoo-banner-light.png" width="600">
+</picture>
 
 *500+ models · Compile once, run anywhere · AI model serving on RBLN NPUs*
 

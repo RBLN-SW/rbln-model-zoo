@@ -9,8 +9,6 @@
   * `docs.rbln.ai`: v0.10.4
 * **Added new examples**
   * `pose_estimation` (new PyTorch task area): **YOLOv8-pose**, **YOLOv11-pose** (each ships with an `ultralytics` submodule).
-* **Tooling**
-  * New `rbln_zoo` CLI module (`__main__`, `cli`, `registry`, `config`, `args_inspector`) + `model_registry.yaml` + consolidated top-level `pyproject.toml` (`consolidated-reqs`) — registry-driven inspector / runner entrypoints for the zoo.
 * **Fixes**
   * `cosmos-guardrail` git source: dead `codeJRV/cosmos-guardrail` repo → `rebel-seinpark/cosmos-guardrail` fork pinned to `86d24a8f4303f9f55d553f61be07d0e579cc26ec`. Applied to **cosmos-predict1-7b / cosmos-predict1-14b** (text-to-video & video-to-video) and **cosmos_transfer1**.
   * VLM `compile`/`inference` arg name: `max_seq_lens` → `max_seq_len` (Visual config). Touches **Qwen2-VL-7B**, **Qwen2.5-VL-7B**, **Qwen3-VL-2B/4B/8B/30B-A3B/32B**, **Cosmos-Reason1**, **ColQwen2**, **ColQwen2.5**.

@@ -58,6 +58,9 @@
 [submodule "pytorch_dynamo/vision/detection/yolov3/ultralytics"]
 	path = pytorch_dynamo/vision/detection/yolov3/ultralytics
 	url = https://github.com/ultralytics/ultralytics.git
+[submodule "pytorch/vision/pose_estimation/yolov8/ultralytics"]
+	path = pytorch/vision/pose_estimation/yolov8/ultralytics
+	url = https://github.com/ultralytics/ultralytics.git
 [submodule "huggingface/third-party-models/video-to-video/cosmos_transfer1/cosmos-transfer1"]
 	path = huggingface/third-party-models/video-to-video/cosmos_transfer1/cosmos-transfer1
 	url = https://github.com/nvidia-cosmos/cosmos-transfer1.git
@@ -79,3 +82,6 @@
 [submodule "huggingface/third-party-models/3d-mesh-reconstruction/triposr/TripoSR"]
 	path = huggingface/third-party-models/3d-mesh-reconstruction/triposr/TripoSR
 	url = https://github.com/VAST-AI-Research/TripoSR.git
+[submodule "pytorch/vision/pose_estimation/yolov11/ultralytics"]
+	path = pytorch/vision/pose_estimation/yolov11/ultralytics
+	url = https://github.com/ultralytics/ultralytics.git

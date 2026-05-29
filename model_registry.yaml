@@ -1,0 +1,32 @@
+# Model Registry — Card Type Support
+#
+# Card names follow the official product matrix:
+#   https://docs.rbln.ai/latest/supports/version_matrix.html
+#
+# Each card may declare `aliases:` — alternative names accepted by the
+# CLI's `--card` filter. Matching is case-insensitive, so for example
+#   rbln-zoo list --card rbln-ca25
+# resolves to RBLN-CA25.
+#
+# All existing models default to every card listed in `default_cards`.
+# Add per-model overrides below when support differs from the default.
+
+cards:
+  RBLN-CA22:
+    description: "ATOM™+"
+  RBLN-CA25:
+    description: "ATOM™-Max"
+
+default_cards: [RBLN-CA22, RBLN-CA25]
+
+# Per-model overrides (only needed when supported cards differ from
+# the default set above).
+#
+# Example:
+#
+# overrides:
+#   huggingface/transformers/.../model-a:
+#     cards: [RBLN-CA25]                  # CA25 only
+#   huggingface/transformers/.../model-b:
+#     cards: [RBLN-CA22]
+overrides: {}

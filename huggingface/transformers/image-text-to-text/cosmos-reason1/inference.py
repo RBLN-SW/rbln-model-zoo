@@ -55,7 +55,7 @@ def main():
         return_tensors="pt",
         # Minimum and maximum pixel constraints for image or video processing, defined as patch counts.
         # Example: Set min_pixels and max_pixels to a patch range of 1024 to 5120 to balance performance and computational cost.
-        # The max_pixels setting is closely tied to the visual model's max_seq_lens, as it determines the maximum number of patches processed.
+        # The max_pixels setting is closely tied to the visual model's max_seq_len, as it determines the maximum number of patches processed.
         min_pixels=1024
         * 14
         * 14,  # Minimum resolution in pixels (e.g., 1024 patches at patch size 14).

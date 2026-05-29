@@ -17,7 +17,7 @@ def main():
             "vlm": {
                 "visual": {
                     # Max sequence length for Vision Transformer (ViT), representing the number of patches in an image.
-                    "max_seq_lens": 6400,
+                    "max_seq_len": 6400,
                 },
                 "tensor_parallel_size": 4,
                 # Max position embedding for the language model, must be a multiple of kvcache_partition_len.

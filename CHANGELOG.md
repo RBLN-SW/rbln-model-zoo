@@ -1,5 +1,25 @@
 # Change Log
 
+## May, 29th 2026 (v0.10.4)
+
+* Compatible versions:
+  * `rebel-compiler`: v0.10.4
+  * `optimum-rbln`: v0.10.4
+  * `vllm-rbln`: v0.10.4
+  * `docs.rbln.ai`: v0.10.4
+* **Added new examples**
+  * `pose_estimation` (new PyTorch task area): **YOLOv8-pose**, **YOLOv11-pose** (each ships with an `ultralytics` submodule).
+* **Tooling**
+  * New `rbln_zoo` CLI module (`__main__`, `cli`, `registry`, `config`, `args_inspector`) + `model_registry.yaml` + consolidated top-level `pyproject.toml` (`consolidated-reqs`) — registry-driven inspector / runner entrypoints for the zoo.
+* **Fixes**
+  * `cosmos-guardrail` git source: dead `codeJRV/cosmos-guardrail` repo → `rebel-seinpark/cosmos-guardrail` fork pinned to `86d24a8f4303f9f55d553f61be07d0e579cc26ec`. Applied to **cosmos-predict1-7b / cosmos-predict1-14b** (text-to-video & video-to-video) and **cosmos_transfer1**.
+  * VLM `compile`/`inference` arg name: `max_seq_lens` → `max_seq_len` (Visual config). Touches **Qwen2-VL-7B**, **Qwen2.5-VL-7B**, **Qwen3-VL-2B/4B/8B/30B-A3B/32B**, **Cosmos-Reason1**, **ColQwen2**, **ColQwen2.5**.
+  * `yolov3` / `yolov5` / `yolov6` detection (and `pytorch_dynamo` variants): pin `setuptools<81` to keep `pkg_resources` available.
+  * `motionbert` (action-recognition / pose-estimation): trim `requirements.txt` to entry-reachable deps.
+* **Notes**
+  * `cosmos_transfer1` compile/inference: support `RBLN_CKPT_DIR` env var to override the preset `checkpoint_dir`.
+  * `.gitmodules`: new submodules for `pytorch/vision/pose_estimation/{yolov8,yolov11}/ultralytics`.
+
 ## April, 29th 2026 (v0.10.3)
 
 * Compatible versions:

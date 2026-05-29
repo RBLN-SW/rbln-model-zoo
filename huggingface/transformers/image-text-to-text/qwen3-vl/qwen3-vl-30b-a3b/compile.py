@@ -19,7 +19,7 @@ def main():
                 # (224/16/2) * (224/16/2) = 49 merged patches. RBLN optimization runs inference
                 # per image or video frame, so set `max_seq_len` to match the maximum expected
                 # resolution to reduce computation.
-                "max_seq_lens": 16384,
+                "max_seq_len": 16384,
                 "tensor_parallel_size": 8,
                 "create_runtimes": False,
             },

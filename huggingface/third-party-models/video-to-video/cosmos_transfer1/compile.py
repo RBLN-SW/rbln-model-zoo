@@ -1,5 +1,6 @@
 import argparse
 import importlib.util
+import os
 import sys
 from contextlib import contextmanager
 from pathlib import Path
@@ -11,6 +12,7 @@ import yaml
 PRESET_CONFIG_REL_PATH = "configs/preset.yaml"
 IMPL_PREFIX = "compile_"
 IMPL_SUFFIX = "_impl.py"
+CKPT_DIR_ENV = "RBLN_CKPT_DIR"
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -32,8 +34,10 @@ def _load_preset_config(path: Path) -> dict[str, Any]:
     if not path.is_file():
         return {}
     with path.open("r", encoding="utf-8") as f:
-        data = yaml.safe_load(f) or {}
-    return dict(data)
+        cfg: dict[str, Any] = dict(yaml.safe_load(f) or {})
+    if ckpt := os.environ.get(CKPT_DIR_ENV):
+        cfg.setdefault("defaults", {})["checkpoint_dir"] = ckpt
+    return cfg
 
 
 PRESET_CFG: dict[str, Any] = _load_preset_config(BASE_DIR / PRESET_CONFIG_REL_PATH)

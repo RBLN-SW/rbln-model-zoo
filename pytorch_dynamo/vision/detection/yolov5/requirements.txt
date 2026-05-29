@@ -5,3 +5,4 @@ scipy>=1.11.4
 torch==2.10.0+cpu
 torchvision==0.25.0+cpu
 ultralytics==8.3.33
+setuptools<81

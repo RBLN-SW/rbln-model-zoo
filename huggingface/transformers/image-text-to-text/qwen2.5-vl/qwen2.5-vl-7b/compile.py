@@ -20,7 +20,7 @@ def main():
                 # For window-based attention, max_seq_len must be a multiple of (window_size / patch_size)^2, e.g., (112/14)^2 = 64.
                 # Hence, 256 (64 * 4) is valid. RBLN optimization processes inference per image or video frame, so set max_seq_len to
                 # match the maximum expected resolution to optimize computation.
-                "max_seq_lens": 6400,
+                "max_seq_len": 6400,
             },
             "tensor_parallel_size": 8,
             "kvcache_partition_len": 16_384,

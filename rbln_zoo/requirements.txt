@@ -1,0 +1,4 @@
+typer>=0.9.0
+rich>=13.0.0
+PyYAML>=6.0.3
+tomli>=2.0; python_version<'3.11'

@@ -12,9 +12,6 @@ from ultralytics.nn.modules.head import Pose
 
 
 def _kpts_decode_traceable(self, bs, kpts):
-    # Decode keypoints with view + fixed-dim select + stack so the whole
-    # post-head transform stays on the NPU instead of falling back to
-    # host scatter_elements/strided_slice TVM ops.
     nkpt, ndim = self.kpt_shape
     n = kpts.shape[-1]
     y = kpts.view(bs, nkpt, ndim, n)

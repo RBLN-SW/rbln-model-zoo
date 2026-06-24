@@ -23,7 +23,7 @@
   * Serving: vLLM serving examples updated to vLLM 0.22.0.
   * Result output: `--- X ---` banners replaced with inline f-string labels (~80 scripts).
 * **Removed**
-  * `pytorch/nlp/bge`, `cpp/text_generation`.
+  * `pytorch/nlp/bge` (use the Hugging Face Transformers BGE-M3 examples instead), `tensorflow/nlp/bert`, `cpp/text_generation`.
 
 ## May, 29th 2026 (v0.10.4)
 

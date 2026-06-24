@@ -16,7 +16,7 @@
   * `torch`: `2.10.0+cpu` → `2.11.0+cpu`
   * `torchvision`: `0.25.0+cpu` → `0.26.0+cpu`
   * `torchaudio`: `2.10.0+cpu` → `2.11.0+cpu`
-  * `torchcodec`: new → `0.11.0+cpu` (Transformers v5 video decoding)
+  * `torchcodec`: `0.10.0` → `0.11.0+cpu` (Transformers v5 video decoding)
 * **Changes**
   * Renamed `tensor_parallel_size` → `num_devices` across examples (deprecated alias retained).
   * Cosmos: device map, Qwen3Guard guardrail, and Mistral upsampler updates.

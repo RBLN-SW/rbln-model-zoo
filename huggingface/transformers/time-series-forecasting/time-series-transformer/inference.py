@@ -32,8 +32,7 @@ def main():
     )
 
     mean_prediction = outputs.sequences.mean(dim=1)
-    print("-- Result --")
-    print(mean_prediction)
+    print(f"Result: {mean_prediction}")
 
 
 if __name__ == "__main__":

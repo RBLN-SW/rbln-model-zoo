@@ -81,12 +81,9 @@ def main():
     scores = compute_logits(inputs)
 
     # Show text and result
-    print("--- query ---")
-    print(queries)
-    print("--- passage ---")
-    print(documents)
-    print("--- score ---")
-    print(scores)
+    print(f"Query: {queries}")
+    print(f"Passage: {documents}")
+    print(f"Score: {scores}")
 
 
 if __name__ == "__main__":

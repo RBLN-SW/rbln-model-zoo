@@ -65,11 +65,8 @@ def main():
     with torch.no_grad():
         outputs = pipe(dataset[0]["audio"]["array"], generate_kwargs=generate_kwargs)
 
-    print("--- Result ---")
-    print("--Text--")
-    print(outputs["text"])
-    print("--Chunks--")
-    print(outputs["chunks"])
+    print(f"Text: {outputs['text']}")
+    print(f"Chunks: {outputs['chunks']}")
 
 
 if __name__ == "__main__":

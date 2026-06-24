@@ -21,7 +21,7 @@ def main():
         rbln_config={
             "batch_size": 1,
             "max_seq_len": 1024,
-            "tensor_parallel_size": 4,
+            "num_devices": 4,
             "create_runtimes": False,
         },
     )
@@ -46,12 +46,7 @@ def main():
             "width": width,
             "create_runtimes": False,
             "transformer": {
-                "tensor_parallel_size": 4,
-            },
-            "safety_checker": {
-                "llamaguard3": {
-                    "tensor_parallel_size": 4,
-                },
+                "num_devices": 4,
             },
         },
     )

@@ -50,10 +50,8 @@ def main():
     )
 
     # Show text and result
-    print("--- Text ---")
-    print(args.text)
-    print("--- Result ---")
-    print(generated_texts)
+    print(f"Text: {args.text}")
+    print(f"Result: {generated_texts}")
 
 
 if __name__ == "__main__":

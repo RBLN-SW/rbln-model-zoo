@@ -6,7 +6,7 @@ import torch
 from diffusers.utils import load_image
 from optimum.rbln import RBLNAutoModelForDepthEstimation, RBLNAutoPipelineForImage2Image
 from PIL import Image
-from transformers import DPTFeatureExtractor
+from transformers import DPTImageProcessor
 
 
 def parsing_argument():
@@ -32,7 +32,7 @@ def main():
     prompt = args.prompt
     controlnet_conditioning_scale = args.controlnet_conditioning_scale
 
-    feature_extractor = DPTFeatureExtractor.from_pretrained("Intel/dpt-hybrid-midas")
+    feature_extractor = DPTImageProcessor.from_pretrained("Intel/dpt-hybrid-midas")
 
     image = load_image(
         "https://huggingface.co/datasets/hf-internal-testing/diffusers-images/resolve/main"

@@ -98,12 +98,9 @@ def main():
     score = (embeddings_q @ embeddings_p.T) * 100
 
     # Show text and result
-    print("--- query ---")
-    print(args.query)
-    print("--- passage ---")
-    print(args.passage)
-    print("--- score ---")
-    print(score.tolist())
+    print(f"Query: {args.query}")
+    print(f"Passage: {args.passage}")
+    print(f"Score: {score.tolist()}")
 
 
 if __name__ == "__main__":

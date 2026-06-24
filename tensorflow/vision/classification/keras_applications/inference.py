@@ -212,7 +212,7 @@ def main():
     rebel_result = module.run(x)
 
     # Display results
-    print("Top1 category: ", decode_predictions(rebel_result, top=1)[0][0][1])
+    print(f"Top1 category: {decode_predictions(rebel_result, top=1)[0][0][1]}")
 
 
 if __name__ == "__main__":

@@ -41,8 +41,7 @@ def main():
         query_embeddings = model(**batch_queries).embeddings
 
     scores = processor.score_multi_vector(query_embeddings, image_embeddings)
-    print("--- score ---")
-    print(scores)
+    print(f"Score: {scores}")
 
 
 if __name__ == "__main__":

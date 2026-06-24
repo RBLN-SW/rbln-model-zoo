@@ -38,8 +38,7 @@ def main():
     )[1]
 
     # Show result
-    print("--- sentence embeddings ---")
-    print(embeddings)
+    print(f"Sentence embeddings: {embeddings}")
 
 
 if __name__ == "__main__":

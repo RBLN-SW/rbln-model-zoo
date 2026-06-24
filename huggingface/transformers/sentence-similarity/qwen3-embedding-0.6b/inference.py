@@ -72,12 +72,9 @@ def main():
     scores = embeddings[:2] @ embeddings[2:].T
 
     # Show text and result
-    print("--- query ---")
-    print(queries)
-    print("--- passage ---")
-    print(documents)
-    print("--- score ---")
-    print(scores.tolist())
+    print(f"Query: {queries}")
+    print(f"Passage: {documents}")
+    print(f"Score: {scores.tolist()}")
 
 
 if __name__ == "__main__":

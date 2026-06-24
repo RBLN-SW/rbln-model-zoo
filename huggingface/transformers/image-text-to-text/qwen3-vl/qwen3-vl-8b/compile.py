@@ -1,11 +1,11 @@
 import os
 
-from optimum.rbln import RBLNAutoModelForVision2Seq
+from optimum.rbln import RBLNAutoModelForImageTextToText
 
 
 def main():
     model_id = "Qwen/Qwen3-VL-8B-Instruct"
-    model = RBLNAutoModelForVision2Seq.from_pretrained(
+    model = RBLNAutoModelForImageTextToText.from_pretrained(
         model_id,
         export=True,
         rbln_config={
@@ -20,10 +20,10 @@ def main():
                 # per image or video frame, so set `max_seq_len` to match the maximum expected
                 # resolution to reduce computation.
                 "max_seq_len": 16384,
-                "tensor_parallel_size": 8,
+                "num_devices": 8,
                 "create_runtimes": False,
             },
-            "tensor_parallel_size": 8,
+            "num_devices": 8,
             "kvcache_partition_len": 16_384,
             # Max position embedding for the language model, must be a multiple of kvcache_partition_len.
             "max_seq_len": 262_144,

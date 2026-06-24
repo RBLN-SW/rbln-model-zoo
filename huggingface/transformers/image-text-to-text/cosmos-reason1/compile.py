@@ -1,11 +1,11 @@
 import os
 
-from optimum.rbln import RBLNAutoModelForVision2Seq
+from optimum.rbln import RBLNAutoModelForImageTextToText
 
 
 def main():
     model_id = "nvidia/Cosmos-Reason1-7B"
-    model = RBLNAutoModelForVision2Seq.from_pretrained(
+    model = RBLNAutoModelForImageTextToText.from_pretrained(
         model_id,
         export=True,
         rbln_config={
@@ -23,7 +23,7 @@ def main():
                 "max_seq_len": 8192,
                 # The `device` parameter specifies which device should be used for each submodule during runtime.
             },
-            "tensor_parallel_size": 8,
+            "num_devices": 8,
             "kvcache_partition_len": 16_384,
             # Max position embedding for the language model, must be a multiple of kvcache_partition_len.
             "max_seq_len": 114_688,

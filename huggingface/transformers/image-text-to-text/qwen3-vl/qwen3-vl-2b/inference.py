@@ -1,6 +1,6 @@
 import os
 
-from optimum.rbln import RBLNAutoModelForVision2Seq
+from optimum.rbln import RBLNAutoModelForImageTextToText
 from transformers import AutoProcessor
 
 
@@ -12,7 +12,7 @@ def main():
     processor = AutoProcessor.from_pretrained(
         model_id, min_pixels=256 * 16 * 16, max_pixels=2048 * 2048
     )
-    model = RBLNAutoModelForVision2Seq.from_pretrained(
+    model = RBLNAutoModelForImageTextToText.from_pretrained(
         model_dir,
         export=False,
         rbln_config={

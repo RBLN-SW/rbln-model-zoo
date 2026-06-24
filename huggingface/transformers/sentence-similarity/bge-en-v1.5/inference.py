@@ -67,12 +67,9 @@ def main():
     score = q_embedding @ p_embedding.T
 
     # Show text and result
-    print("--- query ---")
-    print(args.query)
-    print("--- passage ---")
-    print(args.passage)
-    print("--- score ---")
-    print(score)
+    print(f"Query: {args.query}")
+    print(f"Passage: {args.passage}")
+    print(f"Score: {score}")
 
 
 if __name__ == "__main__":

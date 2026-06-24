@@ -52,9 +52,9 @@ def main():
 
     outputs = llm.generate(inputs, sampling_params=sampling_params)
 
-    for o in outputs:
+    for i, o in enumerate(outputs):
         generated_text = o.outputs[0].text
-        print(generated_text)
+        print(f"Output {i}: {generated_text}")
 
 
 if __name__ == "__main__":

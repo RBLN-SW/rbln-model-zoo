@@ -2,7 +2,7 @@ import argparse
 import os
 
 from optimum.rbln import RBLNAutoModelForQuestionAnswering
-from transformers import pipeline
+from transformers import AutoTokenizer
 
 
 def parsing_argument():
@@ -44,23 +44,28 @@ def main():
         export=False,
     )
 
-    # Generate Answer
-    pipe = pipeline(
-        "question-answering",
-        model=model,
-        tokenizer=model_id,
+    # Tokenize to the compiled fixed sequence length (rbln_max_seq_len=512).
+    tokenizer = AutoTokenizer.from_pretrained(model_id)
+    inputs = tokenizer(
+        args.question,
+        args.context,
         padding="max_length",
-        max_seq_len=512,  # default "max_position_embedding"
+        max_length=512,
+        truncation=True,
+        return_tensors="pt",
     )
-    answer = pipe(question=args.question, context=args.context)
+
+    # Decode the answer span from the start/end logits.
+    outputs = model(**inputs)
+    answer_start_index = outputs.start_logits.argmax()
+    answer_end_index = outputs.end_logits.argmax()
+    answer_tokens = inputs["input_ids"][0, answer_start_index : answer_end_index + 1]
+    answer = tokenizer.decode(answer_tokens, skip_special_tokens=True)
 
     # Result
-    print("--- question ---")
-    print(args.question)
-    print("--- context ---")
-    print(args.context)
-    print("--- Result ---")
-    print(answer)
+    print(f"Question: {args.question}")
+    print(f"Context: {args.context}")
+    print(f"Answer: {answer}")
 
 
 if __name__ == "__main__":

@@ -82,12 +82,9 @@ def main():
     cosine_score = util.cos_sim(sentence_embeddings_0, sentence_embeddings_1).item()
 
     # Show text and result
-    print("--- sentence 0 ---")
-    print(sentences[0])
-    print("--- sentence 1 ---")
-    print(sentences[1])
-    print("--- score ---")
-    print(cosine_score)
+    print(f"Sentence 0: {sentences[0]}")
+    print(f"Sentence 1: {sentences[1]}")
+    print(f"Score: {cosine_score}")
 
 
 if __name__ == "__main__":

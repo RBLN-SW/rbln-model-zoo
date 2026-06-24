@@ -1,5 +1,30 @@
 # Change Log
 
+## June, 30th 2026 (v0.11.0)
+
+* Compatible versions:
+  * `rebel-compiler`: v0.11.0
+  * `optimum-rbln`: v0.11.0
+  * `vllm-rbln`: v0.11.0
+  * `docs.rbln.ai`: v0.11.0
+* **Added new examples**
+  * `image-text-to-text`: **EXAONE 4.5 VL (33B)**, **Gemma 4 (26B-A4B MoE, 31B)**.
+* **Upgrade**
+  * Migrated all examples to **Hugging Face Transformers v5** (v5 `apply_chat_template` interface).
+* **Dependency updates**
+  * `transformers`: `4.57.6` → `5.8.1`
+  * `torch`: `2.10.0+cpu` → `2.11.0+cpu`
+  * `torchvision`: `0.25.0+cpu` → `0.26.0+cpu`
+  * `torchaudio`: `2.10.0+cpu` → `2.11.0+cpu`
+  * `torchcodec`: new → `0.11.0+cpu` (Transformers v5 video decoding)
+* **Changes**
+  * Renamed `tensor_parallel_size` → `num_devices` across examples (deprecated alias retained).
+  * Cosmos: device map, Qwen3Guard guardrail, and Mistral upsampler updates.
+  * Serving: vLLM serving examples updated to vLLM 0.22.0.
+  * Result output: `--- X ---` banners replaced with inline f-string labels (~80 scripts).
+* **Removed**
+  * `pytorch/nlp/bge`, `cpp/text_generation`.
+
 ## May, 29th 2026 (v0.10.4)
 
 * Compatible versions:

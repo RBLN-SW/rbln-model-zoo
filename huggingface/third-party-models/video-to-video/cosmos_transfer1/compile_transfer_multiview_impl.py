@@ -181,16 +181,16 @@ def main():
     save_dir = cfg.rbln_dir
 
     rbln_config = {
-        "transformer": {"tensor_parallel_size": 4},
-        "safety_checker": {"llamaguard3": {"tensor_parallel_size": 4}},
+        "transformer": {"num_devices": 4},
+        "safety_checker": {"qwen3guard": {"num_devices": 1}},
     }
 
     if cfg.use_perf:
-        rbln_config["transformer"].update({"tensor_parallel_size": 8})
+        rbln_config["transformer"].update({"num_devices": 8})
 
     ctrlnet_rbln_config = {}
     for ctrl in control_inputs.keys():
-        ctrlnet_rbln_config[ctrl] = {"tensor_parallel_size": 2}
+        ctrlnet_rbln_config[ctrl] = {"num_devices": 2}
 
     rbln_config["ctrlnet"] = ctrlnet_rbln_config
 
@@ -200,7 +200,7 @@ def main():
         checkpoint = BASE_t2w_7B_SV2MV_CHECKPOINT_AV_SAMPLE_PATH
 
     for key in rbln_config["ctrlnet"].keys():
-        rbln_config["ctrlnet"][key].update({"tensor_parallel_size": 2})
+        rbln_config["ctrlnet"][key].update({"num_devices": 2})
 
     pipeline = RBLNDiffusionControl2WorldMultiviewGenerationPipeline(
         checkpoint_dir=cfg.checkpoint_dir,

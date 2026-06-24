@@ -2,6 +2,6 @@
 loguru>=0.7.3
 pycocotools>=2.0.7
 tabulate==0.9.0
-torch==2.10.0+cpu
-torchvision==0.25.0+cpu
+torch==2.11.0+cpu
+torchvision==0.26.0+cpu
 opencv-python-headless>=4.11.0

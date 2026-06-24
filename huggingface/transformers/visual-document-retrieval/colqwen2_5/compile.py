@@ -47,7 +47,7 @@ def main():
                     "max_seq_len": 4096,
                     # The `device` parameter specifies which device should be used for each submodule during runtime.
                 },
-                "tensor_parallel_size": 4,
+                "num_devices": 4,
                 "kvcache_partition_len": 16_384,
                 # Max position embedding for the language model, must be a multiple of kvcache_partition_len.
                 "max_seq_len": 114_688,

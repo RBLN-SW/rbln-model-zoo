@@ -48,9 +48,7 @@ def main():
     last_hidden_state = output[0].squeeze()
 
     # Show text and result
-    print("--- text ---")
-    print(args.text)
-    print("--- words ---")
+    print(f"Text: {args.text}")
 
     list_of_list = []
     for _, mask_index in enumerate(masked_pos):
@@ -59,7 +57,7 @@ def main():
         words = [tokenizer.decode(i.item()).strip() for i in idx]
         words = [w.replace(" ", "") for w in words]
         list_of_list.append(words)
-        print("predictions: ", words)
+        print(f"Predictions: {words}")
 
     best_guess = ""
     for j in list_of_list:

@@ -3,7 +3,7 @@ import os
 
 from optimum.rbln import RBLNAutoModelForSeq2SeqLM
 
-DEFAULT_TP_SIZE = {
+DEFAULT_NUM_DEVICES = {
     "t5-small": 1,
     "t5-base": 1,
     "t5-large": 1,
@@ -34,7 +34,7 @@ def main():
         model_id=model_id,
         export=True,  # export a PyTorch model to RBLN model with optimum
         rbln_batch_size=1,
-        rbln_tensor_parallel_size=DEFAULT_TP_SIZE[args.model_name],
+        rbln_num_devices=DEFAULT_NUM_DEVICES[args.model_name],
     )
 
     # Save compiled results to disk

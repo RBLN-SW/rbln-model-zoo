@@ -1,6 +1,6 @@
 import os
 
-from optimum.rbln import RBLNAutoModelForVision2Seq
+from optimum.rbln import RBLNAutoModelForImageTextToText
 from transformers import AutoProcessor
 from transformers.image_utils import load_image
 
@@ -11,7 +11,7 @@ def main():
 
     # Load compiled model
     processor = AutoProcessor.from_pretrained(model_id)
-    model = RBLNAutoModelForVision2Seq.from_pretrained(model_dir, export=False)
+    model = RBLNAutoModelForImageTextToText.from_pretrained(model_dir, export=False)
 
     # Prepare image and text prompt, using the appropriate prompt template
     url = "https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/transformers/tasks/car.jpg"
@@ -27,7 +27,7 @@ def main():
     decoded = processor.decode(generation, skip_special_tokens=True)
 
     # Show text and result
-    print(decoded)
+    print(f"Result: {decoded}")
 
 
 if __name__ == "__main__":

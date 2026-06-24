@@ -10,7 +10,7 @@ model = RBLNLlamaForCausalLM.from_pretrained(
     export=True,  # Export a PyTorch model to RBLN model with Optimum
     rbln_batch_size=1,  # Batch size
     rbln_max_seq_len=131_072,  # Maximum sequence length
-    rbln_tensor_parallel_size=8,  # Tensor parallelism
+    rbln_num_devices=8,
     rbln_attn_impl="flash_attn",  # Use Flash Attention
     rbln_kvcache_partition_len=16_384,  # Length of KV cache partitions for flash attention
 )

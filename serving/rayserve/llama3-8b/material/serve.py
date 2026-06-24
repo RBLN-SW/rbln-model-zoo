@@ -80,7 +80,6 @@ class Llama3_8B:
         openai_serving_render = OpenAIServingRender(
             model_config=self.vllm_engine.model_config,
             renderer=self.vllm_engine.renderer,
-            io_processor=self.vllm_engine.io_processor,
             model_registry=self.openai_serving_models.registry,
             request_logger=None,
             chat_template=None,

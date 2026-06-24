@@ -74,7 +74,7 @@ class RBLNPixtralPromptUpsampler:
                 **vision_tower_config,
             },
             "language_model": {
-                "tensor_parallel_size": 4,
+                "num_devices": 4,
                 "use_inputs_embeds": True,
                 "batch_size": 1,
                 "max_seq_len": 32768,

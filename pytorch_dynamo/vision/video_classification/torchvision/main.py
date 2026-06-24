@@ -4,7 +4,7 @@ import urllib
 import rebel  # noqa: F401  # needed to use torch dynamo's "rbln" backend.
 import torch
 import torchvision
-from torchvision.io.video import read_video
+from torchcodec.decoders import VideoDecoder
 
 
 def parsing_argument():
@@ -38,9 +38,7 @@ def main():
     with urllib.request.urlopen(video_url) as response, open(video_path, "wb") as f:
         f.write(response.read())
 
-    vid, _, _ = read_video(video_path, output_format="TCHW")
-
-    vid = vid[:16]
+    vid = VideoDecoder(video_path)[:16]
     preprocess = weights.transforms()
     batch = preprocess(vid).unsqueeze(0).contiguous()
 

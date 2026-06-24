@@ -81,9 +81,7 @@ def main():
 
     for i, output in enumerate(outputs):
         output = output[0].outputs[0].text
-        print(f"===================== Output {i} ==============================")
-        print(output)
-        print("===============================================================\n")
+        print(f"Output {i}: {output}")
 
 
 if __name__ == "__main__":

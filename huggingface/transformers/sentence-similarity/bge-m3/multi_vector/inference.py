@@ -167,12 +167,9 @@ def main():
     )
 
     # Show text and result
-    print("--- query ---")
-    print(args.query)
-    print("--- message ---")
-    print(args.message)
-    print("--- score ---")
-    print(score)
+    print(f"Query: {args.query}")
+    print(f"Message: {args.message}")
+    print(f"Score: {score}")
 
 
 if __name__ == "__main__":

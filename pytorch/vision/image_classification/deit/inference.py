@@ -65,7 +65,7 @@ def main():
 
     # Display results
     class_idx = torch.argmax(torch.tensor(rebel_result)).item()
-    print("Top1 Classification Index: ", class_idx)  # 281: "tabby, tabby cat"
+    print(f"Top1 Classification Index: {class_idx}")  # 281: "tabby, tabby cat"
 
 
 if __name__ == "__main__":

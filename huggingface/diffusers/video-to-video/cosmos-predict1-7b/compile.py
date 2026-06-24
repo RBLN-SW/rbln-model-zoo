@@ -1,7 +1,7 @@
 import os
 
 from optimum.rbln import (
-    RBLNAutoModelForVision2Seq,
+    RBLNAutoModelForImageTextToText,
     RBLNCosmosVideoToWorldPipeline,
 )
 
@@ -10,7 +10,7 @@ def main():
     # step 1. Compile Cosmos Upsampler
     upsampler_model_id = "mistral-community/pixtral-12b"
 
-    upsampler = RBLNAutoModelForVision2Seq.from_pretrained(
+    upsampler = RBLNAutoModelForImageTextToText.from_pretrained(
         upsampler_model_id,
         export=True,
         rbln_config={
@@ -21,7 +21,7 @@ def main():
             "language_model": {
                 "attn_impl": "eager",
                 "max_seq_len": 4096,
-                "tensor_parallel_size": 4,
+                "num_devices": 4,
                 "use_inputs_embeds": True,
             },
         },
@@ -48,12 +48,7 @@ def main():
             "width": width,
             "create_runtimes": False,
             "transformer": {
-                "tensor_parallel_size": 4,
-            },
-            "safety_checker": {
-                "llamaguard3": {
-                    "tensor_parallel_size": 4,
-                },
+                "num_devices": 4,
             },
         },
     )

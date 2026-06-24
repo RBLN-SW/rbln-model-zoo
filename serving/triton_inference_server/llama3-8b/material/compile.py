@@ -6,7 +6,7 @@ compiled_model = RBLNLlamaForCausalLM.from_pretrained(
     model_id=model_id,
     export=True,
     rbln_max_seq_len=8192,
-    rbln_tensor_parallel_size=4,  # number of ATOM+ for Rebellions Scalable Design (RSD)
+    rbln_num_devices=4,
     rbln_batch_size=4,  # batch_size > 1 is recommended for continuous batching
 )
 

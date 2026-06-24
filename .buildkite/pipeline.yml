@@ -1,0 +1,73 @@
+# RBLN Model Zoo CI. Steps gated by build event:
+#   PR -> Lint, Pytest, Deps·unify | manual -> all | schedule -> Deps·unify, Deps·update-lockfile, Report
+
+# Skip the large third-party submodules; CI only needs main-repo files.
+env:
+  BUILDKITE_GIT_SUBMODULES: "false"
+
+notify:
+  - github_commit_status:
+      context: "[OB] RBLN Model Zoo CI"
+
+.retry_infra: &retry_infra
+  automatic:
+    - { exit_status: -1, limit: 2 } # agent loss only
+
+.py_image: &py_image "mcr.microsoft.com/devcontainers/python:3.12"
+
+steps:
+  - label: ":broom: Lint"
+    key: lint
+    if: build.pull_request.id != null || build.source == "manual"
+    image: *py_image
+    agents: { queue: k8s }
+    timeout_in_minutes: 10
+    retry: *retry_infra
+    command: |
+      pip install -q ruff==0.15.5
+      ruff check . --select I --diff
+      ruff format . --check
+
+  - label: ":test_tube: Pytest"
+    key: pytest
+    if: build.pull_request.id != null || build.source == "manual"
+    image: *py_image
+    agents: { queue: k8s }
+    timeout_in_minutes: 15
+    retry: *retry_infra
+    command: |
+      pip install -q pytest typer rich pyyaml
+      pytest tests/ -v
+
+  - label: ":package: Deps · unify"
+    key: deps-unify
+    if: build.pull_request.id != null || build.source == "schedule" || build.source == "manual"
+    image: *py_image
+    agents: { queue: k8s }
+    timeout_in_minutes: 30
+    retry: *retry_infra
+    artifact_paths: unified_requirements.txt
+    command: bash .buildkite/scripts/deps-unify.sh
+
+  - label: ":arrows_counterclockwise: Deps · update lockfile"
+    key: deps-update-lockfile
+    if: build.source == "schedule" || build.source == "manual"
+    depends_on: deps-unify
+    image: *py_image
+    agents: { queue: k8s }
+    timeout_in_minutes: 30
+    retry: *retry_infra
+    secrets: { GIT_PAT: GIT_PAT }
+    command: bash .buildkite/scripts/auto-update-pyproject.sh
+
+  - label: ":slack: Deps report"
+    key: deps-report
+    if: build.source == "schedule" || build.source == "manual"
+    depends_on: deps-unify
+    allow_dependency_failure: true
+    image: *py_image
+    agents: { queue: k8s }
+    timeout_in_minutes: 10
+    retry: *retry_infra
+    secrets: { SLACK_BOT_TOKEN: SLACK_OAUTH_TOKEN }
+    command: bash .buildkite/scripts/deps-report.sh

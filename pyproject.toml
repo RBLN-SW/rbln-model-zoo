@@ -10,21 +10,19 @@ dependencies = [
   "PyYAML>=6.0.3",
   "pyyaml>=6.0.1",
   "rich>=13.0.0",
-  "tomli>=2.0; python_version<'3.11'",
+  "tomli>=2.0; python_version < \"3.11\"",
   "typer>=0.9.0",
 ]
 
 [project.optional-dependencies]
 models = [
-  "FlagEmbedding==1.2.10",
   "addict==2.4.0",
   "attr==0.3.2",
   "attrs==25.3.0",
-  "av>=11.0.0",
   "better_profanity==0.7.0",
   "cmake>=3.22",
   "controlnet-aux>=0.0.10",
-  "cosmos-guardrail @ git+https://github.com/rebel-seinpark/cosmos-guardrail.git@86d24a8f4303f9f55d553f61be07d0e579cc26ec",
+  "cosmos-guardrail==0.3.1",
   "datasets>=2.19.1",
   "decord>=0.6.0 ; platform_machine == 'x86_64'",
   "easydict==1.13",
@@ -34,14 +32,12 @@ models = [
   "gdown>=6.0.0",
   "gevent==25.9.1",
   "geventhttpclient==2.3.5",
-  "gpytoolbox>=0.3.7 ; platform_machine == 'x86_64'",
   "huggingface-hub>=0.23.0",
   "hydra-core==1.3.2",
   "imageio[ffmpeg,pyav]==2.37.0",
-  "imageio_ffmpeg==0.4.9",
+  "imageio_ffmpeg==0.6.0",
   "iopath>=0.1.10",
   "ipdb==0.13.13",
-  "jaxtyping>=0.2.31",
   "librosa>=0.11.0",
   "loguru>=0.7.3",
   "matplotlib>=3.8.0",
@@ -53,10 +49,9 @@ models = [
   "numpy>=2.0.2",
   "omegaconf>=2.3.0",
   "onnxruntime==1.22.1",
-  "open_clip_torch>=2.24.0",
   "opencv-python>=4.9.0.80",
   "opencv-python-headless>=4.11.0",
-  "optimum-rbln==0.10.3a3",
+  "optimum-rbln==0.11.0a14",
   "pandas>=2.2.2",
   "peft>=0.15.0",
   "pillow>=10.2.0",
@@ -64,45 +59,39 @@ models = [
   "protobuf>=4.25.5",
   "pycocotools>=2.0.7",
   "pycolmap>=3.13.0 ; platform_machine == 'x86_64'",
-  "pynanoinstantmeshes>=0.0.3",
   "pynvml==12.0.0",
   "python-magic==0.4.27",
   "qwen-vl-utils[decord]==0.0.11 ; platform_machine == 'x86_64'",
   "ray[serve]==2.51.1",
-  "rembg>=2.0.57",
   "requests>=2.32.3",
   "retinaface_py==0.0.2",
   "rtmlib==0.0.13",
-  "safetensors>=0.4.0",
   "sam2==1.1.0",
   "scipy>=1.11.4",
   "seaborn>=0.13.2",
-  "sentence-transformers==3.4.1",
+  "sentence-transformers>=5.0.0",
   "sentencepiece>=0.2.0",
+  "setuptools<81",
   "smplx==0.1.28",
   "soundfile>=0.13.1",
   "tabulate==0.9.0",
   "tensorflow==2.18.0",
   "termcolor==2.5.0",
-  "texture_baker @ git+https://github.com/Stability-AI/stable-fast-3d.git@08f26ddfeeab891b91bb4f586b2e328e3ef5f2e0#subdirectory=texture_baker",
   "tf_keras==2.18.0",
   "thop>=0.1.1",
   "timm>=0.9.16",
-  "torch==2.10.0+cpu",
+  "torch==2.11.0+cpu",
   "torch-model-archiver>=0.12.0",
   "torch-workflow-archiver==0.2.15",
-  "torchaudio==2.10.0+cpu ; platform_machine == 'x86_64'",
-  "torchcodec==0.10.0 ; platform_machine == 'x86_64'",
-  "torchmcubes @ git+https://github.com/tatsy/torchmcubes.git@b4b0c723f58e6cf53e9aedaea63ed842805b6b83",
+  "torchaudio==2.11.0+cpu ; platform_machine == 'x86_64'",
+  "torchcodec==0.11.0+cpu ; platform_machine == 'x86_64'",
   "torchserve>=0.12.0",
-  "torchvision==0.25.0+cpu ; platform_machine == 'x86_64'",
-  "tqdm>=4.66.0",
-  "transformers==4.57.6",
+  "torchvision==0.26.0+cpu ; platform_machine == 'x86_64'",
+  "transformers==5.8.1",
   "trimesh>=4.11.2",
   "tritonclient==2.62.0",
   "ultralytics==8.3.33",
-  "uv_unwrapper @ git+https://github.com/Stability-AI/stable-fast-3d.git@08f26ddfeeab891b91bb4f586b2e328e3ef5f2e0#subdirectory=uv_unwrapper",
-  "vllm-rbln==0.10.3a5",
+  "vllm-rbln==0.11.0a9",
 ]
 
 [project.scripts]
@@ -137,10 +126,11 @@ texture-baker = ["torch"]
 torch = { index = "pytorch-cpu" }
 torchvision = { index = "pytorch-cpu" }
 torchaudio = { index = "pytorch-cpu" }
+torchcodec = { index = "pytorch-cpu" }
 
 [[tool.uv.index]]
 name = "vllm-cpu"
-url = "https://wheels.vllm.ai/0.18.0/cpu"
+url = "https://wheels.vllm.ai/0.22.0/cpu"
 
 [[tool.uv.index]]
 name = "pytorch-cpu"

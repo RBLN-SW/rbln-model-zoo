@@ -172,8 +172,8 @@ def main():
         cfg.use_regional_prompts = False
 
     rbln_config = {
-        "transformer": {"tensor_parallel_size": 4},
-        "safety_checker": {"llamaguard3": {"tensor_parallel_size": 4}},
+        "transformer": {"num_devices": 4},
+        "safety_checker": {"qwen3guard": {"num_devices": 1}},
     }
 
     if "upscale" in control_inputs.keys():
@@ -181,9 +181,9 @@ def main():
 
     ctrlnet_rbln_config = {}
     if cfg.use_perf:
-        rbln_config["transformer"].update({"tensor_parallel_size": 8})
+        rbln_config["transformer"].update({"num_devices": 8})
         for ctrl in control_inputs.keys():
-            ctrlnet_rbln_config[ctrl] = {"tensor_parallel_size": 2}
+            ctrlnet_rbln_config[ctrl] = {"num_devices": 2}
 
     rbln_config["ctrlnet"] = ctrlnet_rbln_config
 

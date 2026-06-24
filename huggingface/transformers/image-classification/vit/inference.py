@@ -3,7 +3,7 @@ import urllib
 
 from optimum.rbln import RBLNAutoModelForImageClassification
 from PIL import Image
-from transformers import AutoFeatureExtractor
+from transformers import AutoImageProcessor
 
 
 def main():
@@ -24,7 +24,7 @@ def main():
 
     image = Image.open(img_path)
 
-    image_processor = AutoFeatureExtractor.from_pretrained(model_id)
+    image_processor = AutoImageProcessor.from_pretrained(model_id)
     inputs = image_processor([image], return_tensors="pt")
 
     # Run inference
@@ -32,7 +32,9 @@ def main():
     labels = logits.argmax(-1)
 
     # Show results
-    print("predicted label:", [model.config.id2label[label.item()] for label in labels])
+    print(
+        f"Predicted label: {[model.config.id2label[label.item()] for label in labels]}"
+    )
 
 
 if __name__ == "__main__":

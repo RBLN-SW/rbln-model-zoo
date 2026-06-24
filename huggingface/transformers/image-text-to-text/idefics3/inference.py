@@ -1,6 +1,6 @@
 import os
 
-from optimum.rbln import RBLNAutoModelForVision2Seq
+from optimum.rbln import RBLNAutoModelForImageTextToText
 from transformers import AutoProcessor
 from transformers.image_utils import load_image
 
@@ -11,7 +11,7 @@ def main():
 
     # Load compiled model
     processor = AutoProcessor.from_pretrained(model_id)
-    model = RBLNAutoModelForVision2Seq.from_pretrained(
+    model = RBLNAutoModelForImageTextToText.from_pretrained(
         model_dir,
         export=False,
         rbln_config={
@@ -69,7 +69,7 @@ def main():
     output = model.generate(**inputs, max_new_tokens=100)
 
     # Show text and result
-    print(processor.batch_decode(output, skip_special_tokens=True))
+    print(f"Result: {processor.batch_decode(output, skip_special_tokens=True)}")
 
 
 if __name__ == "__main__":

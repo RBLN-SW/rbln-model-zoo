@@ -5,7 +5,7 @@ import numpy as np
 import rebel  # RBLN Runtime
 import torch
 import torchvision
-from torchvision.io.video import read_video
+from torchcodec.decoders import VideoDecoder
 
 
 def parsing_argument():
@@ -35,9 +35,7 @@ def main():
     with urllib.request.urlopen(video_url) as response, open(video_path, "wb") as f:
         f.write(response.read())
 
-    vid, _, _ = read_video(video_path, output_format="TCHW")
-
-    vid = vid[:16]
+    vid = VideoDecoder(video_path)[:16]
     weights = torchvision.models.get_model_weights(model_name).DEFAULT
     preprocess = weights.transforms()
     batch = preprocess(vid).unsqueeze(0)
@@ -53,7 +51,7 @@ def main():
     label = torch.tensor(rebel_result).argmax().item()
     torch.tensor(rebel_result)[label].item()
     category_name = weights.meta["categories"][label]
-    print("Top1 category: ", category_name)
+    print(f"Top1 category: {category_name}")
 
 
 if __name__ == "__main__":

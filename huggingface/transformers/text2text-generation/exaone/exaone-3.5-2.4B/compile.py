@@ -13,7 +13,7 @@ def main():
     - For commercial use and larger context length, please contact LG AI Research, contact_us@lgresearch.ai
     - Please refer to License Policy for detailed terms and conditions: https://huggingface.co/LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct/blob/main/LICENSE
     """  # noqa: E501
-    pinned_revision = "e949c91dec92095908d34e6b560af77dd0c993f8"
+    pinned_revision = "ccce25bd39c141fe053e0bc75818a8f5fe962802"
 
     model_id = "LGAI-EXAONE/EXAONE-3.5-2.4B-Instruct"
 
@@ -30,7 +30,7 @@ def main():
         export=True,  # export a PyTorch model to RBLN model with optimum
         rbln_batch_size=1,
         rbln_max_seq_len=32768,  # default "max_position_embeddings"
-        rbln_tensor_parallel_size=4,
+        rbln_num_devices=4,
         config=confg,
         trust_remote_code=True,
     )

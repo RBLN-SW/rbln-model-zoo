@@ -32,10 +32,8 @@ Answer: """  # noqa: E501
     )
 
     # Show text and result
-    print("--- text ---")
-    print(prompt)
-    print("--- Result ---")
-    print(generated_texts)
+    print(f"Text: {prompt}")
+    print(f"Result: {generated_texts}")
 
 
 if __name__ == "__main__":

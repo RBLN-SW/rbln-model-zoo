@@ -97,7 +97,10 @@ class RotaryPositionEmbedding1DV1(nn.Module):
         self.max_seq_len_cached = self.max_position_embeddings
 
         self.inv_freq = 1.0 / (
-            self.config.rope_theta
+            (
+                getattr(self.config, "rope_theta", None)
+                or self.config.rope_parameters["rope_theta"]
+            )
             ** (torch.arange(0, self.dim, 2, dtype=torch.float32) / self.dim)
         )
         self.seq = torch.arange(self.max_seq_len_cached, dtype=torch.float32)

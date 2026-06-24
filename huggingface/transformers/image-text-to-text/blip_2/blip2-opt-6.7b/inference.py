@@ -1,7 +1,7 @@
 import os
 
 import requests
-from optimum.rbln import RBLNAutoModelForVision2Seq
+from optimum.rbln import RBLNAutoModelForImageTextToText
 from PIL import Image
 from transformers import AutoProcessor
 
@@ -12,7 +12,7 @@ def main():
 
     # Load compiled model
     processor = AutoProcessor.from_pretrained(model_id)
-    model = RBLNAutoModelForVision2Seq.from_pretrained(model_dir, export=False)
+    model = RBLNAutoModelForImageTextToText.from_pretrained(model_dir, export=False)
 
     # Prepare image and text prompt, using the appropriate prompt template
     url = "http://images.cocodataset.org/val2017/000000039769.jpg"
@@ -26,7 +26,9 @@ def main():
     output = model.generate(**inputs)
 
     # Show text and result
-    print(processor.batch_decode(output, skip_special_tokens=True)[0].strip())
+    print(
+        f"Result: {processor.batch_decode(output, skip_special_tokens=True)[0].strip()}"
+    )
 
 
 if __name__ == "__main__":

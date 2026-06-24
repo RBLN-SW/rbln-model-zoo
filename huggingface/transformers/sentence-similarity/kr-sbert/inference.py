@@ -80,12 +80,9 @@ def main():
     score = torch.mm(vector_0, vector_1.transpose(0, 1))
 
     # Show text and result
-    print("--- sentence 0 ---")
-    print(args.sentence_0)
-    print("--- sentence 1 ---")
-    print(args.sentence_1)
-    print("--- score ---")
-    print(score.tolist())
+    print(f"Sentence 0: {args.sentence_0}")
+    print(f"Sentence 1: {args.sentence_1}")
+    print(f"Score: {score.tolist()}")
 
 
 if __name__ == "__main__":

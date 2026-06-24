@@ -102,7 +102,7 @@ class RBLNCosmosT5TextEncoder(torch.nn.Module):
         if not prompts:
             raise ValueError("The input prompt list is empty.")
 
-        batch_encoding = self.tokenizer.batch_encode_plus(
+        batch_encoding = self.tokenizer(
             prompts,
             return_tensors="pt",
             truncation=True,

@@ -39,8 +39,7 @@ def main():
     transcription = processor.decode(predicted_ids[0])
 
     # Result
-    print("--- Result ---")
-    print(transcription)
+    print(f"Result: {transcription}")
 
 
 if __name__ == "__main__":

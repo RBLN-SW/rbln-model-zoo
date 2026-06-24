@@ -87,7 +87,7 @@ def main():
     # Runs a single inference for an example
     INPUT_PROMPT = "UN Chief Says There Is No <mask> in Syria"
     result = asyncio.run(run_single(engine, sampling_params, INPUT_PROMPT, "123"))
-    print(result)
+    print(f"Result: {result}")
 
     # Runs multi inference for an example
     INPUT_PROMPTS = [
@@ -103,7 +103,7 @@ def main():
         "The Great Wall of China is located in <mask>.",
     ]
     results = asyncio.run(run_multi(engine, sampling_params, INPUT_PROMPTS))
-    print(results)
+    print(f"Results: {results}")
 
 
 if __name__ == "__main__":

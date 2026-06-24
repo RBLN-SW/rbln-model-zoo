@@ -48,10 +48,8 @@ def main():
     )
 
     # Show input and result
-    print("--- Text ---")
-    print(text)
-    print("--- Result ---")
-    print(tokenizer.decode(output.numpy()[0], skip_special_tokens=True))
+    print(f"Text: {text}")
+    print(f"Result: {tokenizer.decode(output.numpy()[0], skip_special_tokens=True)}")
 
 
 if __name__ == "__main__":

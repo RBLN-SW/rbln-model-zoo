@@ -95,6 +95,6 @@ class Resnet50Handler(BaseHandler):
         model_output = self.inference(model_input)
         category_name = self.postprocess(model_output)
 
-        print("[RBLN][INFO] Top1 category: ", category_name)
+        print(f"Top1 category: {category_name}")
 
         return [{"result": category_name}]

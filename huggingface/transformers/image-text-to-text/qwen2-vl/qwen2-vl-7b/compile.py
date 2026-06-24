@@ -1,11 +1,11 @@
 import os
 
-from optimum.rbln import RBLNAutoModelForVision2Seq
+from optimum.rbln import RBLNAutoModelForImageTextToText
 
 
 def main():
     model_id = "Qwen/Qwen2-VL-7B-Instruct"
-    model = RBLNAutoModelForVision2Seq.from_pretrained(
+    model = RBLNAutoModelForImageTextToText.from_pretrained(
         model_id,
         export=True,
         rbln_config={
@@ -20,7 +20,7 @@ def main():
                 # match the maximum expected resolution to optimize computation.
                 "max_seq_len": 6400,
             },
-            "tensor_parallel_size": 8,
+            "num_devices": 8,
             "max_seq_len": 32_768,
         },
     )

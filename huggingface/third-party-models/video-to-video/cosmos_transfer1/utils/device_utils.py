@@ -27,11 +27,11 @@ class DEVICE_MAP:
             },
         },
         "safety_checker": {
-            "llamaguard3": {
-                "device": "safety_checker/llamaguard3",
+            "qwen3guard": {
+                "device": "safety_checker/qwen3guard",
             },
-            "siglip_encoder": {"device": "safety_checker/siglip_encoder"},
-            "video_safety_model": {"device": "safety_checker/video_safety_model"},
+            # "siglip_encoder": {"device": "safety_checker/siglip_encoder"},
+            # "video_safety_model": {"device": "safety_checker/video_safety_model"},
             "face_blur_filter": {
                 "device": "safety_checker/face_blur_filter/retinaface.rbln"
             },
@@ -204,7 +204,7 @@ class RBLNDeviceAllocator:
             elif (
                 len(path_parts) >= 2
                 and path_parts[0] == "safety_checker"
-                and "llamaguard3" == path_parts[1]
+                and "qwen3guard" == path_parts[1]
             ):
                 group_key = f"{path_parts[0]}/{path_parts[1]}"
 
@@ -449,9 +449,7 @@ class RBLNDeviceAllocator:
                 )
 
     def allocate_devices(self) -> Dict[str, List[int]]:
-        """
-        Main allocation algorithm - minimize total device usage using greedy approach
-        """
+        """Main allocation algorithm - minimize total device usage using greedy approach"""
         if not self.models:
             return {}
 

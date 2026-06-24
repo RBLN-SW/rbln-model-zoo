@@ -3,7 +3,7 @@ import os
 
 from diffusers.utils import export_to_video, load_video
 from optimum.rbln import (
-    RBLNAutoModelForVision2Seq,
+    RBLNAutoModelForImageTextToText,
     RBLNCosmosVideoToWorldPipeline,
 )
 from transformers import AutoProcessor
@@ -31,12 +31,12 @@ def main():
             "Text prompt for generation is not provided. The prompt will be generated with the Video2World Prompt Upsampler (Pixtral-12B)."
         )
         upsampler_model_id = "mistral-community/pixtral-12b"
-        upsampler = RBLNAutoModelForVision2Seq.from_pretrained(
+        upsampler = RBLNAutoModelForImageTextToText.from_pretrained(
             model_id=os.path.basename(upsampler_model_id),
             export=False,
             rbln_config={
                 "vision_tower": {
-                    "device": 6,
+                    "device": 4,
                 },
                 "language_model": {
                     "device": [4, 5, 6, 7],
@@ -74,24 +74,30 @@ def main():
             # Since Cosmos VideoToWorld consists of multiple submodules, loading all submodules onto a single device may occasionally exceed its memory capacity.
             # Therefore, when creating runtimes for each submodule, devices can be divided and assigned to ensure efficient memory utilization.
             #
-            # For example:
-            # - Assume each device has a memory capacity of 15.7 GiB (e.g., RBLN-CA12).
-            # `text_encoder` (~9.2GB), `transformer` (~14.9GB x 1 device, ~9.8GB x 3 devices), `VAE encoder` (~6.9GB), `VAE decoder` (~6.6GB)
-            # `llamaguard3` (~3.7GB x 4 devices), `siglip_encoder` (~4.5GB), `video_safety_model` (~10.0MB), `face_blur_filter` (~150MB)
+            # For example — approximate per-submodule memory footprints (rebel-compiler 0.11.0),
+            # used to plan the device assignment below. Assume ~15.7 GiB per device (e.g. RBLN-CA22):
+            #   upsampler        ~6.9 GB (1 device) / ~5.6 GB (3 devices)
+            #   text_encoder     ~9.2 GB
+            #   transformer      ~12.7 GB (1 device) / ~9.1 GB (3 devices)
+            #   VAE encoder      ~5.0 GB
+            #   VAE decoder      ~6.1 GB
+            #   safety_checker   qwen3guard ~1.3 GB, face_blur_filter ~150 MB
+            #
+            # As of cosmos-guardrail 0.3.1 the video guardrail keeps only `face_blur_filter`;
+            # the SigLIP content-safety filter is disabled upstream, so `siglip_encoder`
+            # and `video_safety_model` are no longer compiled.
             "transformer": {
                 "device": [0, 1, 2, 3],
             },
             "text_encoder": {
-                "device": 8,
+                "device": 5,
             },
             "vae": {
-                "device_map": {"encoder": 9, "decoder": 9},
+                "device_map": {"encoder": 1, "decoder": 2},
             },
             "safety_checker": {
-                "llamaguard3": {"device": [4, 5, 6, 7]},
-                "siglip_encoder": {"device": 7},
-                "video_safety_model": {"device": 7},
-                "face_blur_filter": {"device": 7},
+                "qwen3guard": {"device": 3},
+                "face_blur_filter": {"device": 3},
             },
         },
     )

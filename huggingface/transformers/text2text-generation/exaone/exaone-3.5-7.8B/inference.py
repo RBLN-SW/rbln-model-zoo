@@ -39,11 +39,13 @@ def main():
         },
         {"role": "user", "content": text},
     ]
+    # return_dict=False yields the bare input_ids tensor that generate() takes (v5 default is True).
     input_ids = tokenizer.apply_chat_template(
         messages,
         tokenize=True,
         add_generation_prompt=True,
         return_tensors="pt",
+        return_dict=False,
     )
 
     # Generate tokens
@@ -57,10 +59,8 @@ def main():
     )
 
     # Show text and result
-    print("--- Text ---")
-    print(text)
-    print("--- Result ---")
-    print(generated_texts)
+    print(f"Text: {text}")
+    print(f"Result: {generated_texts}")
 
 
 if __name__ == "__main__":

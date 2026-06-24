@@ -42,8 +42,7 @@ def main():
     )
 
     # Result
-    print("--- Result ---")
-    print(results)
+    print(f"Result: {results}")
 
 
 if __name__ == "__main__":

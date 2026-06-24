@@ -682,7 +682,7 @@ class RBLNDiffusionControl2WorldGenerationPipeline:
         self.compiled_model = rebel.compile_from_torch(
             wrapped_model,
             input_info,
-            tensor_parallel_size=rbln_config.get("tensor_parallel_size", None),
+            num_devices=rbln_config.get("num_devices", None),
         )
         if is_multiview:
             runtime = RBLNMultiViewVideoExtendGeneralDIT(
@@ -904,9 +904,7 @@ class RBLNDiffusionControl2WorldGenerationPipeline:
                 compiled_model = rebel.compile_from_torch(
                     wrapped_controlnet,
                     input_info,
-                    tensor_parallel_size=rbln_config.get(key, {}).get(
-                        "tensor_parallel_size", None
-                    ),
+                    num_devices=rbln_config.get(key, {}).get("num_devices", None),
                 )
                 compiled_controlnet[key] = compiled_model
                 if is_multiview:
@@ -2285,7 +2283,7 @@ class RBLNDistilledControl2WorldGenerationPipeline(
         self.compiled_model = rebel.compile_from_torch(
             wrapped_model,
             input_info,
-            tensor_parallel_size=rbln_config.get("tensor_parallel_size", None),
+            num_devices=rbln_config.get("num_devices", None),
         )
         base_model = model.model.net.base_model.net
         runtime = RBLNVideoExtendGeneralDIT(
@@ -2435,9 +2433,7 @@ class RBLNDistilledControl2WorldGenerationPipeline(
         compiled_model = rebel.compile_from_torch(
             wrapped_controlnet,
             input_info,
-            tensor_parallel_size=rbln_config.get(key, {}).get(
-                "tensor_parallel_size", None
-            ),
+            num_devices=rbln_config.get(key, {}).get("num_devices", None),
         )
 
         compiled_controlnet[key] = compiled_model

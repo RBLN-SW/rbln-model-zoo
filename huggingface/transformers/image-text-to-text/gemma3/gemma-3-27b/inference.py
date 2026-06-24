@@ -55,7 +55,7 @@ def main():
     # autoregressively complete prompt
     output = model.generate(**inputs, max_new_tokens=100)
     # Show text and result
-    print(processor.decode(output[0], skip_special_tokens=True))
+    print(f"Result: {processor.decode(output[0], skip_special_tokens=True)}")
 
 
 if __name__ == "__main__":

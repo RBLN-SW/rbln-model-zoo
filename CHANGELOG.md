@@ -21,7 +21,6 @@
   * Renamed `tensor_parallel_size` → `num_devices` across examples (deprecated alias retained).
   * Cosmos: device map, Qwen3Guard guardrail, and Mistral upsampler updates.
   * Serving: vLLM serving examples updated to vLLM 0.22.0.
-  * Result output: `--- X ---` banners replaced with inline f-string labels (~80 scripts).
 * **Removed**
   * `pytorch/nlp/bge` (use the Hugging Face Transformers BGE-M3 examples instead), `tensorflow/nlp/bert`, `cpp/text_generation`.
 

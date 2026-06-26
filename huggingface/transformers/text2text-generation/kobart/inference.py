@@ -33,11 +33,9 @@ def main():
     )
 
     # Show text and result
-    print("---- text ----")
-    print(text)
-    print("---- Result ----")
+    print(f"Text: {text}")
     print(
-        tokenizer.decode(output_sequence.squeeze().tolist(), skip_special_tokens=True)
+        f"Result: {tokenizer.decode(output_sequence.squeeze().tolist(), skip_special_tokens=True)}"
     )
 
 

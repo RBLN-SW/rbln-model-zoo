@@ -25,7 +25,7 @@ from optimum.rbln.transformers.models.decoderonly.modeling_decoderonly import (
     RBLNDecoderOnlyModelForCausalLM,
 )
 from optimum.rbln.utils.logging import get_logger
-from transformers import GenerationConfig, PretrainedConfig
+from transformers import GenerationConfig, MistralConfig, PretrainedConfig
 
 from .configuration_mistral_upsampler import RBLNMistralNeMoForTextUpsamplerConfig
 from .mistral_upsampler_architecture import MistralNeMoForTextUpsamplerWrapper
@@ -115,7 +115,7 @@ class RBLNMistralNeMoForTextUpsampler(RBLNDecoderOnlyModelForCausalLM):
         )
 
         original_config = attrs.asdict(model.config)
-        config = PretrainedConfig.from_dict(original_config)
+        config = MistralConfig.from_dict(original_config)
 
         # Synchronization with original RBLNDecoderOnlyForCausalLMConfig
         sync_kwargs = {
@@ -125,9 +125,12 @@ class RBLNMistralNeMoForTextUpsampler(RBLNDecoderOnlyModelForCausalLM):
             "hidden_size": getattr(config, "dim"),
         }
         config.update(sync_kwargs)
-
-        # Replace original model configuration to PretrainedConfig
+        config.sliding_window = None
         model.config = config
+
+        for module in model.model.modules():
+            if getattr(module, "config", None) is not None:
+                module.config = config
 
         model.lm_head = model.model.output
         del model.model.output

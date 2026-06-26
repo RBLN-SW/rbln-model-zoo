@@ -40,7 +40,7 @@ def main():
         as_tuple=True
     )[0]
     predicted_token_id = logits[0, mask_token_index].argmax(axis=-1)
-    print(tokenizer.decode(predicted_token_id))
+    print(f"Predicted token: {tokenizer.decode(predicted_token_id)}")
 
 
 if __name__ == "__main__":

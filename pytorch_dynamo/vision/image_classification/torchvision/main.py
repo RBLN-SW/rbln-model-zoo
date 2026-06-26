@@ -123,7 +123,7 @@ def main():
     # Display results
     score, class_id = torch.topk(rbln_result, 1, dim=1)
     category_name = weights.meta["categories"][class_id]
-    print("Top1 category: ", category_name)
+    print(f"Top1 category: {category_name}")
 
 
 if __name__ == "__main__":

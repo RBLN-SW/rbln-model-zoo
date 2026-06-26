@@ -60,15 +60,15 @@ def main():
     #   - use_ray_pose: Pass True for pose from ray (default False: pose from cam_dec when compiled with rbln_use_ray_pose=False).
     prediction = model.inference(images)
 
-    print(prediction.depth.shape)
-    print(prediction.conf.shape)
-    print(prediction.extrinsics.shape)
-    print(prediction.intrinsics.shape)
+    print(f"Depth shape: {prediction.depth.shape}")
+    print(f"Conf shape: {prediction.conf.shape}")
+    print(f"Extrinsics shape: {prediction.extrinsics.shape}")
+    print(f"Intrinsics shape: {prediction.intrinsics.shape}")
 
     # Optional: print pose statistics
     mean_std = lambda x: f"{float(np.mean(x)):.6f} / {float(np.std(x)):.6f}"
-    print(f"extrinsics mean/std: {mean_std(prediction.extrinsics)}")
-    print(f"intrinsics mean/std: {mean_std(prediction.intrinsics)}")
+    print(f"Extrinsics mean/std: {mean_std(prediction.extrinsics)}")
+    print(f"Intrinsics mean/std: {mean_std(prediction.intrinsics)}")
 
     # Optional: save depth/conf images
     out_dir = Path(script_dir) / "output"

@@ -49,7 +49,7 @@ def main():
     predict_answer_tokens = inputs.input_ids[
         0, answer_start_index : answer_end_index + 1
     ]
-    print(tokenizer.decode(predict_answer_tokens))
+    print(f"Answer: {tokenizer.decode(predict_answer_tokens)}")
 
 
 if __name__ == "__main__":

@@ -59,10 +59,8 @@ def main():
     scores = exp_normalize(outputs.view(-1).numpy())
 
     # Show texts and result
-    print("--- texts ---")
-    print(pairs)
-    print("--- score ---")
-    print(scores)
+    print(f"Texts: {pairs}")
+    print(f"Score: {scores}")
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@ import os
 
 from optimum.rbln import RBLNAutoModelForCausalLM
 
-DEFAULT_TP_SIZE = {
+DEFAULT_NUM_DEVICES = {
     "Midm-2.0-Base-Instruct": 8,
     "Midm-2.0-Mini-Instruct": 4,
 }
@@ -32,7 +32,7 @@ def main():
         export=True,
         rbln_batch_size=1,
         rbln_max_seq_len=32_768,
-        rbln_tensor_parallel_size=DEFAULT_TP_SIZE[os.path.basename(model_id)],
+        rbln_num_devices=DEFAULT_NUM_DEVICES[os.path.basename(model_id)],
     )
 
     model.save_pretrained(os.path.basename(model_id))

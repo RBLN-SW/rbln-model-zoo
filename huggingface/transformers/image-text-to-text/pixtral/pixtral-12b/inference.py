@@ -1,6 +1,6 @@
 import os
 
-from optimum.rbln import RBLNAutoModelForVision2Seq
+from optimum.rbln import RBLNAutoModelForImageTextToText
 from transformers import AutoProcessor
 
 
@@ -10,7 +10,7 @@ def main():
 
     # Load compiled model
     processor = AutoProcessor.from_pretrained(model_id)
-    model = RBLNAutoModelForVision2Seq.from_pretrained(model_dir, export=False)
+    model = RBLNAutoModelForImageTextToText.from_pretrained(model_dir, export=False)
 
     # Prepare image and text prompt, using the appropriate prompt template
     IMG_URLS = [

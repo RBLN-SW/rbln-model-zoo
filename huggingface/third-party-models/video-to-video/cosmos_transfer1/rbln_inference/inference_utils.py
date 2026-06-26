@@ -1438,7 +1438,8 @@ def validate_controlnet_specs(cfg, controlnet_specs) -> Dict[str, Any]:
                 "if no 'input_video' specified."
             )
 
-        if "ckpt_path" not in config:
+        used_default_ckpt = "ckpt_path" not in config
+        if used_default_ckpt:
             log.info(f"No checkpoint path specified for {hint_key}. Using default.")
             ckpt_path = os.path.join(checkpoint_dir, default_model_names[hint_key])
             if use_distilled:
@@ -1456,7 +1457,7 @@ def validate_controlnet_specs(cfg, controlnet_specs) -> Dict[str, Any]:
             log.info(f"Using default checkpoint path: {config['ckpt_path']}")
 
         if not os.path.exists(config["ckpt_path"]):
-            if not os.path.isabs(config["ckpt_path"]):
+            if not used_default_ckpt and not os.path.isabs(config["ckpt_path"]):
                 config["ckpt_path"] = os.path.join(checkpoint_dir, config["ckpt_path"])
                 if os.path.exists(config["ckpt_path"]):
                     log.info(

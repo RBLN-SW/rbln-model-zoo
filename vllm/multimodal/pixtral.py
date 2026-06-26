@@ -78,12 +78,8 @@ def main():
         label_str = str(label)
         output = output[0].outputs[0].text
 
-        print("=" * 80)
-        print(f"[{i}] Label:")
-        print(f"{label_str}\n")
-        print(f"[{i}] Model Output:")
-        print(output)
-        print("=" * 80 + "\n")
+        print(f"Label {i}: {label_str}")
+        print(f"Output {i}: {output}")
 
 
 if __name__ == "__main__":

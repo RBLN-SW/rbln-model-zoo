@@ -72,9 +72,8 @@ def main():
     pred = pred[0]
 
     # show result
-    print("--- result ---")
-    print("top5: ", pred)
-    print("top1: ", pred[0])
+    print(f"Top5: {pred.tolist()}")
+    print(f"Top1: {pred[0].item()}")
 
 
 if __name__ == "__main__":

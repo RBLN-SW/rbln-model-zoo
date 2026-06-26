@@ -49,10 +49,8 @@ def main():
     )
 
     # Show text and result
-    print("---- text ----")
-    print(args.text)
-    print("---- Result ----")
-    print(tokenizer.decode(output_sequence[0]))
+    print(f"Text: {args.text}")
+    print(f"Result: {tokenizer.decode(output_sequence[0])}")
 
 
 if __name__ == "__main__":

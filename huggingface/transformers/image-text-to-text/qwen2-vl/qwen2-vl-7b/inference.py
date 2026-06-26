@@ -1,6 +1,6 @@
 import os
 
-from optimum.rbln import RBLNAutoModelForVision2Seq
+from optimum.rbln import RBLNAutoModelForImageTextToText
 from qwen_vl_utils import process_vision_info
 from transformers import AutoProcessor
 
@@ -11,7 +11,7 @@ def main():
 
     # Load compiled model
     processor = AutoProcessor.from_pretrained(model_dir)
-    model = RBLNAutoModelForVision2Seq.from_pretrained(
+    model = RBLNAutoModelForImageTextToText.from_pretrained(
         model_dir,
         export=False,
         rbln_config={
@@ -66,8 +66,9 @@ def main():
     generated_ids_trimmed = generated_ids[0][input_len:]
 
     # Show text and result
-    print("--Result--")
-    print(processor.decode(generated_ids_trimmed, skip_special_tokens=True))
+    print(
+        f"Result: {processor.decode(generated_ids_trimmed, skip_special_tokens=True)}"
+    )
 
 
 if __name__ == "__main__":

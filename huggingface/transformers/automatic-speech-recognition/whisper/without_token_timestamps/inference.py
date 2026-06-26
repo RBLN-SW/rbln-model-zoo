@@ -45,13 +45,10 @@ def main():
     # Generate with .generate()
     outputs = model.generate(**input, return_timestamps=True)
     generated_ids = outputs
-    transcriptions = processor.batch_decode(
-        generated_ids, skip_special_tokens=True, decode_with_timestamps=True
-    )
+    transcriptions = processor.batch_decode(generated_ids, skip_special_tokens=True)
 
-    print("--- Result ---")
     for i, transcription in enumerate(transcriptions):
-        print(f"transcription {i} : {transcription}")
+        print(f"Transcription {i}: {transcription}")
 
 
 if __name__ == "__main__":

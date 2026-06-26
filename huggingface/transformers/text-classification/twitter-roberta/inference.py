@@ -56,7 +56,7 @@ def main():
 
     # Encode the text
     text = preprocess(args.text)
-    inputs = tokenizer.batch_encode_plus(
+    inputs = tokenizer(
         [text],
         max_length=512,
         truncation=True,
@@ -68,9 +68,7 @@ def main():
     output = model(inputs.input_ids, inputs.attention_mask)[0]
 
     # Show text and result
-    print("--- text ---")
-    print(args.text)
-    print("--- score ---")
+    print(f"Text: {args.text}")
 
     num_class = 4
     for batch_itr in range(output.shape[0]):

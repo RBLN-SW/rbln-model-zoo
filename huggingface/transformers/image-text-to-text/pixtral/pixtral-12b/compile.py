@@ -1,11 +1,11 @@
 import os
 
-from optimum.rbln import RBLNAutoModelForVision2Seq
+from optimum.rbln import RBLNAutoModelForImageTextToText
 
 
 def main():
     model_id = "mistral-community/pixtral-12b"
-    model = RBLNAutoModelForVision2Seq.from_pretrained(
+    model = RBLNAutoModelForImageTextToText.from_pretrained(
         model_id,
         export=True,
         rbln_config={
@@ -14,7 +14,7 @@ def main():
                 "output_hidden_states": True,
             },
             "language_model": {
-                "tensor_parallel_size": 8,
+                "num_devices": 8,
                 "use_inputs_embeds": True,
                 "batch_size": 1,
                 "max_seq_len": 131_072,

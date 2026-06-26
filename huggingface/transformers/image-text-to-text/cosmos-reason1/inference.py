@@ -1,7 +1,6 @@
 import os
 
-from optimum.rbln import RBLNAutoModelForVision2Seq
-from qwen_vl_utils import process_vision_info
+from optimum.rbln import RBLNAutoModelForImageTextToText
 from transformers import AutoProcessor
 
 
@@ -11,7 +10,7 @@ def main():
 
     # Load compiled model
     processor = AutoProcessor.from_pretrained(model_dir)
-    model = RBLNAutoModelForVision2Seq.from_pretrained(
+    model = RBLNAutoModelForImageTextToText.from_pretrained(
         model_dir,
         export=False,
         rbln_config={
@@ -30,28 +29,21 @@ def main():
             "content": [
                 {
                     "type": "video",
-                    "video": "https://raw.githubusercontent.com/nvidia-cosmos/cosmos-reason1/main/assets/sample.mp4",
-                    "fps": 4,
-                    "total_pixels": 6422528,
+                    "url": "https://raw.githubusercontent.com/nvidia-cosmos/cosmos-reason1/main/assets/sample.mp4",
                 },
                 {"type": "text", "text": "Describe this video."},
             ],
         }
     ]
 
-    # In Cosmos-Reason1, frame rate information is also input into the model to align with absolute time.
-    text = processor.apply_chat_template(
-        messages, tokenize=False, add_generation_prompt=True
-    )
-    image_inputs, video_inputs, video_kwargs = process_vision_info(
-        messages, return_video_kwargs=True
-    )
-
-    inputs = processor(
-        text=text,
-        images=image_inputs,
-        videos=video_inputs,
-        padding=True,
+    # In Cosmos-Reason1, frame rate (fps) is also fed to the model so tokens align with absolute time.
+    # transformers v5 decodes the video and builds the model inputs inside apply_chat_template.
+    inputs = processor.apply_chat_template(
+        messages,
+        fps=4,
+        add_generation_prompt=True,
+        tokenize=True,
+        return_dict=True,
         return_tensors="pt",
         # Minimum and maximum pixel constraints for image or video processing, defined as patch counts.
         # Example: Set min_pixels and max_pixels to a patch range of 1024 to 5120 to balance performance and computational cost.
@@ -62,17 +54,18 @@ def main():
         max_pixels=5120
         * 14
         * 14,  # Maximum resolution in pixels (e.g., 5120 patches at patch size 14).
-        **video_kwargs,
+        total_pixels=6422528,  # Cap on total video pixels across all sampled frames.
     )
 
     # autoregressively complete prompt
     generated_ids = model.generate(**inputs, max_new_tokens=4096)
-    input_len = inputs.input_ids.shape[-1]
+    input_len = inputs["input_ids"].shape[-1]
     generated_ids_trimmed = generated_ids[0][input_len:]
 
     # Show text and result
-    print("--Result--")
-    print(processor.decode(generated_ids_trimmed, skip_special_tokens=True))
+    print(
+        f"Result: {processor.decode(generated_ids_trimmed, skip_special_tokens=True)}"
+    )
 
 
 if __name__ == "__main__":

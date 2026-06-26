@@ -90,25 +90,29 @@ def main():
             # Since Cosmos TextToWorld consists of multiple submodules, loading all submodules onto a single device may occasionally exceed its memory capacity.
             # Therefore, when creating runtimes for each submodule, devices can be divided and assigned to ensure efficient memory utilization.
             #
-            # For example:
-            # - Assume each device has a memory capacity of 15.7 GiB (e.g., RBLN-CA12).
-            # `text_upsampler` (~5.7GB x 4 devices)
-            # `text_encoder` (~9.2GB), `transformer` (~9.3GB x 1 device, ~5.8GB x 3 devices), `VAE decoder` (~6.6GB)
-            # `llamaguard3` (~3.7GB x 4 devices), `siglip_encoder` (~4.5GB), `video_safety_model` (~10.0MB), `face_blur_filter` (~150MB)
+            # For example — approximate per-submodule memory footprints (rebel-compiler 0.11.0),
+            # used to plan the device assignment below. Assume ~15.7 GiB per device (e.g. RBLN-CA22):
+            #   text_upsampler   ~5.6 GB   (4 devices)
+            #   text_encoder     ~9.2 GB
+            #   transformer      ~7.9 GB (1 device) / ~5.1 GB (3 devices)
+            #   VAE decoder      ~6.1 GB
+            #   safety_checker   qwen3guard ~1.3 GB, face_blur_filter ~150 MB
+            #
+            # As of cosmos-guardrail 0.3.1 the video guardrail keeps only `face_blur_filter`;
+            # the SigLIP content-safety filter is disabled upstream, so `siglip_encoder`
+            # and `video_safety_model` are no longer compiled.
             "transformer": {
-                "device": [4, 5, 6, 7],
+                "device": [0, 1, 2, 3],
             },
             "text_encoder": {
-                "device": 6,
+                "device": 4,
             },
             "vae": {
-                "device": 7,
+                "device": 4,
             },
             "safety_checker": {
-                "llamaguard3": {"device": [0, 1, 2, 3]},
-                "siglip_encoder": {"device": 0},
-                "video_safety_model": {"device": 0},
-                "face_blur_filter": {"device": 0},
+                "qwen3guard": {"device": 3},
+                "face_blur_filter": {"device": 3},
             },
         },
     )

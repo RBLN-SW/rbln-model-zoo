@@ -33,8 +33,7 @@ def main():
     label = model.config.id2label[class_ids]
 
     # Result
-    print("--- Result ---")
-    print(label)
+    print(f"Result: {label}")
 
 
 if __name__ == "__main__":

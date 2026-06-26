@@ -8,7 +8,7 @@ from colpali.colpali_engine.models import ColPali
 from optimum.rbln import RBLNColPaliForRetrieval
 from peft.tuners import lora
 from transformers import ColPaliConfig, ColPaliForRetrieval
-from transformers.modeling_utils import no_init_weights
+from transformers.initialization import no_init_weights
 
 
 # Merge and unload LoRA layers
@@ -30,7 +30,7 @@ def convert_colpali_to_hf_class(model: ColPali):
     )
     with no_init_weights():
         hf_model = ColPaliForRetrieval(config=config).to("cpu").eval()
-    hf_model.vlm = model.model
+    hf_model.vlm = model.model.model
     hf_model.embedding_proj_layer = model.custom_text_proj
 
     return hf_model
@@ -49,7 +49,7 @@ def main():
         model,
         export=True,  # export a PyTorch model to RBLN model with optimum
         rbln_batch_size=2,
-        rbln_tensor_parallel_size=4,
+        rbln_num_devices=4,
         rbln_config={
             "vlm": {
                 "language_model": {

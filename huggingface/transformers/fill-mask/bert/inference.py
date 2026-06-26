@@ -114,7 +114,7 @@ def main():
     prediction = [
         [result[i]["token_str"] for i in range(args.top_k)] for result in results
     ]
-    print("Tokens: ", prediction)
+    print(f"Tokens: {prediction}")
     return results
 
 

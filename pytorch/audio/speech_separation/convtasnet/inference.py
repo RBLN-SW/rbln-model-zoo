@@ -100,10 +100,10 @@ def main():
     results = postprocess(estimate_sources, clean_sources, mixture, input_mask)
 
     # show results
-    print("SDR improvement: ", results[0].item())
-    print("Si-SDR improvement: ", results[1].item())
-    print("SIR improvement: ", results[2].item())
-    print("SAR improvement: ", results[3].item())
+    print(f"SDR improvement: {results[0].item()}")
+    print(f"Si-SDR improvement: {results[1].item()}")
+    print(f"SIR improvement: {results[2].item()}")
+    print(f"SAR improvement: {results[3].item()}")
 
 
 if __name__ == "__main__":

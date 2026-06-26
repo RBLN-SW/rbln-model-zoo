@@ -12,7 +12,7 @@ def main():
         export=True,
         rbln_config={
             "language_model": {
-                "tensor_parallel_size": 16,
+                "num_devices": 16,
                 "kvcache_partition_len": 16_384,
                 "use_inputs_embeds": True,
             }

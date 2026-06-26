@@ -226,8 +226,8 @@ def convert_mistral_model(input_dir, output_dir):
     adapter_bias = vision_config.pop("adapter_bias", True)
     vision_config = PixtralVisionConfig(**vision_config)
     config = LlavaConfig(
-        vision_config,
-        text_config,
+        vision_config=vision_config,
+        text_config=text_config,
         vision_feature_layer=-1,
         vision_feature_select_strategy="full",
         image_seq_length=1,

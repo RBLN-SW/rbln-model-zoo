@@ -7,4 +7,4 @@ matplotlib>=3.8.0
 opencv-python-headless>=4.11.0
 pyyaml>=6.0.1
 smplx==0.1.28
-torch==2.10.0+cpu
+torch==2.11.0+cpu

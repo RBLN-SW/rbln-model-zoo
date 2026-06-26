@@ -25,18 +25,6 @@ def main():
                 "batch_size": 1,
             },
             "text_backbone": {
-                "model_input_names": [
-                    "input_ids",
-                    "attention_mask",
-                    "token_type_ids",
-                    "position_ids",
-                ],
-                "model_input_shapes": [
-                    (1, 256),
-                    (1, 256, 256),
-                    (1, 256),
-                    (1, 256),
-                ],
                 "batch_size": 1,
             },
         },

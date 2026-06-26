@@ -41,6 +41,11 @@ huggingface-cli login
 > - [nvidia/Cosmos-Guardrail1](https://huggingface.co/nvidia/Cosmos-Guardrail1)
 > - [nvidia/Cosmos-Tokenize1-CV8x8x8-720p](https://huggingface.co/nvidia/Cosmos-Tokenize1-CV8x8x8-720p)
 
+> [!note]
+> As of `cosmos-guardrail==0.3.1`, the text guardrail uses `Qwen3Guard` and the video
+> guardrail keeps only `face_blur_filter`. The SigLIP content-safety filter is disabled
+> upstream, so `siglip_encoder` and `video_safety_model` are no longer compiled.
+
 ```bash
 PYTHONPATH=$(pwd) python scripts/download_checkpoints.py --output_dir ../ckpt --model 7b
 ```

@@ -39,8 +39,7 @@ def main():
 
     # Score the queries against the images
     scores = processor.score_retrieval(query_embeddings, image_embeddings)
-    print("Retrieval scores (query x image):")
-    print(scores)
+    print(f"Retrieval scores (query x image): {scores}")
 
 
 if __name__ == "__main__":

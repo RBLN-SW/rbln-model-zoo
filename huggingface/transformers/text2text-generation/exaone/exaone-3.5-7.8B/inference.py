@@ -13,7 +13,6 @@ def main():
     - For commercial use and larger context length, please contact LG AI Research, contact_us@lgresearch.ai
     - Please refer to License Policy for detailed terms and conditions: https://huggingface.co/LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct/blob/main/LICENSE
     """  # noqa: E501
-    pinned_revision = "0ff6b5ec7c13b049b253a16a889aa269e6b79a94"
 
     model_id = "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct"
 
@@ -26,7 +25,6 @@ def main():
     # Prepare inputs
     tokenizer = AutoTokenizer.from_pretrained(
         model_id,
-        revision=pinned_revision,
         trust_remote_code=True,
     )
     tokenizer.pad_token = tokenizer.eos_token

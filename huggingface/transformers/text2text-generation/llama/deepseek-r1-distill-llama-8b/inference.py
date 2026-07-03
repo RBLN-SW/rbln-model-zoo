@@ -2,7 +2,7 @@ import argparse
 import os
 
 from optimum.rbln import RBLNAutoModelForCausalLM
-from transformers import AutoTokenizer
+from transformers import PreTrainedTokenizerFast
 
 
 def parsing_argument():
@@ -28,7 +28,12 @@ def main():
     )
 
     # Prepare inputs
-    tokenizer = AutoTokenizer.from_pretrained(model_id)
+    # transformers v5's LlamaTokenizer overwrites the checkpoint's ByteLevel
+    # pre-tokenizer with Metaspace, corrupting both encoding (spaces are
+    # dropped, so token IDs diverge from v4) and decoding. Load tokenizer.json
+    # faithfully via PreTrainedTokenizerFast until the upstream fix lands.
+    # Ref: https://github.com/huggingface/transformers/issues/45488
+    tokenizer = PreTrainedTokenizerFast.from_pretrained(model_id)
     tokenizer.pad_token = tokenizer.eos_token
     conversation = [{"role": "user", "content": args.text}]
     text = tokenizer.apply_chat_template(

@@ -13,20 +13,17 @@ def main():
     - For commercial use and larger context length, please contact LG AI Research, contact_us@lgresearch.ai
     - Please refer to License Policy for detailed terms and conditions: https://huggingface.co/LGAI-EXAONE/EXAONE-3.5-32B-Instruct/blob/main/LICENSE
     """  # noqa: E501
-    pinned_revision = "3d27aab477c042df2e174d36eea47b77c8871ef0"
 
     model_id = "LGAI-EXAONE/EXAONE-3.5-32B-Instruct"
 
     confg = AutoConfig.from_pretrained(
         model_id,
-        revision=pinned_revision,
         trust_remote_code=True,
     )
 
     # Compile and export
     model = RBLNAutoModelForCausalLM.from_pretrained(
         model_id=model_id,
-        revision=pinned_revision,
         export=True,  # export a PyTorch model to RBLN model with optimum
         rbln_batch_size=1,
         rbln_max_seq_len=32_768,  # default "max_position_embeddings"

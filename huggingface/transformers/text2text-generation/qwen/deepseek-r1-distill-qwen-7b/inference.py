@@ -31,9 +31,11 @@ def main():
     # Prepare inputs
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     tokenizer.pad_token = tokenizer.eos_token
-    # Restore the ByteLevel decoder that transformers v5 overrides on
-    # DeepSeek/Llama byte-level BPE tokenizers (would otherwise emit raw
-    # Ġ / Ċ markers). See huggingface/transformers#45488.
+    # Workaround: transformers v5 replaces the ByteLevel pre-tokenizer /
+    # decoder in DeepSeek-R1-Distill fast tokenizers with Metaspace, so
+    # `decode()` cannot reverse byte-level BPE and emits raw `Ġ` / `Ċ`
+    # markers. Reattach a ByteLevel decoder explicitly until the upstream
+    # fix lands. Ref: https://github.com/huggingface/transformers/issues/45488
     tokenizer.backend_tokenizer.decoder = decoders.ByteLevel()
     conversation = [{"role": "user", "content": args.text}]
     text = tokenizer.apply_chat_template(

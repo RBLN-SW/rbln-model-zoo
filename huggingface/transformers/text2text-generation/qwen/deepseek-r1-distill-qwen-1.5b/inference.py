@@ -2,7 +2,6 @@ import argparse
 import os
 
 from optimum.rbln import RBLNAutoModelForCausalLM
-from tokenizers import decoders
 from transformers import AutoTokenizer
 
 
@@ -31,12 +30,6 @@ def main():
     # Prepare inputs
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     tokenizer.pad_token = tokenizer.eos_token
-    # Workaround: transformers v5 replaces the ByteLevel pre-tokenizer /
-    # decoder in DeepSeek-R1-Distill fast tokenizers with Metaspace, so
-    # `decode()` cannot reverse byte-level BPE and emits raw `Ġ` / `Ċ`
-    # markers. Reattach a ByteLevel decoder explicitly until the upstream
-    # fix lands. Ref: https://github.com/huggingface/transformers/issues/45488
-    tokenizer.backend_tokenizer.decoder = decoders.ByteLevel()
     conversation = [{"role": "user", "content": args.text}]
     text = tokenizer.apply_chat_template(
         conversation, add_generation_prompt=True, tokenize=False

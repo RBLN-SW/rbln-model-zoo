@@ -2,6 +2,7 @@ import argparse
 import os
 
 from optimum.rbln import RBLNAutoModelForCausalLM
+from tokenizers import decoders
 from transformers import AutoTokenizer
 
 
@@ -30,6 +31,10 @@ def main():
     # Prepare inputs
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     tokenizer.pad_token = tokenizer.eos_token
+    # Restore the ByteLevel decoder that transformers v5 overrides on
+    # DeepSeek/Llama byte-level BPE tokenizers (would otherwise emit raw
+    # Ġ / Ċ markers). See huggingface/transformers#45488.
+    tokenizer.backend_tokenizer.decoder = decoders.ByteLevel()
     conversation = [{"role": "user", "content": args.text}]
     text = tokenizer.apply_chat_template(
         conversation, add_generation_prompt=True, tokenize=False

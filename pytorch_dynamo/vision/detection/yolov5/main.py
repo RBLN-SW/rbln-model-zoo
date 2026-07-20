@@ -71,8 +71,9 @@ def main():
     batch = preprocess(img)
     batch_tensor = torch.from_numpy(batch)
 
-    # Load model
-    model = torch.hub.load("ultralytics/yolov5", model_name)
+    # Load from the vendored submodule; the remote repo tracks a moving master.
+    yolov5_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "yolov5")
+    model = torch.hub.load(yolov5_dir, model_name, source="local")
     model.eval()
 
     # Disable capturing warnings for torch.compile

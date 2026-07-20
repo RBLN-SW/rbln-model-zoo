@@ -23,86 +23,127 @@
 
 ## Quick Start
 
+The `rbln-zoo` CLI **discovers** models; each model is **run from its own directory**.
+
+**1. Discover** — install the CLI and browse the catalog:
+
 ```bash
-# Install compiler
-pip install -i https://pypi.rbln.ai/simple rebel-compiler==0.10.2
+git clone https://github.com/RBLN-SW/rbln-model-zoo.git && cd rbln-model-zoo
+uv pip install -e .
 
-# Navigate to model directory
-cd huggingface/transformers/text2text-generation/llama/llama3.1-8b
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Compile and run
-python compile.py && python inference.py
+rbln-zoo list -s llama      # search the catalog
+rbln-zoo cards              # show card types
 ```
 
-> [!NOTE]
-> The versions pinned above match what this repo was tested with as of **2026-03-27**; a newer stable release may already be available. For current versions and install steps, see the [RBLN installation guide](https://docs.rbln.ai/latest/getting_started/installation_guide.html).
+**2. Run** — from the model's directory, install its dependencies and execute:
 
-> [!TIP]
-> For models that support configuration presets, use `--model_name <preset>` to specify model-specific configurations. See each model's README for available presets.
+```bash
+cd huggingface/transformers/text2text-generation/llama/llama3.1-8b
+uv pip install -r requirements.txt
+python compile.py && python inference.py     # single-file examples: python main.py
+```
 
 > [!IMPORTANT]
-> A [RBLN portal account](https://docs.rbln.ai/getting_started/installation_guide.html) is required to install `rebel-compiler` from PyPI.
+> Compilation requires the RBLN Compiler from RBLN's private package index.
+> See the [installation guide](https://docs.rbln.ai/latest/getting_started/installation_guide.html).
 
 ---
 
-## Ecosystems & APIs
+## CLI
 
-Select the ecosystem or API for your AI serving workload on RBLN NPUs.
+`rbln-zoo` browses and filters the model catalog; it does not compile or run models.
 
-### Python
+```bash
+rbln-zoo list -c RBLN-CA22 -t text2text-generation -s qwen   # filter by card, task, keyword
+rbln-zoo cards                                               # card types and counts
+```
 
-| Ecosystem | # Models | Key packages |
-|-----------|----------|---------------|
+| Command | Description | Flags |
+|:--------|:------------|:------|
+| `list` | Browse and filter models | `-c` card · `-f` framework · `-t` task · `-s` search |
+| `cards` | Show card types and counts | — |
+
+### Card types
+
+Models are tagged with RBLN product cards — `RBLN-CA22` (ATOM™+) and `RBLN-CA25`
+(ATOM™-Max) — per the [version matrix](https://docs.rbln.ai/latest/supports/version_matrix.html).
+Matching is case-insensitive and honors aliases declared in
+[`model_registry.yaml`](model_registry.yaml).
+
+<details>
+<summary>Example — adding a card with aliases</summary>
+
+```yaml
+cards:
+  RBLN-CA22:
+    description: "ATOM™+"
+  RBLN-CA25:
+    description: "ATOM™-Max"
+  CX:
+    description: "Next-gen NPU"
+    aliases: [RBLN-CX01]   # -c RBLN-CX01 resolves to CX
+
+default_cards: [RBLN-CA22, RBLN-CA25]
+
+overrides:
+  huggingface/transformers/.../model-a:
+    cards: [RBLN-CA25, CX]
+```
+
+</details>
+
+---
+
+## Ecosystems
+
+| Ecosystem | Models | Key packages |
+|:----------|:-------|:-------------|
 | Hugging Face | 150+ | transformers, diffusers |
 | PyTorch | 250+ | torch |
 | TensorFlow | 75+ | keras, tensorflow |
 
-### Other
+> [!NOTE]
+> Model counts are approximate, as of 2026-07-13 — see the [Model Zoo](https://rebellions.ai/developers/model-zoo) for the live catalog.
 
-**C API** — C/C++ inference bindings. Install via [APT](https://docs.rbln.ai/software/api/language_binding/c/installation.html), then build from source.
+**C API** — C/C++ inference bindings; install via
+[APT](https://docs.rbln.ai/software/api/language_binding/c/installation.html), then build from source.
 
 ---
 
 ## Deployment
 
-### vLLM-RBLN
+Compile a model, then serve it on a supported inference server.
 
-Compile a model from the Model Zoo, then deploy with:
+### vLLM RBLN
 
 ```bash
-# Compile
+cd huggingface/transformers/text2text-generation/llama/llama3.1-8b
 python compile.py
-
-# Install vLLM-RBLN
-pip3 install \
-  --extra-index-url https://download.pytorch.org/whl/cpu \
-  --extra-index-url https://wheels.vllm.ai/0.13.0/cpu \
-  vllm-rbln==0.10.2
+uv pip install \
+  --extra-index-url https://wheels.vllm.ai/0.22.0/cpu \
+  --torch-backend cpu \
+  vllm-rbln
 ```
 
-> [!NOTE]
-> The versions pinned above match what this repo was tested with as of **2026-03-27**; a newer stable release may already be available. For current versions and install steps, see the [RBLN installation guide](https://docs.rbln.ai/latest/getting_started/installation_guide.html).
-
 ```python
-# Import
 from vllm import LLM, SamplingParams
 
-# Load model and generate
 llm = LLM(model="Llama-3.1-8B-Instruct")
 out = llm.generate(["Hello"], SamplingParams(max_tokens=64))
 print(out[0].outputs[0].text)
 ```
 
-- [vLLM-RBLN](https://docs.rbln.ai/software/model_serving/vllm_support/vllm-rbln.html) — LLM serving on RBLN NPUs
-- [Triton](https://docs.rbln.ai/software/model_serving/nvidia_triton_inference_server/installation.html) — Triton Inference Server
-- [TorchServe](https://docs.rbln.ai/software/model_serving/torchserve/torchserve.html) — PyTorch model serving
+> [!NOTE]
+> Install commands are current as of 2026-07-13 and follow the [vLLM RBLN install guide](https://docs.rbln.ai/software/model_serving/vllm_support/vllm-rbln.html) — see it for the latest.
+
+### Other serving options
+
+- **[NVIDIA Triton Inference Server](https://docs.rbln.ai/software/model_serving/nvidia_triton_inference_server/installation.html)** — multi-model inference
+- **[TorchServe](https://docs.rbln.ai/software/model_serving/torchserve/torchserve.html)** — PyTorch model serving
 
 ---
 
 ## Links
 
-- [CHANGELOG](CHANGELOG.md) — Release history
-- [Issues](https://github.com/RBLN-SW/rbln-model-zoo/issues) — Report issues, request features, or request new model support.
+- [CHANGELOG](CHANGELOG.md) — release history
+- [Issues](https://github.com/RBLN-SW/rbln-model-zoo/issues) — report bugs, request features or new models

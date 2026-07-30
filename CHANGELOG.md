@@ -1,5 +1,22 @@
 # Change Log
 
+## July, 31st 2026 (v0.11.1)
+
+* Compatible versions:
+  * `rebel-compiler`: v0.11.1
+  * `optimum-rbln`: v0.11.1
+  * `vllm-rbln`: v0.11.1
+  * `docs.rbln.ai`: v0.11.1
+* **Added new examples**
+  * `text2text-generation`: **Qwen3-30B-A3B-Thinking-2507** (Qwen3 MoE, 256K).
+  * `image-text-to-text`: **Qwen3.5 (0.8B, 2B, 4B, 9B, 27B)** and **Qwen3.6 (27B)** — natively multimodal, hybrid GatedDeltaNet + full-attention decoder.
+* **Features**
+  * New `rbln-zoo` CLI to discover and list the zoo's examples.
+* **Fixes**
+  * `yolov5` detection: load from the pinned submodule instead of the moving upstream `master`.
+* **Removed**
+  * **Gemma 4** bucketing examples (`gemma-4-26b-a4b-bucketing`, `gemma-4-31b-bucketing`).
+
 ## June, 26th 2026 (v0.11.0)
 
 * Compatible versions:

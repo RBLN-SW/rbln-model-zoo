@@ -143,17 +143,6 @@ def _models_for_cli(
     return models
 
 
-def _scripts_label(m: ModelEntry) -> str:
-    """User-facing label describing which entry scripts the model ships."""
-    if m.has_main:
-        return "[green]main[/]"
-    if m.has_compile and m.has_inference:
-        return "[cyan]compile + inference[/]"
-    if m.has_compile:
-        return "[yellow]compile[/]"
-    return ""
-
-
 def _model_table(models: list[ModelEntry], title: str = "Models") -> Table:
     table = Table(
         title=title,
@@ -166,14 +155,12 @@ def _model_table(models: list[ModelEntry], title: str = "Models") -> Table:
     table.add_column("Path", style="bright_white", ratio=3)
     table.add_column("Cards", justify="center", ratio=1)
     table.add_column("Task", style="green", ratio=1)
-    table.add_column("Scripts", justify="center", ratio=1)
     for i, m in enumerate(models, 1):
         table.add_row(
             str(i),
             m.path,
             " ".join(_card_badge(c) for c in m.cards),
             m.task,
-            _scripts_label(m),
         )
     return table
 
@@ -365,7 +352,7 @@ def validate(
     ] = None,
     refresh: RefreshOption = False,
 ) -> None:
-    """Internal maintenance audit (hidden from --help).
+    """Maintenance audit of the model directories.
 
     Scans every model directory (including compile-only roots like
     cpp/serving/vllm) and reports NO SCRIPTS / AMBIGUOUS errors plus
@@ -488,6 +475,7 @@ def _run_live_help(model_path: str, script: str, path: Path) -> None:
 
 @app.command(
     "args",
+    hidden=True,
     context_settings={"allow_extra_args": True, "ignore_unknown_options": True},
 )
 def show_args(
@@ -535,6 +523,7 @@ def show_args(
 
 @app.command(
     "exec",
+    hidden=True,
     context_settings={"allow_extra_args": True, "ignore_unknown_options": True},
 )
 def exec_model(

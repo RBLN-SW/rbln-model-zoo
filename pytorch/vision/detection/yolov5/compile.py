@@ -1,4 +1,5 @@
 import argparse
+import os
 
 import rebel
 import torch
@@ -19,7 +20,9 @@ def main():
     args = parsing_argument()
     model_name = args.model_name
 
-    model = torch.hub.load("ultralytics/yolov5", model_name)
+    # Load from the vendored submodule; the remote repo tracks a moving master.
+    yolov5_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "yolov5")
+    model = torch.hub.load(yolov5_dir, model_name, source="local")
     model.eval()
 
     # Compile torch model for ATOM

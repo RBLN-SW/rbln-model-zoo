@@ -20,10 +20,10 @@ def main():
                 # per image or video frame, so set `max_seq_len` to match the maximum expected
                 # resolution to reduce computation.
                 "max_seq_len": 16384,
-                "tensor_parallel_size": 8,
+                "tensor_parallel_size": 16,
                 "create_runtimes": False,
             },
-            "tensor_parallel_size": 8,
+            "tensor_parallel_size": 16,
             "kvcache_partition_len": 16_384,
             # Max position embedding for the language model, must be a multiple of kvcache_partition_len.
             "max_seq_len": 262_144,

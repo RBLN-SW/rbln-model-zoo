@@ -37,9 +37,6 @@
 [submodule "pytorch_dynamo/vision/detection/yolov4/yolov4"]
 	path = pytorch_dynamo/vision/detection/yolov4/yolov4
 	url = https://github.com/WongKinYiu/PyTorch_YOLOv4.git
-[submodule "pytorch/vision/segmentation/detectron2/detectron2"]
-	path = pytorch/vision/segmentation/detectron2/detectron2
-	url = https://github.com/facebookresearch/detectron2.git
 [submodule "pytorch/vision/action_recognition/motionbert/MotionBERT"]
 	path = pytorch/vision/action_recognition/motionbert/MotionBERT
 	url = https://github.com/Walter0807/MotionBERT.git
@@ -52,9 +49,6 @@
 [submodule "pytorch/vision/face_detection/yolov5-face/yolov5-face"]
 	path = pytorch/vision/face_detection/yolov5-face/yolov5-face
 	url = https://github.com/deepcam-cn/yolov5-face.git
-[submodule "tensorflow/vision/super_resolution/natsr/NatSR"]
-	path = tensorflow/vision/super_resolution/natsr/NatSR
-	url = https://github.com/JWSoh/NatSR.git
 [submodule "pytorch/vision/detection/yolov10/ultralytics"]
 	path = pytorch/vision/detection/yolov10/ultralytics
 	url = https://github.com/ultralytics/ultralytics.git

@@ -1,5 +1,6 @@
 import os
 
+import torch
 from optimum.rbln import RBLNAutoPipelineForText2Image
 
 
@@ -9,6 +10,7 @@ def main():
     # Compile and export
     pipe = RBLNAutoPipelineForText2Image.from_pretrained(
         model_id,
+        torch_dtype=torch.float16,
         export=True,  # export a PyTorch model to RBLN model with optimum
         rbln_config={"unet": {"batch_size": 2}},
     )

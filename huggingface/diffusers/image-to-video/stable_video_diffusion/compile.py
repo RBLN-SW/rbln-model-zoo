@@ -1,6 +1,7 @@
 import argparse
 import os
 
+import torch
 from optimum.rbln import RBLNStableVideoDiffusionPipeline
 
 DEFAULT_FRAMES_AND_DECODE_CHUNK_SIZE = {
@@ -30,6 +31,8 @@ def main():
     # Compile and export
     pipe = RBLNStableVideoDiffusionPipeline.from_pretrained(
         model_id,
+        torch_dtype=torch.float16,
+        variant="fp16",
         export=True,  # export a PyTorch model to RBLN model with optimum
         rbln_height=576,
         rbln_width=1024,

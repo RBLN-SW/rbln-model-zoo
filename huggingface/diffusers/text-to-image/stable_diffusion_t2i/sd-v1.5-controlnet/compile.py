@@ -1,6 +1,7 @@
 import argparse
 import os
 
+import torch
 from diffusers import ControlNetModel
 from optimum.rbln import RBLNAutoPipelineForText2Image
 
@@ -26,11 +27,14 @@ def main():
     args = parsing_argument()
     model_id = "benjamin-paine/stable-diffusion-v1-5"
 
-    controlnet = ControlNetModel.from_pretrained("lllyasviel/sd-controlnet-canny")
+    controlnet = ControlNetModel.from_pretrained(
+        "lllyasviel/sd-controlnet-canny", torch_dtype=torch.float16
+    )
 
     # Compile and export
     pipe = RBLNAutoPipelineForText2Image.from_pretrained(
         model_id,
+        torch_dtype=torch.float16,
         export=True,  # export a PyTorch model to RBLN model with optimum
         controlnet=controlnet,
         rbln_config={

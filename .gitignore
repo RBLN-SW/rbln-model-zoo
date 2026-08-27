@@ -1,6 +1,7 @@
 *.swp
 *.swo
-.pkl_memoize_py3
+*.so
+*.meta
 *.rbln
 *.log
 *.jpg

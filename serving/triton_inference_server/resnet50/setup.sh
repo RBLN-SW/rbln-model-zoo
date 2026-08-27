@@ -37,7 +37,7 @@ echo "=================================================================="
 BE_DIR="python_backend"
 GIT_REPO="https://github.com/triton-inference-server/${BE_DIR}.git"
 if [ ! -d ${BE_DIR} ]; then
-  git clone ${GIT_REPO} -b r25.08
+  git clone ${GIT_REPO} -b r26.07
   if [ $? -ne 0 ]; then
     echo "Error while cloning git repository."
     popd

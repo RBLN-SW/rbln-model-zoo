@@ -74,7 +74,7 @@ def main():
         prompt,
         images,
         negative_prompt=negative_prompt,
-        num_inference_steps=20,
+        num_inference_steps=25,
         controlnet_conditioning_scale=[1.0, 0.8],
     ).images[0]
 

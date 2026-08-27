@@ -16,7 +16,7 @@ def load_image(url):
 
 
 def main():
-    model_id = "Qwen/Qwen3.5-27B"
+    model_id = "Qwen/Qwen3.8-27B"
     model_dir = os.path.basename(model_id)
 
     # Load compiled model

@@ -1,5 +1,6 @@
 import os
 
+import torch
 from optimum.rbln import RBLNAutoPipelineForText2Image
 
 
@@ -19,6 +20,7 @@ def main():
     # fused with the weights during compilation for NPU inference
     pipe = RBLNAutoPipelineForText2Image.from_pretrained(
         model_id,
+        torch_dtype=torch.float16,
         # Enable model export/compilation for NPU
         export=True,
         # LoRA configurations must be specified during model loading for RBLN compilation

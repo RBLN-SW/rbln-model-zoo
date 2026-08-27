@@ -120,7 +120,7 @@ Compile a model, then serve it on a supported inference server.
 cd huggingface/transformers/text2text-generation/llama/llama3.1-8b
 python compile.py
 uv pip install \
-  --extra-index-url https://wheels.vllm.ai/0.22.0/cpu \
+  --extra-index-url https://wheels.vllm.ai/0.24.0/cpu \
   --torch-backend cpu \
   vllm-rbln
 ```

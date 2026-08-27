@@ -1,5 +1,6 @@
 import os
 
+import torch
 from cosmos_upsampler import (
     RBLNMistralNeMoForTextUpsampler,
     RBLNMistralNeMoForTextUpsamplerConfig,
@@ -40,6 +41,7 @@ def main():
 
     pipe = RBLNCosmosTextToWorldPipeline.from_pretrained(
         model_id,
+        torch_dtype=torch.bfloat16,
         export=True,  # export PyTorch models to RBLN models with optimum
         rbln_config={
             "height": height,

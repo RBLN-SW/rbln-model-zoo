@@ -1,5 +1,25 @@
 # Change Log
 
+## August, 28th 2026 (v0.11.2)
+
+* Compatible versions:
+  * `rebel-compiler`: v0.11.2
+  * `optimum-rbln`: v0.11.2
+  * `vllm-rbln`: v0.11.2
+  * `docs.rbln.ai`: v0.11.2
+* **Added new examples**
+  * `image-text-to-text`: **Qwen3.8 (27B)**.
+  * `fill-mask`: **ModernBERT** — first fill-mask example in the zoo.
+* **Changes**
+  * Diffusers: all compile scripts now pass an explicit `torch_dtype=torch.float16` to `from_pretrained` (plus `variant="fp16"` where the checkpoint publishes fp16 weight shards). Diffusers loads weights as fp32 unless `torch_dtype` is set, and `optimum-rbln` compiles in the loaded dtype — the explicit argument is required for the pipelines to compile and run in 16-bit.
+  * Diffusers: SDXL ControlNet i2i prompt kept in sync with the input images.
+  * **Qwen3.5 27B / Qwen3.6 27B** moved to TP16 (`num_devices=16`; LM and `visual` split across devices).
+  * Serving: vLLM wheels index bumped to **0.24.0** (Triton `setup.sh`, RayServe `requirements.txt`).
+* **Fixes**
+  * `yolov5-face`: skip the Google Drive download when the weight file is already present.
+  * `yolov5` (torch.compile): bypass an untraceable version check in the dynamo path.
+  * `cosmos_transfer1`: pin `nltk==3.10.2` so the Cosmos Guardrail loads from the HF cache.
+
 ## July, 31st 2026 (v0.11.1)
 
 * Compatible versions:

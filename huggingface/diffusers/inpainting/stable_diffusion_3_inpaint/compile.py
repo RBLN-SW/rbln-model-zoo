@@ -1,5 +1,6 @@
 import os
 
+import torch
 from optimum.rbln import RBLNAutoPipelineForInpainting
 
 
@@ -9,6 +10,7 @@ def main():
     # Compile and export
     pipe = RBLNAutoPipelineForInpainting.from_pretrained(
         model_id,
+        torch_dtype=torch.float16,
         export=True,  # export a PyTorch model to RBLN model with optimum
         rbln_img_height=1024,
         rbln_img_width=1024,

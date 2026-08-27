@@ -11,7 +11,7 @@ def parsing_argument():
     parser.add_argument(
         "--prompt",
         type=str,
-        default="cat wizard, gandalf, lord of the rings, detailed, fantasy, cute, adorable, Pixar, Disney, 8k",  # noqa: E501
+        default="Face of a yellow cat, high resolution, sitting on a park bench",  # noqa: E501
         help="(str) type, prompt for generate image",
     )
     return parser.parse_args()

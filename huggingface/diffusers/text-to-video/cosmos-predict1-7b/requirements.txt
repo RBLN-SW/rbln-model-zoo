@@ -1,3 +1,4 @@
 --extra-index-url https://download.pytorch.org/whl/cpu
 optimum-rbln
 cosmos-guardrail==0.3.1
+nltk==3.10.2

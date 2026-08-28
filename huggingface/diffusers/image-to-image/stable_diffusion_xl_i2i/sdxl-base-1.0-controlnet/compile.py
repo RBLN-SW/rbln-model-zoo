@@ -1,6 +1,7 @@
 import argparse
 import os
 
+import torch
 from diffusers import AutoencoderKL, ControlNetModel
 from optimum.rbln import RBLNAutoModelForDepthEstimation, RBLNAutoPipelineForImage2Image
 
@@ -27,13 +28,16 @@ def main():
     model_id = "stabilityai/stable-diffusion-xl-base-1.0"
 
     controlnet = ControlNetModel.from_pretrained(
-        "diffusers/controlnet-depth-sdxl-1.0-small"
+        "diffusers/controlnet-depth-sdxl-1.0-small", torch_dtype=torch.float16
     )
-    vae = AutoencoderKL.from_pretrained("madebyollin/sdxl-vae-fp16-fix")
+    vae = AutoencoderKL.from_pretrained(
+        "madebyollin/sdxl-vae-fp16-fix", torch_dtype=torch.float16
+    )
 
     # Compile and export
     pipe = RBLNAutoPipelineForImage2Image.from_pretrained(
         model_id,
+        torch_dtype=torch.float16,
         export=True,  # export a PyTorch model to RBLN model with optimum
         controlnet=controlnet,
         vae=vae,

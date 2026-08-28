@@ -1,5 +1,6 @@
 import os
 
+import torch
 from optimum.rbln import RBLNKandinskyV22Pipeline, RBLNKandinskyV22PriorPipeline
 
 
@@ -10,11 +11,13 @@ def main():
     # Compile and export
     prior_pipe = RBLNKandinskyV22PriorPipeline.from_pretrained(
         prior_model_id,
+        torch_dtype=torch.float16,
         export=True,  # export a PyTorch model to RBLN model with optimum
     )
 
     decoder_pipe = RBLNKandinskyV22Pipeline.from_pretrained(
         decoder_model_id,
+        torch_dtype=torch.float16,
         export=True,
         rbln_config={
             "img_height": 768,

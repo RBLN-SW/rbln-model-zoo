@@ -1,6 +1,7 @@
 import argparse
 import os
 
+import torch
 from diffusers import ControlNetModel, UniPCMultistepScheduler
 from optimum.rbln import RBLNAutoPipelineForText2Image
 
@@ -32,12 +33,13 @@ def main():
 
     controlnets = []
     for cmi in controlnet_model_ids:
-        controlnet = ControlNetModel.from_pretrained(cmi)
+        controlnet = ControlNetModel.from_pretrained(cmi, torch_dtype=torch.float16)
         controlnets.append(controlnet)
 
     # Compile and export
     pipe = RBLNAutoPipelineForText2Image.from_pretrained(
         model_id,
+        torch_dtype=torch.float16,
         export=True,  # export a PyTorch model to RBLN model with optimum
         controlnet=controlnets,
         rbln_config={

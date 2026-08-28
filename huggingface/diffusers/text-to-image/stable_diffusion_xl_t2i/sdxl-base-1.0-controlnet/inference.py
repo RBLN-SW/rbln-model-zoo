@@ -18,6 +18,12 @@ def parsing_argument():
         help="(str) type, prompt for generate image",
     )
     parser.add_argument(
+        "--negative_prompt",
+        type=str,
+        default="low quality, bad quality, sketches",
+        help="(str) type, negative prompt for generate image",
+    )
+    parser.add_argument(
         "--controlnet_conditioning_scale",
         type=float,
         default=0.5,
@@ -30,6 +36,7 @@ def main():
     args = parsing_argument()
     model_id = "stabilityai/stable-diffusion-xl-base-1.0"
     prompt = args.prompt
+    negative_prompt = args.negative_prompt
     controlnet_conditioning_scale = args.controlnet_conditioning_scale
 
     image = load_image(
@@ -52,6 +59,7 @@ def main():
     # Generate image
     image = pipe(
         prompt,
+        negative_prompt=negative_prompt,
         controlnet_conditioning_scale=controlnet_conditioning_scale,
         image=canny_image,
     ).images[0]

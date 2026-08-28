@@ -1,6 +1,7 @@
 import argparse
 import os
 
+import torch
 from diffusers import AutoencoderKL, ControlNetModel
 from optimum.rbln import RBLNAutoPipelineForText2Image
 
@@ -26,12 +27,17 @@ def main():
     args = parsing_argument()
     model_id = "stabilityai/stable-diffusion-xl-base-1.0"
 
-    controlnet = ControlNetModel.from_pretrained("diffusers/controlnet-canny-sdxl-1.0")
-    vae = AutoencoderKL.from_pretrained("madebyollin/sdxl-vae-fp16-fix")
+    controlnet = ControlNetModel.from_pretrained(
+        "diffusers/controlnet-canny-sdxl-1.0", torch_dtype=torch.float16
+    )
+    vae = AutoencoderKL.from_pretrained(
+        "madebyollin/sdxl-vae-fp16-fix", torch_dtype=torch.float16
+    )
 
     # Compile and export
     pipe = RBLNAutoPipelineForText2Image.from_pretrained(
         model_id,
+        torch_dtype=torch.float16,
         export=True,  # export a PyTorch model to RBLN model with optimum
         controlnet=controlnet,
         vae=vae,

@@ -1,5 +1,6 @@
 import os
 
+import torch
 from optimum.rbln import (
     RBLNAutoModelForImageTextToText,
     RBLNCosmosVideoToWorldPipeline,
@@ -42,6 +43,7 @@ def main():
     # Compile and export
     pipe = RBLNCosmosVideoToWorldPipeline.from_pretrained(
         model_id,
+        torch_dtype=torch.bfloat16,
         export=True,  # export PyTorch models to RBLN models with optimum
         rbln_config={
             "height": height,

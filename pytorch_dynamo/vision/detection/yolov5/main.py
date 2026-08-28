@@ -76,6 +76,16 @@ def main():
     model = torch.hub.load(yolov5_dir, model_name, source="local")
     model.eval()
 
+    # yolov5's smart_amp_autocast() calls packaging.version.parse to choose the
+    # autocast API. torch.compile/dynamo cannot trace packaging's Version.__init__
+    # (its `raise ... from None` trips a dynamo bug), so replace it with the modern
+    # torch.amp path directly (torch is pinned >= 2.4, so this matches upstream).
+    # See https://github.com/RBLN-SW/rbln-model-zoo/issues/91
+    def _smart_amp_autocast(enabled=True):
+        return torch.amp.autocast("cpu", enabled=enabled)
+
+    sys.modules[type(model).__module__].smart_amp_autocast = _smart_amp_autocast
+
     # Disable capturing warnings for torch.compile
     torch._dynamo.allow_in_graph(warnings.simplefilter)
 

@@ -1,6 +1,7 @@
 import argparse
 import os
 
+import torch
 from optimum.rbln import RBLNAutoPipelineForImage2Image
 
 
@@ -28,6 +29,8 @@ def main():
     # Compile and export
     pipe = RBLNAutoPipelineForImage2Image.from_pretrained(
         model_id,
+        torch_dtype=torch.float16,
+        variant="fp16",
         export=True,  # export a PyTorch model to RBLN model with optimum
         rbln_img_width=args.img_width,
         rbln_img_height=args.img_height,

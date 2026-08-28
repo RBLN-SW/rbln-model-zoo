@@ -4,13 +4,13 @@ from optimum.rbln import RBLNAutoModelForImageTextToText
 
 
 def main():
-    model_id = "Qwen/Qwen3.5-27B"
+    model_id = "Qwen/Qwen3.8-27B"
     model = RBLNAutoModelForImageTextToText.from_pretrained(
         model_id,
         export=True,
         rbln_config={
             # The `device` parameter specifies the device allocation for each submodule during runtime.
-            # As Qwen3.5 consists of multiple submodules, loading them all onto a single device may exceed its memory capacity, especially as the batch size increases.
+            # As Qwen3-VL consists of multiple submodules, loading them all onto a single device may exceed its memory capacity, especially as the batch size increases.
             # By distributing submodules across devices, memory usage can be optimized for efficient runtime performance.
             "visual": {
                 # Maximum sequence lengths for Vision Transformer attention. Can be an integer or list of integers,

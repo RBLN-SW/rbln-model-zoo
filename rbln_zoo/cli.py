@@ -139,7 +139,11 @@ def _models_for_cli(
     with console.status(msg, spinner="dots"):
         models = discover_models_cached(registry, refresh=refresh)
     if cli_only:
-        models = [m for m in models if m.path.split("/", 1)[0] in CLI_SEARCH_ROOTS]
+        models = [
+            m
+            for m in models
+            if m.path.startswith(tuple(f"{r}/" for r in CLI_SEARCH_ROOTS))
+        ]
     return models
 
 
@@ -152,15 +156,15 @@ def _model_table(models: list[ModelEntry], title: str = "Models") -> Table:
         show_lines=False,
     )
     table.add_column("#", width=4, justify="right")
-    table.add_column("Path", style="bright_white", ratio=3)
+    table.add_column("Model", style="green", ratio=2, overflow="fold")
     table.add_column("Cards", justify="center", ratio=1)
-    table.add_column("Task", style="green", ratio=1)
+    table.add_column("Path", style="bright_white", ratio=3)
     for i, m in enumerate(models, 1):
         table.add_row(
             str(i),
-            m.path,
+            m.name,
             " ".join(_card_badge(c) for c in m.cards),
-            m.task,
+            m.path,
         )
     return table
 
@@ -258,6 +262,10 @@ def list_models(
     search: Annotated[
         str | None, typer.Option("--search", "-s", help="Search model paths")
     ] = None,
+    paths_out: Annotated[
+        bool,
+        typer.Option("--paths", help="Emit one full model path per line, for copying"),
+    ] = False,
     json_out: Annotated[
         bool, typer.Option("--json", help="Emit results as JSON")
     ] = False,
@@ -288,6 +296,12 @@ def list_models(
 
     if json_out:
         print(json.dumps([asdict(m) for m in models], indent=2))
+        return
+
+    if paths_out:
+        # Bare print: the table elides long paths, this must not.
+        for m in models:
+            print(m.path)
         return
 
     filters = {
@@ -331,14 +345,15 @@ def cards(
     )
     table.add_column("Card", style="bold")
     table.add_column("Description")
-    table.add_column("Default", justify="center")
+    table.add_column("Default for", justify="center")
     table.add_column("Models", justify="right", style="bold")
     for name, info in card_defs.items():
         desc = info.get("description", "") if isinstance(info, dict) else str(info)
+        products = ", ".join(p for p, cs in default.items() if name in cs)
         table.add_row(
             _card_badge(name),
             desc,
-            "[green]Yes[/]" if name in default else "[dim]—[/]",
+            f"[green]{products}[/]" if products else "[dim]—[/]",
             str(sum(1 for m in models if name in m.cards)),
         )
     console.print(table)
@@ -355,7 +370,7 @@ def validate(
     """Maintenance audit of the model directories.
 
     Scans every model directory (including compile-only roots like
-    cpp/serving/vllm) and reports NO SCRIPTS / AMBIGUOUS errors plus
+    cpp/serving) and reports NO SCRIPTS / AMBIGUOUS errors plus
     NO INFER / NO REQS warnings. Same checks run automatically inside
     ``pytest`` via ``tests/test_model_directory_audit.py`` — this
     command exists for ad-hoc maintainer use with formatted output.

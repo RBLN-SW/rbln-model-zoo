@@ -1,87 +1,93 @@
 [submodule "pytorch/vision/detection/yolox/YOLOX"]
-	path = pytorch/vision/detection/yolox/YOLOX
+	path = ATOM/pytorch/vision/detection/yolox/YOLOX
 	url = https://github.com/Megvii-BaseDetection/YOLOX
 [submodule "pytorch/vision/detection/yolov5/yolov5"]
-	path = pytorch/vision/detection/yolov5/yolov5
+	path = ATOM/pytorch/vision/detection/yolov5/yolov5
 	url = https://github.com/ultralytics/yolov5.git
 [submodule "pytorch/vision/detection/yolov7/yolov7"]
-	path = pytorch/vision/detection/yolov7/yolov7
+	path = ATOM/pytorch/vision/detection/yolov7/yolov7
 	url = https://github.com/WongKinYiu/yolov7.git
 [submodule "pytorch/vision/detection/yolov6/YOLOv6"]
-	path = pytorch/vision/detection/yolov6/YOLOv6
+	path = ATOM/pytorch/vision/detection/yolov6/YOLOv6
 	url = https://github.com/meituan/YOLOv6.git
 [submodule "pytorch/vision/detection/yolov8/ultralytics"]
-	path = pytorch/vision/detection/yolov8/ultralytics
+	path = ATOM/pytorch/vision/detection/yolov8/ultralytics
 	url = https://github.com/ultralytics/ultralytics.git
 [submodule "pytorch/vision/detection/yolov3/yolov3"]
-	path = pytorch/vision/detection/yolov3/yolov3
+	path = ATOM/pytorch/vision/detection/yolov3/yolov3
 	url = https://github.com/ultralytics/yolov3.git
 [submodule "pytorch/vision/detection/yolov4/yolov4"]
-	path = pytorch/vision/detection/yolov4/yolov4
+	path = ATOM/pytorch/vision/detection/yolov4/yolov4
 	url = https://github.com/WongKinYiu/PyTorch_YOLOv4.git
 [submodule "pytorch/vision/pose_estimation/motionbert/MotionBERT"]
-	path = pytorch/vision/pose_estimation/motionbert/MotionBERT
+	path = ATOM/pytorch/vision/pose_estimation/motionbert/MotionBERT
 	url = https://github.com/Walter0807/MotionBERT.git
 [submodule "pytorch_dynamo/vision/detection/yolox/YOLOX"]
-	path = pytorch_dynamo/vision/detection/yolox/YOLOX
+	path = ATOM/pytorch_dynamo/vision/detection/yolox/YOLOX
 	url = https://github.com/Megvii-BaseDetection/YOLOX
 [submodule "pytorch_dynamo/vision/detection/yolov5/yolov5"]
-	path = pytorch_dynamo/vision/detection/yolov5/yolov5
+	path = ATOM/pytorch_dynamo/vision/detection/yolov5/yolov5
 	url = https://github.com/ultralytics/yolov5.git
 [submodule "pytorch_dynamo/vision/detection/yolov6/YOLOv6"]
-	path = pytorch_dynamo/vision/detection/yolov6/YOLOv6
+	path = ATOM/pytorch_dynamo/vision/detection/yolov6/YOLOv6
 	url = https://github.com/meituan/YOLOv6.git
 [submodule "pytorch_dynamo/vision/detection/yolov3/yolov3"]
-	path = pytorch_dynamo/vision/detection/yolov3/yolov3
+	path = ATOM/pytorch_dynamo/vision/detection/yolov3/yolov3
 	url = https://github.com/ultralytics/yolov3.git
 [submodule "pytorch_dynamo/vision/detection/yolov4/yolov4"]
-	path = pytorch_dynamo/vision/detection/yolov4/yolov4
+	path = ATOM/pytorch_dynamo/vision/detection/yolov4/yolov4
 	url = https://github.com/WongKinYiu/PyTorch_YOLOv4.git
+[submodule "pytorch/vision/segmentation/detectron2/detectron2"]
+	path = ATOM/pytorch/vision/segmentation/detectron2/detectron2
+	url = https://github.com/facebookresearch/detectron2.git
 [submodule "pytorch/vision/action_recognition/motionbert/MotionBERT"]
-	path = pytorch/vision/action_recognition/motionbert/MotionBERT
+	path = ATOM/pytorch/vision/action_recognition/motionbert/MotionBERT
 	url = https://github.com/Walter0807/MotionBERT.git
 [submodule "pytorch_dynamo/vision/image_segmentation/sam2/sam2"]
-	path = pytorch_dynamo/vision/image_segmentation/sam2/sam2
+	path = ATOM/pytorch_dynamo/vision/image_segmentation/sam2/sam2
 	url = https://github.com/facebookresearch/sam2.git
 [submodule "pytorch_dynamo/vision/video_segmentation/sam2/sam2"]
-	path = pytorch_dynamo/vision/video_segmentation/sam2/sam2
+	path = ATOM/pytorch_dynamo/vision/video_segmentation/sam2/sam2
 	url = https://github.com/facebookresearch/sam2.git
 [submodule "pytorch/vision/face_detection/yolov5-face/yolov5-face"]
-	path = pytorch/vision/face_detection/yolov5-face/yolov5-face
+	path = ATOM/pytorch/vision/face_detection/yolov5-face/yolov5-face
 	url = https://github.com/deepcam-cn/yolov5-face.git
+[submodule "tensorflow/vision/super_resolution/natsr/NatSR"]
+	path = ATOM/tensorflow/vision/super_resolution/natsr/NatSR
+	url = https://github.com/JWSoh/NatSR.git
 [submodule "pytorch/vision/detection/yolov10/ultralytics"]
-	path = pytorch/vision/detection/yolov10/ultralytics
+	path = ATOM/pytorch/vision/detection/yolov10/ultralytics
 	url = https://github.com/ultralytics/ultralytics.git
 [submodule "pytorch/vision/detection/yolov3/ultralytics"]
-	path = pytorch/vision/detection/yolov3/ultralytics
+	path = ATOM/pytorch/vision/detection/yolov3/ultralytics
 	url = https://github.com/ultralytics/ultralytics.git
 [submodule "pytorch_dynamo/vision/detection/yolov3/ultralytics"]
-	path = pytorch_dynamo/vision/detection/yolov3/ultralytics
+	path = ATOM/pytorch_dynamo/vision/detection/yolov3/ultralytics
 	url = https://github.com/ultralytics/ultralytics.git
 [submodule "pytorch/vision/pose_estimation/yolov8/ultralytics"]
-	path = pytorch/vision/pose_estimation/yolov8/ultralytics
+	path = ATOM/pytorch/vision/pose_estimation/yolov8/ultralytics
 	url = https://github.com/ultralytics/ultralytics.git
 [submodule "huggingface/third-party-models/video-to-video/cosmos_transfer1/cosmos-transfer1"]
-	path = huggingface/third-party-models/video-to-video/cosmos_transfer1/cosmos-transfer1
+	path = ATOM/huggingface/third-party-models/video-to-video/cosmos_transfer1/cosmos-transfer1
 	url = https://github.com/nvidia-cosmos/cosmos-transfer1.git
 [submodule "huggingface/transformers/visual-document-retrieval/colqwen2_5/colpali"]
-	path = huggingface/transformers/visual-document-retrieval/colqwen2_5/colpali
+	path = ATOM/huggingface/transformers/visual-document-retrieval/colqwen2_5/colpali
 	url = https://github.com/illuin-tech/colpali
 [submodule "huggingface/transformers/visual-document-retrieval/colpali/colpali"]
-	path = huggingface/transformers/visual-document-retrieval/colpali/colpali
+	path = ATOM/huggingface/transformers/visual-document-retrieval/colpali/colpali
 	url = https://github.com/illuin-tech/colpali.git
 [submodule "pytorch/vision/detection/yolov11/ultralytics"]
-	path = pytorch/vision/detection/yolov11/ultralytics
+	path = ATOM/pytorch/vision/detection/yolov11/ultralytics
 	url = https://github.com/ultralytics/ultralytics.git
 [submodule "huggingface/third-party-models/depth-estimation/Depth-Anything-3/Depth-Anything-3"]
-	path = huggingface/third-party-models/depth-estimation/Depth-Anything-3/Depth-Anything-3
+	path = ATOM/huggingface/third-party-models/depth-estimation/Depth-Anything-3/Depth-Anything-3
 	url = https://github.com/ByteDance-Seed/Depth-Anything-3
 [submodule "huggingface/third-party-models/3d-mesh-reconstruction/stable-fast-3d"]
-	path = huggingface/third-party-models/3d-mesh-reconstruction/stable-fast-3d/stable-fast-3d
+	path = ATOM/huggingface/third-party-models/3d-mesh-reconstruction/stable-fast-3d/stable-fast-3d
 	url = https://github.com/Stability-AI/stable-fast-3d.git
 [submodule "huggingface/third-party-models/3d-mesh-reconstruction/triposr/TripoSR"]
-	path = huggingface/third-party-models/3d-mesh-reconstruction/triposr/TripoSR
+	path = ATOM/huggingface/third-party-models/3d-mesh-reconstruction/triposr/TripoSR
 	url = https://github.com/VAST-AI-Research/TripoSR.git
 [submodule "pytorch/vision/pose_estimation/yolov11/ultralytics"]
-	path = pytorch/vision/pose_estimation/yolov11/ultralytics
+	path = ATOM/pytorch/vision/pose_estimation/yolov11/ultralytics
 	url = https://github.com/ultralytics/ultralytics.git

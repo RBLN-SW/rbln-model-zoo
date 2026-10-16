@@ -8,25 +8,30 @@
 #   rbln-zoo list --card rbln-ca25
 # resolves to RBLN-CA25.
 #
-# All existing models default to every card listed in `default_cards`.
-# Add per-model overrides below when support differs from the default.
+# Models default to the cards of their product tree — the top-level
+# directory (ATOM/, Rebel100/) keyed in `default_cards`. Add per-model
+# overrides below when support differs from the product default.
 
 cards:
   RBLN-CA22:
     description: "ATOM™+"
   RBLN-CA25:
     description: "ATOM™-Max"
+  RBLN-CR13:
+    description: "Rebel100™"
 
-default_cards: [RBLN-CA22, RBLN-CA25]
+default_cards:
+  ATOM: [RBLN-CA22, RBLN-CA25]
+  Rebel100: [RBLN-CR13]
 
 # Per-model overrides (only needed when supported cards differ from
-# the default set above).
+# the product default above).
 #
 # Example:
 #
 # overrides:
-#   huggingface/transformers/.../model-a:
+#   ATOM/huggingface/transformers/.../model-a:
 #     cards: [RBLN-CA25]                  # CA25 only
-#   huggingface/transformers/.../model-b:
+#   ATOM/huggingface/transformers/.../model-b:
 #     cards: [RBLN-CA22]
 overrides: {}

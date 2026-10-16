@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 3.26)
+
+project(opencv-build)
+
+include(ExternalProject)
+
+ExternalProject_Add(
+    opencv
+    GIT_REPOSITORY https://github.com/opencv/opencv.git
+    GIT_TAG 4.8.1
+    PREFIX ${OPENCV_SUBBUILD_DIR}
+    INSTALL_DIR ${OPENCV_SUBBUILD_INSTALL_DIR}
+    CMAKE_ARGS
+    -DBUILD_TESTS=OFF
+    -DBUILD_PERF_TESTS=OFF
+    -DBUILD_opencv_apps=OFF
+    -DBUILD_opencv_python3=OFF
+    -DCMAKE_INSTALL_PREFIX=${OPENCV_SUBBUILD_INSTALL_DIR}
+)

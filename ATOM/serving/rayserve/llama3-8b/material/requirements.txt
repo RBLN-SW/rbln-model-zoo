@@ -1,0 +1,5 @@
+--extra-index-url https://wheels.vllm.ai/0.30.0/cpu
+--extra-index-url https://download.pytorch.org/whl/cpu
+ray[serve]==2.55.0
+requests>=2.32.3
+vllm-rbln

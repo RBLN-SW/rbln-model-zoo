@@ -1,0 +1,18 @@
+# TorchServe frontend parameters
+minWorkers: 1
+maxWorkers: 1             # Set the number of worker to create a single model instance
+maxBatchDelay: 100
+startupTimeout: 1200      # (in seconds) Give the worker time to load the model weights
+asyncCommunication: true  # This ensures we can cummunicate asynchronously with the worker
+
+# Handler parameters
+handler:
+    vllm_engine_config: # vLLM configuration which gets fed into AsyncVLLMEngine
+        max_num_seqs: 1
+        max_num_batched_tokens: 131072
+        max_model_len: 131072
+        block_size: 16384
+        device: "rbln"
+        model: "Llama-3.1-8B-Instruct" # Can be a model identifier for Hugging Face hub or a local path
+        served_model_name:
+            - "llama3.1-8b"

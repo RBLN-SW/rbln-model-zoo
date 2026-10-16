@@ -11,3 +11,7 @@
 *.bin
 *.pt
 __pycache__/
+.rbln_zoo_cache/
+/build/
+/unified_requirements.txt
+*.egg-info/

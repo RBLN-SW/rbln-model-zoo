@@ -1,4 +1,0 @@
---extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.11.0+cpu
-transformers==5.8.1
-sentence-transformers>=5.0.0

@@ -1,0 +1,42 @@
+name: "yolov8l"
+backend: "python"
+
+input [
+  {
+    name: "INPUT__0"
+    data_type: TYPE_FP32
+    dims: [ 3, 640, 640 ]
+  }
+]
+output [
+  {
+    name: "OUTPUT__0"
+    data_type: TYPE_FP32
+    dims: [ 1, 84, 8400 ]
+  },
+  {
+    name: "OUTPUT__1"
+    data_type: TYPE_FP32
+    dims: [ 1, 144, 80, 80 ]
+  },
+  {
+    name: "OUTPUT__2"
+    data_type: TYPE_FP32
+    dims: [ 1, 144, 80, 80 ]
+  },
+  {
+    name: "OUTPUT__3"
+    data_type: TYPE_FP32
+    dims: [ 1, 144, 40, 40 ]
+  }
+]
+
+# Configure instance group
+instance_group [
+  {
+    count: 1
+    kind: KIND_MODEL
+  }
+]
+
+max_batch_size: 1

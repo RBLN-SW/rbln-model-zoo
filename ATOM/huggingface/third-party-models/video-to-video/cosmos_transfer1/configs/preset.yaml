@@ -1,0 +1,261 @@
+defaults:
+  checkpoint_dir: ./ckpt
+
+compile:
+  4kupscaler_perf:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_upscaler_perf
+    controlnet_specs: assets/upscaler_test.json
+    height: 704
+    width: 1280
+    flags: [upsample_prompt, use_perf]
+
+  4kupscaler:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_upscaler
+    controlnet_specs: assets/upscaler_test.json
+    height: 704
+    width: 1280
+    flags: [upsample_prompt]
+
+  av_perf:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_av_perf
+    controlnet_specs: assets/sample_av_multi_control_spec.json
+    height: 704
+    width: 1280
+    flags: [is_av_sample, upsample_prompt, use_perf]
+
+  av:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_av
+    controlnet_specs: assets/sample_av_multi_control_spec.json
+    height: 704
+    width: 1280
+    flags: [is_av_sample, upsample_prompt]
+
+  distil_perf:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_distil_perf
+    controlnet_specs: assets/single_test.json
+    height: 704
+    width: 1280
+    flags: [use_distilled, upsample_prompt, use_perf]
+
+  distil:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_distil
+    controlnet_specs: assets/single_test.json
+    height: 704
+    width: 1280
+    flags: [use_distilled, upsample_prompt]
+
+  multi_perf:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_perf
+    controlnet_specs: assets/multi_test.json
+    height: 704
+    width: 1280
+    flags: [upsample_prompt, use_perf]
+
+  multi:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt
+    controlnet_specs: assets/multi_test.json
+    height: 704
+    width: 1280
+    flags: [upsample_prompt]
+
+  multiview_lvg_perf:
+    mode: transfer_multiview
+    rbln_dir: ./rbln_ckpt_multiview_lvg_perf
+    controlnet_specs: assets/sample_av_hdmap_multiview_lvg_spec.json
+    flags: [is_lvg_model, use_perf]
+
+  multiview_lvg:
+    mode: transfer_multiview
+    rbln_dir: ./rbln_ckpt_multiview_lvg
+    controlnet_specs: assets/sample_av_hdmap_multiview_lvg_spec.json
+    flags: [is_lvg_model]
+
+  multiview_perf:
+    mode: transfer_multiview
+    rbln_dir: ./rbln_ckpt_multiview_perf
+    controlnet_specs: assets/sample_av_hdmap_multiview_spec.json
+    flags: [use_perf]
+
+  multiview:
+    mode: transfer_multiview
+    rbln_dir: ./rbln_ckpt_multiview
+    controlnet_specs: assets/sample_av_hdmap_multiview_spec.json
+
+  region_perf:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_region_perf
+    controlnet_specs: assets/regional_prompt_test.json
+    height: 704
+    width: 1280
+    num_regions: 3
+    flags: [use_regional_prompts, upsample_prompt, use_perf]
+
+  region:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_region
+    controlnet_specs: assets/regional_prompt_test.json
+    height: 704
+    width: 1280
+    num_regions: 3
+    flags: [use_regional_prompts, upsample_prompt]
+
+  single_perf:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_perf
+    controlnet_specs: assets/single_test.json
+    height: 704
+    width: 1280
+    flags: [upsample_prompt, use_perf]
+
+  single:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt
+    controlnet_specs: assets/single_test.json
+    height: 704
+    width: 1280
+    flags: [upsample_prompt]
+
+inference:
+  4kupscaler_perf:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_upscaler_perf
+    controlnet_specs: assets/upscaler_test.json
+    video_save_folder: ./outputs/upscaler_perf
+    flags: [upsample_prompt]
+    num_steps: 10
+
+  4kupscaler:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_upscaler
+    controlnet_specs: assets/upscaler_test.json
+    video_save_folder: ./outputs/upscaler
+    flags: [upsample_prompt]
+    num_steps: 10
+
+  av_perf:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_av_perf
+    controlnet_specs: assets/sample_av_multi_control_spec.json
+    video_save_folder: ./outputs/av_perf
+    sigma_max: 80
+    flags: [is_av_sample, upsample_prompt]
+
+  av:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_av
+    controlnet_specs: assets/sample_av_multi_control_spec.json
+    video_save_folder: ./outputs/av
+    sigma_max: 80
+    flags: [is_av_sample, upsample_prompt]
+
+  distil_perf:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_distil_perf
+    controlnet_specs: assets/single_test.json
+    video_save_folder: ./outputs/distil_perf
+    num_steps: 1
+    flags: [use_distilled, upsample_prompt]
+
+  distil:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_distil
+    controlnet_specs: assets/single_test.json
+    video_save_folder: ./outputs/distil
+    num_steps: 1
+    flags: [use_distilled, upsample_prompt]
+
+  multi_perf:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_perf
+    controlnet_specs: assets/multi_test.json
+    video_save_folder: ./outputs/multi_perf
+    flags: [upsample_prompt]
+
+  multi:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt
+    controlnet_specs: assets/multi_test.json
+    video_save_folder: ./outputs/multi
+    flags: [upsample_prompt]
+
+  multiview_lvg_perf:
+    mode: transfer_multiview
+    rbln_dir: ./rbln_ckpt_multiview_lvg_perf
+    controlnet_specs: assets/sample_av_hdmap_multiview_lvg_spec.json
+    video_save_folder: ./outputs/multiview_lvg_perf
+    guidance: 3
+    n_clip_max: 3
+    num_input_frames: 9
+    num_steps: 30
+    view_condition_video: assets/sample_av_mv_input_rgb.mp4
+    initial_condition_video: ./outputs/multiview_perf/output.mp4
+    prompt: "The video is captured from a camera mounted on a car. The camera is facing forward. The video captures a driving scene on a multi-lane highway during the day. The sky is clear and blue, indicating good weather conditions. The road is relatively busy with several cars and trucks in motion. A red sedan is driving in the left lane, followed by a black pickup truck in the right lane. The vehicles are maintaining a safe distance from each other. On the right side of the road, there are speed limit signs indicating a limit of 65 mph. The surrounding area includes a mix of greenery and industrial buildings, with hills visible in the distance. The overall environment appears to be a typical day on a highway with moderate traffic. The golden light of the late afternoon bathes the highway, casting long shadows and creating a warm, serene atmosphere. The sky is a mix of orange and blue, with the sun low on the horizon. The red sedan in the left lane reflects the golden hues, while the black pickup truck in the right lane casts a distinct shadow on the pavement. The speed limit signs stand out clearly under the fading sunlight. The surrounding greenery glows with a rich, warm tone, and the industrial buildings take on a softened appearance in the sunset."
+
+  multiview_lvg:
+    mode: transfer_multiview
+    rbln_dir: ./rbln_ckpt_multiview_lvg
+    controlnet_specs: assets/sample_av_hdmap_multiview_lvg_spec.json
+    video_save_folder: ./outputs/multiview_lvg
+    guidance: 3
+    n_clip_max: 3
+    num_input_frames: 9
+    num_steps: 30
+    view_condition_video: assets/sample_av_mv_input_rgb.mp4
+    initial_condition_video: ./outputs/multiview/output.mp4
+    prompt: "The video is captured from a camera mounted on a car. The camera is facing forward. The video captures a driving scene on a multi-lane highway during the day. The sky is clear and blue, indicating good weather conditions. The road is relatively busy with several cars and trucks in motion. A red sedan is driving in the left lane, followed by a black pickup truck in the right lane. The vehicles are maintaining a safe distance from each other. On the right side of the road, there are speed limit signs indicating a limit of 65 mph. The surrounding area includes a mix of greenery and industrial buildings, with hills visible in the distance. The overall environment appears to be a typical day on a highway with moderate traffic. The golden light of the late afternoon bathes the highway, casting long shadows and creating a warm, serene atmosphere. The sky is a mix of orange and blue, with the sun low on the horizon. The red sedan in the left lane reflects the golden hues, while the black pickup truck in the right lane casts a distinct shadow on the pavement. The speed limit signs stand out clearly under the fading sunlight. The surrounding greenery glows with a rich, warm tone, and the industrial buildings take on a softened appearance in the sunset."
+
+  multiview_perf:
+    mode: transfer_multiview
+    rbln_dir: ./rbln_ckpt_multiview_perf
+    controlnet_specs: assets/sample_av_hdmap_multiview_spec.json
+    video_save_folder: ./outputs/multiview_perf
+    guidance: 3
+    num_steps: 30
+    view_condition_video: assets/sample_av_mv_input_rgb.mp4
+    prompt: "The video is captured from a camera mounted on a car. The camera is facing forward. The video captures a driving scene on a multi-lane highway during the day. The sky is clear and blue, indicating good weather conditions. The road is relatively busy with several cars and trucks in motion. A red sedan is driving in the left lane, followed by a black pickup truck in the right lane. The vehicles are maintaining a safe distance from each other. On the right side of the road, there are speed limit signs indicating a limit of 65 mph. The surrounding area includes a mix of greenery and industrial buildings, with hills visible in the distance. The overall environment appears to be a typical day on a highway with moderate traffic. The golden light of the late afternoon bathes the highway, casting long shadows and creating a warm, serene atmosphere. The sky is a mix of orange and blue, with the sun low on the horizon. The red sedan in the left lane reflects the golden hues, while the black pickup truck in the right lane casts a distinct shadow on the pavement. The speed limit signs stand out clearly under the fading sunlight. The surrounding greenery glows with a rich, warm tone, and the industrial buildings take on a softened appearance in the sunset."
+
+  multiview:
+    mode: transfer_multiview
+    rbln_dir: ./rbln_ckpt_multiview
+    controlnet_specs: assets/sample_av_hdmap_multiview_spec.json
+    video_save_folder: ./outputs/multiview
+    guidance: 3
+    num_steps: 30
+    view_condition_video: assets/sample_av_mv_input_rgb.mp4
+    prompt: "The video is captured from a camera mounted on a car. The camera is facing forward. The video captures a driving scene on a multi-lane highway during the day. The sky is clear and blue, indicating good weather conditions. The road is relatively busy with several cars and trucks in motion. A red sedan is driving in the left lane, followed by a black pickup truck in the right lane. The vehicles are maintaining a safe distance from each other. On the right side of the road, there are speed limit signs indicating a limit of 65 mph. The surrounding area includes a mix of greenery and industrial buildings, with hills visible in the distance. The overall environment appears to be a typical day on a highway with moderate traffic. The golden light of the late afternoon bathes the highway, casting long shadows and creating a warm, serene atmosphere. The sky is a mix of orange and blue, with the sun low on the horizon. The red sedan in the left lane reflects the golden hues, while the black pickup truck in the right lane casts a distinct shadow on the pavement. The speed limit signs stand out clearly under the fading sunlight. The surrounding greenery glows with a rich, warm tone, and the industrial buildings take on a softened appearance in the sunset."
+
+  region_perf:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_region_perf
+    controlnet_specs: assets/regional_prompt_test.json
+    video_save_folder: ./outputs/region_perf
+    flags: [upsample_prompt]
+
+  region:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_region
+    controlnet_specs: assets/regional_prompt_test.json
+    video_save_folder: ./outputs/region
+    flags: [upsample_prompt]
+
+  single_perf:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt_perf
+    controlnet_specs: assets/single_test.json
+    video_save_folder: ./outputs/single_perf
+    flags: [upsample_prompt]
+
+  single:
+    mode: transfer
+    rbln_dir: ./rbln_ckpt
+    controlnet_specs: assets/single_test.json
+    video_save_folder: ./outputs/single
+    flags: [upsample_prompt]

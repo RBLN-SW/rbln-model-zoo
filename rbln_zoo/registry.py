@@ -10,22 +10,27 @@ from typing import Any
 
 import yaml
 
+# Product directories: each product ships its framework suites under
+# <product>/<framework> (e.g. ATOM/huggingface/...). A new product adds its
+# name here and its roots below.
+PRODUCT_DIRS = ("ATOM", "Rebel100")
 MODEL_ROOTS = (
-    "huggingface",
-    "pytorch",
-    "pytorch_dynamo",
-    "tensorflow",
-    "cpp",
-    "serving",
-    "vllm",
+    "ATOM/huggingface",
+    "ATOM/pytorch",
+    "ATOM/pytorch_dynamo",
+    "ATOM/tensorflow",
+    "ATOM/cpp",
+    "ATOM/serving",
+    "Rebel100/huggingface",
 )
 CLI_SEARCH_ROOTS = (
-    "huggingface",
-    "pytorch",
-    "pytorch_dynamo",
-    "tensorflow",
+    "ATOM/huggingface",
+    "ATOM/pytorch",
+    "ATOM/pytorch_dynamo",
+    "ATOM/tensorflow",
+    "Rebel100/huggingface",
 )
-COMPILE_ONLY_ROOTS = ("cpp", "serving", "vllm")
+COMPILE_ONLY_ROOTS = ("ATOM/cpp", "ATOM/serving")
 
 GIT_DIRNAME = ".git"
 SKIP_DIRS = frozenset({".venv", "__pycache__", "node_modules", GIT_DIRNAME})
@@ -59,9 +64,11 @@ DISCOVER_CACHE_FILE: Path = DISCOVER_CACHE_DIR / "discovered_models.json"
 
 REQ_FILE = "requirements.txt"
 
+# default_cards maps each product tree (top-level directory) to the cards
+# its models carry unless a per-model override says otherwise.
 _DEFAULT_REGISTRY: dict[str, Any] = {
     RK_CARDS: {},
-    RK_DEFAULT_CARDS: ["CA"],
+    RK_DEFAULT_CARDS: {},
     RK_OVERRIDES: {},
 }
 
@@ -93,8 +100,10 @@ def load_registry(path: Path | None = None) -> dict[str, Any]:
 
 
 def _parse_model_path(rel: str) -> tuple[str, str, str]:
-    hf = MODEL_ROOTS[0]
+    hf = "huggingface"
     parts = rel.split("/")
+    if parts and parts[0] in PRODUCT_DIRS:
+        parts = parts[1:]
     framework = parts[0] if parts else ""
     if framework == hf and len(parts) > 1:
         framework = f"{hf}/{parts[1]}"
@@ -208,8 +217,9 @@ def _paths_to_model_entries(
         seen.add(rel)
 
         framework, task, name = _parse_model_path(rel)
+        product = rel.split("/", 1)[0]
         override = overrides.get(rel, {})
-        cards = tuple(override.get("cards", default_cards))
+        cards = tuple(override.get("cards", default_cards.get(product, [])))
 
         models.append(
             ModelEntry(

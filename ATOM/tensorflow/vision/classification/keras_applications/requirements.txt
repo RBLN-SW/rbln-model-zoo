@@ -1,0 +1,4 @@
+tensorflow==2.18.0 ; python_version < '3.13'
+pillow>=10.2.0
+numpy>=2.0.2
+tf_keras==2.18.0 ; python_version < '3.13'

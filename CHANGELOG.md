@@ -1,5 +1,42 @@
 # Change Log
 
+## October, 15th 2026 (v0.12.0)
+
+* Compatible versions:
+  * `rebel-compiler`: v0.12.0
+  * `optimum-rbln`: v0.12.0
+  * `vllm-rbln`: v0.12.0
+  * `docs.rbln.ai`: v0.12.0
+* **Rebel100™**
+  * **Rebel100™ (`RBLN-CR13`): 79 LLM and VLM examples, under `Rebel100/`.** Each is its `ATOM/` counterpart on a single NPU — `rbln_num_devices=1`, and `attn_impl="flash_attn"` with `kvcache_partition_len=8_192`, because the Rebel100™ KV-cache window is half ATOM™'s.
+  * `rbln-zoo` knows both products: examples carry the cards of their product tree — `rbln-zoo list -c RBLN-CR13`, `rbln-zoo cards`.
+* **Upgrade**
+  * **Every example moved under its product directory.** `huggingface/`, `pytorch/`, `pytorch_dynamo/`, `tensorflow/`, `cpp/` and `serving/` are now `ATOM/<framework>/...` — update saved paths and scripts.
+  * The standalone `vllm/` examples were dropped in the same move. Serve with `vllm serve` instead, as the Deployment section shows.
+* **Added new examples**
+  * `text-to-image`: **Cosmos-Predict2 (2B, 14B)**.
+  * `text-to-video`: **Cosmos-Predict2.5 (2B, 14B)**.
+  * `image-to-video`: **Cosmos-Predict2.5 (2B, 14B)**.
+  * `video-to-video`: **Cosmos-Predict2 (2B, 14B)**, **Cosmos-Predict2.5 (2B, 14B)** and **Cosmos-Transfer2.5 (2B)**.
+  * `image-text-to-text`: **Cosmos-Reason2 (2B, 8B, 32B)**.
+  * `automatic-speech-recognition`: **Qwen3-ASR**.
+* **Dependency updates**
+  * `torch`: `2.11.0+cpu` → `2.13.0+cpu` (with `torchvision` `0.26.0` → `0.28.0` and `torchcodec` `0.11.0` → `0.16.0`).
+  * `transformers`: `5.8.1` → `5.15.1`.
+  * `optimum-rbln`: `0.11.2` → `0.12.0`.
+  * `vllm-rbln`: `0.11.2` → `0.12.0` (vLLM wheels index `0.24.0/cpu` → `0.30.0/cpu`).
+  * Python support widened to `>=3.10,<3.15`. The TensorFlow examples stay below 3.13, where their wheels end.
+  * `colpali` submodule: `v0.3.18`, for transformers 5.x weight loading.
+* **Fixes**
+  * `cosmos_transfer1`: the prompt upsampler builds its tokenizer with the upstream `convert_tekken_tokenizer`, which transformers 5 reshaped.
+  * `cosmos_transfer1`: the RoPE sin and cos tables are computed with numpy and reused across steps.
+  * `cosmos_transfer1`: `nltk` is pinned in the example's own `requirements.txt`, not only in the lock.
+  * `cosmos-reason2` (2B): compile saves the model where inference reads it.
+  * `gemma4`: `parse_response` is given the prompt it parses against.
+  * `triposr`: `torchmcubes` pin that builds against torch 2.6 and newer.
+* **Removed**
+  * **EEVE-Korean-10.8B** (`eeve`).
+
 ## August, 28th 2026 (v0.11.2)
 
 * Compatible versions:
